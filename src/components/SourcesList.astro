@@ -10,10 +10,10 @@ const { sources, compact = false } = Astro.props;
 {sources.length > 0 && (
   <div class:list={[compact ? '' : 'rounded-lg border border-line bg-cream-dark/50 p-4']}>
     <p class="text-xs font-semibold uppercase tracking-wide text-charcoal-soft">Sources</p>
-    <ul class="mt-2 space-y-1.5">
+    <ul class="mt-1">
       {sources.map((source) => (
         <li class="text-xs">
-          <a href={source.url} target="_blank" rel="noopener noreferrer nofollow" class="text-forest-600 underline hover:text-forest-700">
+          <a href={source.url} target="_blank" rel="noopener noreferrer nofollow" class="inline-block py-1.5 text-forest-600 underline hover:text-forest-700">
             {source.title}
           </a>
         </li>

@@ -6,7 +6,7 @@ import FAQ from '../components/FAQ.astro';
 import SourcesList from '../components/SourcesList.astro';
 import DisclaimerBlock from '../components/DisclaimerBlock.astro';
 import CrisisSupportNote from '../components/CrisisSupportNote.astro';
-import { articleJsonLd, faqJsonLd } from '../lib/seo';
+import { articleJsonLd } from '../lib/seo';
 
 interface Props {
   section: 'guides' | 'news';
@@ -44,15 +44,16 @@ const {
   noindex = false,
 } = Astro.props;
 
+// FAQPage JSON-LD is emitted by the <FAQ> component itself, alongside the visible FAQ block below.
 const jsonLd = [
   articleJsonLd({ headline: title, description, path, authorName, publishedAt, updatedAt, isNews: section === 'news' }),
-  ...(faq.length ? [faqJsonLd(faq)!] : []),
 ];
 
 const dateFmt = (d: Date) => d.toLocaleDateString('en-AU', { day: 'numeric', month: 'long', year: 'numeric' });
+const ogImage = `/og/${path.replace(/^\/|\/$/g, '')}.png`;
 ---
 
-<BaseLayout title={title} description={description} type="article" jsonLd={jsonLd} noindex={noindex}>
+<BaseLayout title={title} description={description} image={ogImage} type="article" jsonLd={jsonLd} noindex={noindex}>
   <Breadcrumbs items={[{ name: section === 'guides' ? 'Guides' : 'News', path: `/${section}/` }, { name: title, path }]} />
 
   <article class="mx-auto max-w-7xl px-4 pb-20 sm:px-6 lg:px-8">

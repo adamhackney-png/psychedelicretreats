@@ -24,6 +24,7 @@ const listings = (await getCollection('listings')).filter((entry) => entry.data.
   </section>
 
   <section class="mx-auto max-w-7xl px-4 pb-16 sm:px-6 lg:px-8">
+    <h2 class="sr-only">Listings</h2>
     {listings.length === 0 ? (
       <p class="rounded-lg border border-line bg-white p-6 text-sm text-charcoal-soft">Listings coming soon.</p>
     ) : (

@@ -5,6 +5,8 @@ interface Props {
   listingName?: string;
   operatorEmail?: string;
   heading?: string;
+  /** Use 'h2' when this form is the primary heading on its page (e.g. a standalone contact page). */
+  headingLevel?: 'h2' | 'h3';
 }
 
 const {
@@ -13,15 +15,17 @@ const {
   listingName,
   operatorEmail,
   heading = kind === 'enquire' ? `Enquire about ${listingName ?? 'this retreat'}` : 'Claim this listing',
+  headingLevel = 'h3',
 } = Astro.props;
 
 const endpoint = kind === 'enquire' ? '/api/enquire' : '/api/claim';
 const siteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY ?? '';
 const formId = `${kind}-form${listingSlug ? `-${listingSlug}` : ''}`;
+const Heading = headingLevel;
 ---
 
 <div class="rounded-lg border border-line bg-white p-6" id={formId} data-enquiry-form data-endpoint={endpoint}>
-  <h3 class="font-serif text-lg font-medium text-forest-900">{heading}</h3>
+  <Heading class="font-serif text-lg font-medium text-forest-900">{heading}</Heading>
 
   <form class="mt-4 space-y-3" data-form>
     {listingSlug && <input type="hidden" name="listingSlug" value={listingSlug} />}

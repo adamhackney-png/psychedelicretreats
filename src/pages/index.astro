@@ -1,24 +1,21 @@
 ---
+import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import NewsletterSignup from '../components/NewsletterSignup.astro';
-import { RETREAT_CATEGORIES } from '../lib/site';
+import ListingCard from '../components/ListingCard.astro';
+import { RETREAT_CATEGORIES, CATEGORY_META, isRetreatCategory } from '../lib/site';
 
-// Placeholder data for Phase 1 scaffold — replaced by live content collections in Phase 2/3.
-const featuredRetreats = [
-  { name: 'Beckley Retreats — Netherlands', location: 'Netherlands', category: 'Psilocybin', price: '$3,000–$6,000 AUD', href: '/listing/beckley-retreats-netherlands/' },
-  { name: 'Beckley Retreats — Jamaica', location: 'Jamaica', category: 'Psilocybin', price: '$3,000–$6,000 AUD', href: '/listing/beckley-retreats-jamaica/' },
-  { name: 'Temple of the Way of Light', location: 'Peru', category: 'Ayahuasca', price: 'Under $3,000 AUD', href: '/listing/temple-of-the-way-of-light/' },
-  { name: 'Rythmia Life Advancement Center', location: 'Costa Rica', category: 'Luxury / Ayahuasca', price: '$10,000+ AUD', href: '/listing/rythmia/' },
-  { name: 'Alchemy Retreats', location: 'Netherlands', category: 'Psilocybin', price: '$3,000–$6,000 AUD', href: '/listing/alchemy-retreats/' },
-  { name: 'The Buena Vida', location: 'Byron Bay, Australia', category: 'Breathwork', price: 'Under $3,000 AUD', href: '/listing/the-buena-vida/' },
-];
+const featuredRetreats = (
+  await getCollection('listings', (entry) => entry.data.mode === 'standard' && entry.data.categories.some(isRetreatCategory))
+)
+  .sort((a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf())
+  .slice(0, 6);
 
-const latestNews = [
-  { title: 'TGA relaxes in-room requirements for authorised prescriber sessions', date: '2026-07-02', href: '/news/tga-authorised-prescriber-2026-update/' },
-  { title: 'Clarion Clinics rebrands as Mind Medicine Australia Clinic', date: '2025-07-15', href: '/news/clarion-clinics-rebrands-mind-medicine-clinic/' },
-  { title: 'Synthesis Institute resumes bookings after 2023 financial collapse', date: '2026-01-15', href: '/news/synthesis-institute-resumes-bookings/' },
-  { title: "Oregon's HB 2387 expands facilitator protections from 1 January 2026", date: '2026-01-01', href: '/news/oregon-hb2387-facilitator-protections/' },
-];
+// Draft items are included (same as /news/) since nothing is hidden from the site,
+// just marked and noindexed until reviewed — see each item's draft banner.
+const latestNews = (await getCollection('news'))
+  .sort((a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf())
+  .slice(0, 4);
 ---
 
 <BaseLayout
@@ -45,7 +42,7 @@ const latestNews = [
             type="text"
             name="q"
             placeholder="Search destinations, modalities, or retreat names…"
-            class="w-full flex-1 rounded-lg border border-line bg-white px-4 py-3 text-sm text-charcoal shadow-sm placeholder:text-charcoal-soft/60 focus:outline-none focus:ring-2 focus:ring-forest-500"
+            class="w-full flex-1 rounded-lg border border-line bg-white px-4 py-3 text-sm text-charcoal shadow-sm placeholder:text-charcoal-soft focus:outline-none focus:ring-2 focus:ring-forest-500"
           />
           <button type="submit" class="rounded-lg bg-forest-600 px-6 py-3 text-sm font-semibold text-cream shadow-sm transition hover:bg-forest-700">
             Search
@@ -72,16 +69,20 @@ const latestNews = [
     </div>
 
     <div class="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-      {featuredRetreats.map((retreat) => (
-        <a href={retreat.href} class="group overflow-hidden rounded-lg border border-line bg-white shadow-sm transition hover:shadow-md">
-          <div class="aspect-[16/10] w-full bg-gradient-to-br from-forest-100 to-cream-dark"></div>
-          <div class="p-5">
-            <p class="text-xs font-semibold uppercase tracking-wide text-terracotta-600">{retreat.category}</p>
-            <h3 class="mt-1 font-serif text-lg font-medium text-forest-900 group-hover:underline">{retreat.name}</h3>
-            <p class="mt-1 text-sm text-charcoal-soft">{retreat.location}</p>
-            <p class="mt-3 text-sm font-medium text-charcoal">{retreat.price}</p>
-          </div>
-        </a>
+      {featuredRetreats.map((listing) => (
+        <ListingCard
+          slug={listing.id}
+          name={listing.data.name}
+          mode={listing.data.mode}
+          categoryLabel={CATEGORY_META[listing.data.categories[0]]?.label ?? listing.data.categories[0]}
+          country={listing.data.country}
+          destinationSlug={listing.data.destinationSlug}
+          region={listing.data.region}
+          priceBandAUD={listing.data.priceBandAUD}
+          durationDays={listing.data.durationDays}
+          featuredTier={listing.data.featuredTier}
+          claimed={listing.data.claimed}
+        />
       ))}
     </div>
   </section>
@@ -119,11 +120,11 @@ const latestNews = [
     </div>
     <div class="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
       {latestNews.map((item) => (
-        <a href={item.href} class="rounded-lg border border-line bg-white p-5 shadow-sm transition hover:shadow-md">
-          <time class="text-xs font-medium text-charcoal-soft" datetime={item.date}>
-            {new Date(item.date).toLocaleDateString('en-AU', { day: 'numeric', month: 'short', year: 'numeric' })}
+        <a href={`/news/${item.id}/`} class="rounded-lg border border-line bg-white p-5 shadow-sm transition hover:shadow-md">
+          <time class="text-xs font-medium text-charcoal-soft" datetime={item.data.publishedAt.toISOString()}>
+            {item.data.publishedAt.toLocaleDateString('en-AU', { day: 'numeric', month: 'short', year: 'numeric' })}
           </time>
-          <h3 class="mt-2 text-sm font-medium leading-snug text-forest-900">{item.title}</h3>
+          <h3 class="mt-2 text-sm font-medium leading-snug text-forest-900">{item.data.title}</h3>
         </a>
       ))}
     </div>

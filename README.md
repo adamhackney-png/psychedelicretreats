@@ -53,6 +53,21 @@ These are baked into layouts/components — see [`CONTENT.md`](./CONTENT.md) bef
 | `npm run build`        | Build static site to `./dist/`              |
 | `npm run preview`      | Preview the production build locally        |
 | `npm run check`        | `astro check` — type errors across the site |
+| `npm run check:links`  | Crawl `./dist/` for broken internal links (run after `build`) |
+
+## Quality checks (Phase 5 baseline)
+
+- **Type checking**: `npm run check` — 0 errors/warnings across the whole site.
+- **Link check**: `npm run check:links` — crawls the built output for broken internal `<a href>` links.
+- **Accessibility**: audited with `@axe-core/cli` against every page template (home, listing detail in both
+  modes, category/clinic/integration pages, destinations, guides, news, all three tools, and every legal/utility
+  page) — 0 violations. Re-run with `npx @axe-core/cli <url> [<url> ...]` against a running `npm run dev` server
+  if you add new page types.
+- **Lighthouse**: performance/accessibility/best-practices/SEO all ≥95 on every page sampled (most score
+  99–100). One known exception: `/tools/legality-map/` scores ~93 on performance due to web-font-swap layout
+  shift (CLS) — this is a font-loading characteristic shared by every page, it just crosses the threshold there
+  because of that page's layout; consider `font-display: optional` or font preloading if you want to chase the
+  last few points.
 
 ## Environment variables
 
