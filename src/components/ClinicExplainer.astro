@@ -1,0 +1,17 @@
+---
+interface Props {
+  serviceLabel: string;
+}
+const { serviceLabel } = Astro.props;
+---
+
+<div class="rounded-xl border border-forest-300 bg-forest-50 p-6">
+  <h2 class="font-serif text-lg font-medium text-forest-900">About these listings</h2>
+  <p class="mt-2 text-sm leading-relaxed text-charcoal-soft">
+    These are Australian clinical services offering {serviceLabel}. They are accessible only via referral to, or
+    consultation with, an authorised prescriber or treating clinician — not via direct booking. We list them
+    factually: name, location, service category, and a contact link only. We are <strong>not affiliated</strong>{' '}
+    with any listed service, do not receive referral fees, and do not make efficacy or treatment-outcome claims.
+    This page is informational only and not medical advice.
+  </p>
+</div>

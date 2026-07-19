@@ -1,0 +1,52 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../../components/Breadcrumbs.astro';
+import ListingCard from '../../../components/ListingCard.astro';
+import ClinicExplainer from '../../../components/ClinicExplainer.astro';
+import DisclaimerBlock from '../../../components/DisclaimerBlock.astro';
+import CrisisSupportNote from '../../../components/CrisisSupportNote.astro';
+
+const listings = (await getCollection('listings')).filter((entry) => entry.data.categories.includes('ketamine'));
+---
+
+<BaseLayout
+  title="Ketamine Clinics in Australia"
+  description="A factual, independent directory of Australian ketamine clinical services. Neutral-mode listings only — not affiliated, no promotional content."
+>
+  <Breadcrumbs items={[{ name: 'Clinics', path: '/clinics/ketamine/' }, { name: 'Ketamine', path: '/clinics/ketamine/' }]} />
+
+  <section class="mx-auto max-w-7xl px-4 pb-8 sm:px-6 lg:px-8">
+    <h1 class="font-serif text-3xl font-medium text-forest-900 sm:text-4xl">Ketamine Clinics (Australia)</h1>
+  </section>
+
+  <section class="mx-auto max-w-7xl px-4 pb-8 sm:px-6 lg:px-8">
+    <ClinicExplainer serviceLabel="ketamine treatment" />
+  </section>
+
+  <section class="mx-auto max-w-7xl px-4 pb-8 sm:px-6 lg:px-8">
+    {listings.length === 0 ? (
+      <p class="rounded-lg border border-line bg-white p-6 text-sm text-charcoal-soft">Listings coming soon.</p>
+    ) : (
+      <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {listings.map((listing) => (
+          <ListingCard
+            slug={listing.id}
+            name={listing.data.name}
+            mode={listing.data.mode}
+            categoryLabel="Ketamine clinic"
+            country={listing.data.country}
+            destinationSlug={listing.data.destinationSlug}
+            region={listing.data.region}
+            claimed={listing.data.claimed}
+          />
+        ))}
+      </div>
+    )}
+  </section>
+
+  <section class="mx-auto max-w-3xl space-y-4 px-4 pb-20 sm:px-6 lg:px-8">
+    <DisclaimerBlock variant="medical" />
+    <CrisisSupportNote />
+  </section>
+</BaseLayout>

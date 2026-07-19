@@ -1,0 +1,99 @@
+---
+interface Props {
+  kind: 'enquire' | 'claim';
+  listingSlug?: string;
+  listingName?: string;
+  operatorEmail?: string;
+  heading?: string;
+}
+
+const {
+  kind,
+  listingSlug,
+  listingName,
+  operatorEmail,
+  heading = kind === 'enquire' ? `Enquire about ${listingName ?? 'this retreat'}` : 'Claim this listing',
+} = Astro.props;
+
+const endpoint = kind === 'enquire' ? '/api/enquire' : '/api/claim';
+const siteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY ?? '';
+const formId = `${kind}-form${listingSlug ? `-${listingSlug}` : ''}`;
+---
+
+<div class="rounded-lg border border-line bg-white p-6" id={formId} data-enquiry-form data-endpoint={endpoint}>
+  <h3 class="font-serif text-lg font-medium text-forest-900">{heading}</h3>
+
+  <form class="mt-4 space-y-3" data-form>
+    {listingSlug && <input type="hidden" name="listingSlug" value={listingSlug} />}
+    {listingName && <input type="hidden" name="listingName" value={listingName} />}
+    {operatorEmail && <input type="hidden" name="operatorEmail" value={operatorEmail} />}
+
+    <div>
+      <label for={`${formId}-name`} class="text-xs font-medium text-charcoal-soft">Your name</label>
+      <input id={`${formId}-name`} name="name" type="text" required class="mt-1 w-full rounded-md border border-line px-3 py-2 text-sm" />
+    </div>
+    <div>
+      <label for={`${formId}-email`} class="text-xs font-medium text-charcoal-soft">Your email</label>
+      <input id={`${formId}-email`} name="email" type="email" required class="mt-1 w-full rounded-md border border-line px-3 py-2 text-sm" />
+    </div>
+    {kind === 'claim' && (
+      <div>
+        <label for={`${formId}-role`} class="text-xs font-medium text-charcoal-soft">Your role at this organisation</label>
+        <input id={`${formId}-role`} name="role" type="text" required class="mt-1 w-full rounded-md border border-line px-3 py-2 text-sm" />
+      </div>
+    )}
+    <div>
+      <label for={`${formId}-message`} class="text-xs font-medium text-charcoal-soft">Message</label>
+      <textarea id={`${formId}-message`} name="message" rows="4" required class="mt-1 w-full rounded-md border border-line px-3 py-2 text-sm"></textarea>
+    </div>
+
+    {siteKey && (
+      <>
+        <div class="cf-turnstile" data-sitekey={siteKey}></div>
+        <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+      </>
+    )}
+
+    <button type="submit" class="w-full rounded-lg bg-forest-600 px-4 py-2.5 text-sm font-semibold text-cream transition hover:bg-forest-700 disabled:opacity-60">
+      Send
+    </button>
+    <p data-form-status class="text-sm" role="status"></p>
+    <p class="text-xs text-charcoal-soft">
+      This form goes directly to {kind === 'enquire' ? 'the operator and' : ''} info@psychedelicretreats.com.au.
+      We do not process payments or bookings.
+    </p>
+  </form>
+</div>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-enquiry-form]').forEach((wrapper) => {
+    const form = wrapper.querySelector<HTMLFormElement>('[data-form]');
+    const status = wrapper.querySelector<HTMLElement>('[data-form-status]');
+    const endpoint = wrapper.dataset.endpoint;
+    if (!form || !endpoint) return;
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      const submitButton = form.querySelector<HTMLButtonElement>('button[type="submit"]');
+      submitButton?.setAttribute('disabled', 'true');
+      if (status) status.textContent = 'Sending…';
+
+      try {
+        const formData = new FormData(form);
+        const payload = Object.fromEntries(formData.entries());
+        const response = await fetch(endpoint, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        });
+        if (!response.ok) throw new Error('Request failed');
+        if (status) status.textContent = 'Thanks — we’ve received your message and will be in touch.';
+        form.reset();
+      } catch {
+        if (status) status.textContent = 'Something went wrong sending that. Please email info@psychedelicretreats.com.au directly.';
+      } finally {
+        submitButton?.removeAttribute('disabled');
+      }
+    });
+  });
+</script>

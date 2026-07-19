@@ -1,0 +1,178 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import VettingChecklist from '../../components/VettingChecklist.astro';
+import DisclaimerBlock from '../../components/DisclaimerBlock.astro';
+import ClaimBanner from '../../components/ClaimBanner.astro';
+import SourcesList from '../../components/SourcesList.astro';
+import EnquiryForm from '../../components/EnquiryForm.astro';
+import CrisisSupportNote from '../../components/CrisisSupportNote.astro';
+import { PRICE_BANDS, CATEGORY_META } from '../../lib/site';
+import { articleJsonLd } from '../../lib/seo';
+
+export async function getStaticPaths() {
+  const listings = await getCollection('listings');
+  return listings.map((listing) => ({ params: { slug: listing.id }, props: { listing } }));
+}
+
+const { listing } = Astro.props;
+const { Content } = await render(listing);
+const d = listing.data;
+
+const primaryCategory = CATEGORY_META[d.categories[0]];
+const categoryLabel = primaryCategory?.label ?? d.categories[0];
+const isRetreat = primaryCategory?.path.startsWith('/retreats/');
+const breadcrumbItems = isRetreat
+  ? [{ name: 'Retreats', path: '/retreats/' }, { name: categoryLabel, path: primaryCategory!.path }, { name: d.name, path: `/listing/${listing.id}/` }]
+  : [{ name: categoryLabel, path: primaryCategory?.path ?? '/retreats/' }, { name: d.name, path: `/listing/${listing.id}/` }];
+const location = d.region ? `${d.region}, ${d.country}` : d.country;
+const sources = d.sourceUrls.map((url, i) => ({ title: `Source ${i + 1}`, url }));
+
+const jsonLd = articleJsonLd({
+  headline: d.name,
+  description: d.summary,
+  path: `/listing/${listing.id}/`,
+  authorName: 'Psychedelic Retreats Australia',
+  publishedAt: d.publishedAt,
+  updatedAt: d.updatedAt,
+});
+---
+
+<BaseLayout title={d.name} description={d.summary} jsonLd={jsonLd}>
+  <Breadcrumbs items={breadcrumbItems} />
+
+  <div class="mx-auto max-w-7xl px-4 pb-20 sm:px-6 lg:px-8">
+    {!d.claimed && (
+      <div class="mb-6">
+        <ClaimBanner listingSlug={listing.id} />
+      </div>
+    )}
+
+    <div class="grid gap-10 lg:grid-cols-3">
+      <div class="lg:col-span-2">
+        <p class="text-xs font-semibold uppercase tracking-wide text-terracotta-600">{categoryLabel}</p>
+        <h1 class="mt-1 font-serif text-3xl font-medium text-forest-900 sm:text-4xl">{d.name}</h1>
+        <p class="mt-1 text-charcoal-soft">{location}</p>
+
+        {d.mode === 'neutral' ? (
+          d.images.length > 0 && (
+            <div class="mt-6 h-16 w-16 rounded-lg bg-contain bg-center bg-no-repeat" style={`background-image:url(${d.images[0]})`} role="img" aria-label={`${d.name} logo`}></div>
+          )
+        ) : d.images.length > 0 ? (
+          <div class="mt-6 grid grid-cols-2 gap-3">
+            {d.images.map((img) => (
+              <div class="aspect-[4/3] rounded-lg bg-cover bg-center" style={`background-image:url(${img})`}></div>
+            ))}
+          </div>
+        ) : (
+          <div class="mt-6 aspect-[16/9] rounded-lg bg-gradient-to-br from-forest-100 to-cream-dark" role="img" aria-label="Landscape imagery placeholder"></div>
+        )}
+
+        {/*
+          Neutral mode (Australian psilocybin/MDMA/ketamine services): body copy must be
+          a single factual sentence only — no descriptions, no promotional framing. See
+          CONTENT.md before adding a neutral-mode listing.
+        */}
+        <div class="prose-article mt-8">
+          <Content />
+        </div>
+
+        <div class="mt-10">
+          <h2 class="text-xl font-medium">Vetting checklist</h2>
+          <div class="mt-4">
+            <VettingChecklist vetting={d.vetting} />
+          </div>
+        </div>
+
+        <div class="mt-8 rounded-lg border border-line bg-cream-dark/40 p-5">
+          <h3 class="text-sm font-semibold uppercase tracking-wide text-charcoal-soft">Map</h3>
+          <div class="mt-3 flex aspect-[16/6] items-center justify-center rounded-md border border-dashed border-line bg-white text-sm text-charcoal-soft">
+            Map embed placeholder — {location}
+          </div>
+        </div>
+
+        <div class="mt-8">
+          <SourcesList sources={sources} />
+        </div>
+      </div>
+
+      <aside class="space-y-6">
+        <div class="rounded-lg border border-line bg-white p-5">
+          <h2 class="text-sm font-semibold uppercase tracking-wide text-charcoal-soft">Facts</h2>
+          <dl class="mt-3 space-y-2.5 text-sm">
+            <div class="flex justify-between gap-4">
+              <dt class="text-charcoal-soft">Location</dt>
+              <dd class="text-right font-medium text-charcoal">{location}</dd>
+            </div>
+            {d.mode === 'standard' && d.durationDays && (
+              <div class="flex justify-between gap-4">
+                <dt class="text-charcoal-soft">Duration</dt>
+                <dd class="text-right font-medium text-charcoal">{d.durationDays} days</dd>
+              </div>
+            )}
+            {d.mode === 'standard' && d.priceBandAUD && (
+              <div class="flex justify-between gap-4">
+                <dt class="text-charcoal-soft">Price band</dt>
+                <dd class="text-right font-medium text-charcoal">{PRICE_BANDS[d.priceBandAUD]}</dd>
+              </div>
+            )}
+            {d.mode === 'standard' && (
+              <div class="flex justify-between gap-4">
+                <dt class="text-charcoal-soft">Languages</dt>
+                <dd class="text-right font-medium text-charcoal">{d.languages.join(', ')}</dd>
+              </div>
+            )}
+            {d.mode === 'standard' && d.groupSizeMax && (
+              <div class="flex justify-between gap-4">
+                <dt class="text-charcoal-soft">Max group size</dt>
+                <dd class="text-right font-medium text-charcoal">{d.groupSizeMax}</dd>
+              </div>
+            )}
+          </dl>
+        </div>
+
+        {d.mode === 'neutral' ? (
+          <div class="rounded-lg border border-line bg-white p-5 text-sm">
+            <p class="font-semibold text-charcoal">Contact</p>
+            <p class="mt-2 text-charcoal-soft">
+              This is a neutral-mode listing for an Australian clinical service. We do not display pricing, calls
+              to action, or promotional content for these services.
+            </p>
+            <a href={d.website} target="_blank" rel="noopener noreferrer" class="mt-3 inline-block text-forest-600 underline">
+              Visit official service page →
+            </a>
+          </div>
+        ) : d.affiliateUrl ? (
+          <div class="space-y-3">
+            <a
+              href={d.affiliateUrl}
+              target="_blank"
+              rel="sponsored nofollow noopener"
+              class="block rounded-lg bg-forest-600 px-4 py-3 text-center text-sm font-semibold text-cream transition hover:bg-forest-700"
+            >
+              Visit official website
+            </a>
+            <DisclaimerBlock variant="affiliate" />
+          </div>
+        ) : d.enquiryEnabled ? (
+          <EnquiryForm kind="enquire" listingSlug={listing.id} listingName={d.name} operatorEmail={d.contactEmail} />
+        ) : (
+          <a
+            href={d.website}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="block rounded-lg bg-forest-600 px-4 py-3 text-center text-sm font-semibold text-cream transition hover:bg-forest-700"
+          >
+            Visit official website
+          </a>
+        )}
+
+        <DisclaimerBlock variant="legal" />
+        {(d.categories.includes('ketamine') || d.categories.includes('psychedelic-assisted-therapy') || d.categories.includes('integration')) && (
+          <CrisisSupportNote />
+        )}
+      </aside>
+    </div>
+  </div>
+</BaseLayout>

@@ -1,0 +1,67 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import ListingCard from '../../components/ListingCard.astro';
+import { RETREAT_CATEGORIES, CATEGORY_META, isRetreatCategory } from '../../lib/site';
+import { itemListJsonLd } from '../../lib/seo';
+
+const allListings = await getCollection(
+  'listings',
+  (entry) => entry.data.mode === 'standard' && entry.data.categories.some(isRetreatCategory),
+);
+const featured = allListings
+  .sort((a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf())
+  .slice(0, 9);
+
+const jsonLd = itemListJsonLd(featured.map((l) => ({ name: l.data.name, path: `/listing/${l.id}/` })));
+---
+
+<BaseLayout
+  title="Retreats — Legal Psychedelic & Breathwork Retreat Directory"
+  description="Browse legal psychedelic retreats abroad, breathwork retreats, and other legally-offered retreat categories, vetted with sourced facts."
+  jsonLd={jsonLd}
+>
+  <Breadcrumbs items={[{ name: 'Retreats', path: '/retreats/' }]} />
+
+  <section class="mx-auto max-w-7xl px-4 pb-8 sm:px-6 lg:px-8">
+    <h1 class="font-serif text-3xl font-medium text-forest-900 sm:text-4xl">Retreats directory</h1>
+    <p class="mt-3 max-w-2xl text-charcoal-soft">
+      Every retreat here operates legally in its host jurisdiction. We catalogue what operators publicly state
+      about legality, screening, and safety — see each listing's vetting checklist before you book, and always
+      verify independently.
+    </p>
+  </section>
+
+  <section class="mx-auto max-w-7xl px-4 pb-16 sm:px-6 lg:px-8">
+    <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      {RETREAT_CATEGORIES.map((cat) => (
+        <a href={`/retreats/${cat.slug}/`} class="rounded-lg border border-line bg-white p-6 shadow-sm transition hover:shadow-md">
+          <h2 class="font-serif text-lg font-medium text-forest-900">{cat.label}</h2>
+          <p class="mt-2 text-sm text-charcoal-soft">{cat.description}</p>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-7xl px-4 pb-20 sm:px-6 lg:px-8">
+    <h2 class="text-2xl font-medium">All retreat listings</h2>
+    <div class="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      {featured.map((listing) => (
+        <ListingCard
+          slug={listing.id}
+          name={listing.data.name}
+          mode={listing.data.mode}
+          categoryLabel={CATEGORY_META[listing.data.categories[0]]?.label ?? listing.data.categories[0]}
+          country={listing.data.country}
+          destinationSlug={listing.data.destinationSlug}
+          region={listing.data.region}
+          priceBandAUD={listing.data.priceBandAUD}
+          durationDays={listing.data.durationDays}
+          featuredTier={listing.data.featuredTier}
+          claimed={listing.data.claimed}
+        />
+      ))}
+    </div>
+  </section>
+</BaseLayout>

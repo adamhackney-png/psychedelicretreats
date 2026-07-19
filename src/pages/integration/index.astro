@@ -1,0 +1,51 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import ListingCard from '../../components/ListingCard.astro';
+import CrisisSupportNote from '../../components/CrisisSupportNote.astro';
+
+const listings = (await getCollection('listings')).filter((entry) => entry.data.categories.includes('integration'));
+---
+
+<BaseLayout
+  title="Integration Therapists & Coaches (Australia)"
+  description="Find psychedelic integration therapists and coaches supporting people in Australia — an independent, sourced directory."
+>
+  <Breadcrumbs items={[{ name: 'Integration', path: '/integration/' }]} />
+
+  <section class="mx-auto max-w-7xl px-4 pb-8 sm:px-6 lg:px-8">
+    <h1 class="font-serif text-3xl font-medium text-forest-900 sm:text-4xl">Integration Support</h1>
+    <p class="mt-3 max-w-2xl text-charcoal-soft">
+      Integration — making sense of and applying insights from an intense experience — is widely regarded as an
+      important part of doing this kind of work responsibly. These practitioners offer integration coaching or
+      therapy to people in Australia. We list them factually; inclusion is not a professional endorsement.
+    </p>
+  </section>
+
+  <section class="mx-auto max-w-7xl px-4 pb-16 sm:px-6 lg:px-8">
+    {listings.length === 0 ? (
+      <p class="rounded-lg border border-line bg-white p-6 text-sm text-charcoal-soft">Listings coming soon.</p>
+    ) : (
+      <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {listings.map((listing) => (
+          <ListingCard
+            slug={listing.id}
+            name={listing.data.name}
+            mode={listing.data.mode}
+            categoryLabel="Integration"
+            country={listing.data.country}
+            destinationSlug={listing.data.destinationSlug}
+            region={listing.data.region}
+            priceBandAUD={listing.data.priceBandAUD}
+            claimed={listing.data.claimed}
+          />
+        ))}
+      </div>
+    )}
+  </section>
+
+  <section class="mx-auto max-w-3xl px-4 pb-20 sm:px-6 lg:px-8">
+    <CrisisSupportNote />
+  </section>
+</BaseLayout>

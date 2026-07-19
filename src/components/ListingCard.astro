@@ -1,0 +1,81 @@
+---
+import { PRICE_BANDS } from '../lib/site';
+
+interface Props {
+  slug: string;
+  name: string;
+  mode: 'standard' | 'neutral';
+  categoryLabel: string;
+  country: string;
+  destinationSlug: string;
+  region?: string;
+  priceBandAUD?: string;
+  durationDays?: number;
+  featuredTier?: 'featured' | 'premium';
+  claimed: boolean;
+  image?: string;
+}
+
+const {
+  slug,
+  name,
+  mode,
+  categoryLabel,
+  country,
+  destinationSlug,
+  region,
+  priceBandAUD,
+  durationDays,
+  featuredTier,
+  claimed,
+  image,
+} = Astro.props;
+
+const location = region ? `${region}, ${country}` : country;
+const href = `/listing/${slug}/`;
+---
+
+{mode === 'neutral' ? (
+  <article
+    class="listing-card rounded-lg border border-line bg-white p-5"
+    data-destination={destinationSlug}
+    data-price-band={priceBandAUD ?? ''}
+    data-duration-days={durationDays ?? ''}
+  >
+    <p class="text-xs font-semibold uppercase tracking-wide text-terracotta-600">{categoryLabel}</p>
+    <h3 class="mt-1 font-serif text-lg font-medium text-forest-900">
+      <a href={href} class="hover:underline">{name}</a>
+    </h3>
+    <p class="mt-1 text-sm text-charcoal-soft">{location}</p>
+    <p class="mt-3 text-xs text-charcoal-soft">
+      Australian clinical service — factual listing only, not affiliated, no CTA. See listing for a contact link.
+    </p>
+  </article>
+) : (
+  <a
+    href={href}
+    class="listing-card group relative overflow-hidden rounded-lg border border-line bg-white shadow-sm transition hover:shadow-md"
+    data-destination={destinationSlug}
+    data-price-band={priceBandAUD ?? ''}
+    data-duration-days={durationDays ?? ''}
+  >
+    {featuredTier && (
+      <span class="absolute right-3 top-3 z-10 rounded-full bg-terracotta-500 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wide text-cream">
+        {featuredTier === 'premium' ? 'Premium Partner' : 'Featured'}
+      </span>
+    )}
+    <div class="aspect-[16/10] w-full bg-gradient-to-br from-forest-100 to-cream-dark" style={image ? `background-image:url(${image});background-size:cover;background-position:center;` : undefined}></div>
+    <div class="p-5">
+      <p class="text-xs font-semibold uppercase tracking-wide text-terracotta-600">{categoryLabel}</p>
+      <h3 class="mt-1 font-serif text-lg font-medium text-forest-900 group-hover:underline">{name}</h3>
+      <p class="mt-1 text-sm text-charcoal-soft">{location}</p>
+      <div class="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-charcoal">
+        {priceBandAUD && <span class="font-medium">{PRICE_BANDS[priceBandAUD] ?? priceBandAUD}</span>}
+        {durationDays && <span class="text-charcoal-soft">· {durationDays} days</span>}
+      </div>
+      {!claimed && (
+        <p class="mt-3 text-xs font-medium text-terracotta-600">Unclaimed listing</p>
+      )}
+    </div>
+  </a>
+)}

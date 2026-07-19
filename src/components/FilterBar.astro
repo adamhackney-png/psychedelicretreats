@@ -1,0 +1,121 @@
+---
+import { DESTINATIONS, PRICE_BANDS } from '../lib/site';
+
+interface Props {
+  destinationSlugs?: string[];
+}
+
+const { destinationSlugs } = Astro.props;
+const destinations = destinationSlugs
+  ? DESTINATIONS.filter((d) => destinationSlugs.includes(d.slug))
+  : DESTINATIONS;
+---
+
+<form id="filter-bar" class="flex flex-wrap gap-3 rounded-lg border border-line bg-white p-4" data-filter-bar>
+  <div class="flex flex-col gap-1">
+    <label for="filter-destination" class="text-xs font-medium text-charcoal-soft">Destination</label>
+    <select id="filter-destination" name="destination" class="rounded-md border border-line bg-cream px-3 py-2 text-sm">
+      <option value="">All destinations</option>
+      {destinations.map((d) => <option value={d.slug}>{d.name}</option>)}
+    </select>
+  </div>
+
+  <div class="flex flex-col gap-1">
+    <label for="filter-price" class="text-xs font-medium text-charcoal-soft">Price band</label>
+    <select id="filter-price" name="price" class="rounded-md border border-line bg-cream px-3 py-2 text-sm">
+      <option value="">Any price</option>
+      {Object.entries(PRICE_BANDS).map(([value, label]) => <option value={value}>{label}</option>)}
+    </select>
+  </div>
+
+  <div class="flex flex-col gap-1">
+    <label for="filter-duration" class="text-xs font-medium text-charcoal-soft">Duration</label>
+    <select id="filter-duration" name="duration" class="rounded-md border border-line bg-cream px-3 py-2 text-sm">
+      <option value="">Any length</option>
+      <option value="short">Up to 4 days</option>
+      <option value="medium">5–8 days</option>
+      <option value="long">9+ days</option>
+    </select>
+  </div>
+
+  <div class="flex flex-col justify-end gap-1">
+    <button type="button" id="filter-reset" class="rounded-md border border-line px-3 py-2 text-sm text-charcoal-soft hover:bg-cream-dark">
+      Reset
+    </button>
+  </div>
+
+  <p id="filter-empty" class="hidden w-full text-sm text-charcoal-soft" role="status">
+    No listings match those filters yet — try broadening your search.
+  </p>
+</form>
+
+<script>
+  function inDurationBucket(days: number, bucket: string) {
+    if (!bucket) return true;
+    if (!days) return false;
+    if (bucket === 'short') return days <= 4;
+    if (bucket === 'medium') return days >= 5 && days <= 8;
+    if (bucket === 'long') return days >= 9;
+    return true;
+  }
+
+  function applyFilters() {
+    const form = document.querySelector<HTMLFormElement>('[data-filter-bar]');
+    if (!form) return;
+    const destination = (form.elements.namedItem('destination') as HTMLSelectElement)?.value ?? '';
+    const price = (form.elements.namedItem('price') as HTMLSelectElement)?.value ?? '';
+    const duration = (form.elements.namedItem('duration') as HTMLSelectElement)?.value ?? '';
+
+    const cards = document.querySelectorAll<HTMLElement>('.listing-card');
+    let visibleCount = 0;
+
+    cards.forEach((card) => {
+      const cardDestination = card.dataset.destination ?? '';
+      const cardPrice = card.dataset.priceBand ?? '';
+      const cardDuration = Number(card.dataset.durationDays ?? '0');
+
+      const matches =
+        (!destination || destination === cardDestination) &&
+        (!price || price === cardPrice) &&
+        inDurationBucket(cardDuration, duration);
+
+      card.classList.toggle('hidden', !matches);
+      if (matches) visibleCount += 1;
+    });
+
+    const emptyState = document.getElementById('filter-empty');
+    emptyState?.classList.toggle('hidden', visibleCount !== 0);
+
+    const params = new URLSearchParams();
+    if (destination) params.set('destination', destination);
+    if (price) params.set('price', price);
+    if (duration) params.set('duration', duration);
+    const query = params.toString();
+    const newUrl = query ? `${location.pathname}?${query}` : location.pathname;
+    history.replaceState(null, '', newUrl);
+  }
+
+  function initFromUrl() {
+    const form = document.querySelector<HTMLFormElement>('[data-filter-bar]');
+    if (!form) return;
+    const params = new URLSearchParams(location.search);
+    ['destination', 'price', 'duration'].forEach((key) => {
+      const value = params.get(key);
+      if (value) {
+        const field = form.elements.namedItem(key) as HTMLSelectElement | null;
+        if (field) field.value = value;
+      }
+    });
+    applyFilters();
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const form = document.querySelector<HTMLFormElement>('[data-filter-bar]');
+    form?.addEventListener('change', applyFilters);
+    document.getElementById('filter-reset')?.addEventListener('click', () => {
+      form?.reset();
+      applyFilters();
+    });
+    initFromUrl();
+  });
+</script>

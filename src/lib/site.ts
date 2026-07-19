@@ -28,6 +28,20 @@ export const RETREAT_CATEGORIES = [
   { slug: 'luxury', label: 'Luxury Retreats', description: 'Higher-tier accommodation and service retreats across modalities.' },
 ] as const;
 
+const RETREAT_CATEGORY_SLUGS = RETREAT_CATEGORIES.map((c) => c.slug) as string[];
+
+/** Every listing category, mapped to its label and canonical directory path (used for breadcrumbs/labels). */
+export const CATEGORY_META: Record<string, { label: string; path: string }> = {
+  ...Object.fromEntries(RETREAT_CATEGORIES.map((c) => [c.slug, { label: c.label, path: `/retreats/${c.slug}/` }])),
+  ketamine: { label: 'Ketamine Clinic', path: '/clinics/ketamine/' },
+  'psychedelic-assisted-therapy': { label: 'Psychedelic-Assisted Therapy', path: '/clinics/psychedelic-assisted-therapy/' },
+  integration: { label: 'Integration', path: '/integration/' },
+};
+
+export function isRetreatCategory(slug: string): boolean {
+  return RETREAT_CATEGORY_SLUGS.includes(slug);
+}
+
 export const DESTINATIONS = [
   { slug: 'netherlands', name: 'Netherlands' },
   { slug: 'jamaica', name: 'Jamaica' },
