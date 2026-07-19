@@ -1,0 +1,104 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../../components/Breadcrumbs.astro';
+import legalityData from '../../../data/legality-map.json';
+
+const CATEGORY_COLOR: Record<string, string> = {
+  psilocybin: '#4c6b48',
+  ayahuasca: '#c17851',
+};
+---
+
+<BaseLayout
+  title="Legality Map — Psilocybin & Ayahuasca Retreats by Country"
+  description="An informational map of legal status for psilocybin and ayahuasca retreats by country. Not legal advice — verify before travel."
+>
+  <Breadcrumbs items={[{ name: 'Tools', path: '/tools/retreat-match/' }, { name: 'Legality Map', path: '/tools/legality-map/' }]} />
+
+  <section class="mx-auto max-w-5xl px-4 pb-6 sm:px-6 lg:px-8">
+    <h1 class="font-serif text-3xl font-medium text-forest-900 sm:text-4xl">Legality Map</h1>
+    <p class="mt-3 max-w-2xl text-charcoal-soft">
+      A simplified schematic of legal status for psilocybin and ayahuasca retreats, for the jurisdictions we've
+      researched. <strong>Informational only — verify before travel.</strong> Law changes; this reflects our
+      understanding at time of publication, sourced per country below.
+    </p>
+  </section>
+
+  <section class="mx-auto max-w-5xl px-4 pb-6 sm:px-6 lg:px-8">
+    <div class="rounded-xl border border-line bg-forest-50 p-4">
+      <svg viewBox="0 0 100 60" class="w-full" role="img" aria-label="Simplified world map schematic, not to scale">
+        <!-- Simplified, non-geographic continent shapes for visual context only -->
+        <path d="M8,10 Q20,5 30,10 Q38,15 35,25 Q30,35 20,32 Q10,28 8,18 Z" fill="#e7e0d2" />
+        <path d="M12,32 Q22,30 26,40 Q28,50 20,55 Q12,52 10,42 Z" fill="#e7e0d2" />
+        <path d="M45,8 Q58,6 62,14 Q60,20 50,20 Q44,16 45,8 Z" fill="#e7e0d2" />
+        <path d="M46,20 Q60,20 64,35 Q60,48 50,46 Q44,35 46,20 Z" fill="#e7e0d2" />
+        <path d="M62,10 Q90,8 95,20 Q92,32 70,30 Q60,20 62,10 Z" fill="#e7e0d2" />
+        <path d="M78,55 Q92,52 96,60 L76,60 Z" fill="#e7e0d2" />
+
+        {legalityData.map((entry) => (
+          <g class="map-marker" data-country={entry.country} tabindex="0" role="button" aria-label={`${entry.country}: ${entry.status}`}>
+            <circle cx={entry.x} cy={entry.y} r="1.8" fill={CATEGORY_COLOR[entry.category] ?? '#565349'} stroke="#faf6ef" stroke-width="0.5" />
+          </g>
+        ))}
+      </svg>
+      <div class="mt-3 flex flex-wrap gap-4 text-xs text-charcoal-soft">
+        <span class="flex items-center gap-1.5"><span class="h-2.5 w-2.5 rounded-full" style="background:#4c6b48"></span>Psilocybin</span>
+        <span class="flex items-center gap-1.5"><span class="h-2.5 w-2.5 rounded-full" style="background:#c17851"></span>Ayahuasca</span>
+        <span>Map is a simplified schematic, not to scale — use the list below for detail.</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-5xl px-4 pb-20 sm:px-6 lg:px-8">
+    <div class="space-y-4">
+      {legalityData.map((entry) => (
+        <div class="rounded-lg border border-line bg-white p-5" id={`country-${entry.country.replace(/[^a-z0-9]+/gi, '-').toLowerCase()}`}>
+          <div class="flex flex-wrap items-center gap-2">
+            <span class="h-2.5 w-2.5 rounded-full" style={`background:${CATEGORY_COLOR[entry.category] ?? '#565349'}`}></span>
+            <h2 class="font-serif text-lg font-medium text-forest-900">{entry.country}</h2>
+            <span class="text-sm font-medium text-charcoal-soft">— {entry.status}</span>
+          </div>
+          <p class="mt-2 text-sm text-charcoal-soft">{entry.summary}</p>
+          <a href={entry.sourceUrl} target="_blank" rel="noopener noreferrer nofollow" class="mt-2 inline-block text-xs text-forest-600 underline">Source</a>
+        </div>
+      ))}
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  const markers = document.querySelectorAll<SVGGElement>('.map-marker');
+
+  markers.forEach((marker) => {
+    const activate = () => {
+      const country = marker.dataset.country;
+      if (!country) return;
+      const target = document.getElementById(`country-${country.replace(/[^a-z0-9]+/gi, '-').toLowerCase()}`);
+      target?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      target?.classList.add('ring-2', 'ring-forest-500');
+      setTimeout(() => target?.classList.remove('ring-2', 'ring-forest-500'), 1500);
+    };
+    marker.addEventListener('click', activate);
+    marker.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        activate();
+      }
+    });
+  });
+</script>
+
+<style>
+  .map-marker {
+    cursor: pointer;
+    outline: none;
+  }
+  .map-marker:hover circle,
+  .map-marker:focus-visible circle {
+    r: 2.6;
+  }
+  .map-marker:focus-visible circle {
+    stroke: #2c4129;
+    stroke-width: 0.8;
+  }
+</style>
