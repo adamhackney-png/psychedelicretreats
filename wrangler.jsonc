@@ -1,0 +1,10 @@
+{
+	"$schema": "./node_modules/wrangler/config-schema.json",
+	"compatibility_date": "2026-07-19",
+	"name": "psychedelicretreats",
+	"pages_build_output_dir": "./dist"
+	// Cloudflare Pages Functions live in /functions and are picked up
+	// automatically — no "main" worker entrypoint needed for static output.
+	// KV bindings (e.g. RETREATS_LOG_KV) are configured in the Cloudflare
+	// dashboard for the Pages project, or added here under "kv_namespaces".
+}

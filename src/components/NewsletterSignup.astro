@@ -1,0 +1,51 @@
+---
+interface Props {
+  heading?: string;
+  body?: string;
+  formId?: string;
+  compact?: boolean;
+}
+
+const {
+  heading = 'Get the free Retreat Vetting Checklist',
+  body = 'Join the newsletter for vetted retreat updates, legal-status changes, and our 12-point checklist before you book anything.',
+  formId = import.meta.env.PUBLIC_MAILERLITE_FORM_ID ?? 'PLACEHOLDER_FORM_ID',
+  compact = false,
+} = Astro.props;
+---
+
+<div class:list={['rounded-xl border border-line bg-forest-900 text-cream', compact ? 'p-6' : 'p-8 sm:p-10']}>
+  <div class:list={['mx-auto flex flex-col gap-4', !compact && 'max-w-2xl items-center text-center']}>
+    <h3 class:list={['font-serif font-medium text-cream', compact ? 'text-xl' : 'text-2xl sm:text-3xl']}>{heading}</h3>
+    <p class="text-sm text-forest-100/90">{body}</p>
+
+    <!--
+      MailerLite embedded form placeholder — group: "quiz" / "newsletter".
+      Replace data-form-id with your MailerLite form ID (env: PUBLIC_MAILERLITE_FORM_ID),
+      and swap this markup for the embed snippet from MailerLite → Forms → Embed.
+    -->
+    <form
+      class="mt-2 flex w-full max-w-md flex-col gap-2 sm:flex-row"
+      action={`https://assets.mailerlite.com/jsonp/0/forms/${formId}/subscribe`}
+      method="post"
+      data-newsletter-form
+    >
+      <label for="newsletter-email" class="sr-only">Email address</label>
+      <input
+        id="newsletter-email"
+        type="email"
+        name="fields[email]"
+        required
+        placeholder="you@example.com"
+        class="w-full flex-1 rounded-lg border-0 px-4 py-2.5 text-sm text-charcoal placeholder:text-charcoal-soft/70 focus:outline-none focus:ring-2 focus:ring-terracotta-500"
+      />
+      <button
+        type="submit"
+        class="rounded-lg bg-terracotta-500 px-5 py-2.5 text-sm font-semibold text-cream transition hover:bg-terracotta-600"
+      >
+        Send it to me
+      </button>
+    </form>
+    <p class="text-xs text-forest-100/70">No spam. Unsubscribe anytime. See our <a href="/privacy/" class="underline">privacy policy</a>.</p>
+  </div>
+</div>

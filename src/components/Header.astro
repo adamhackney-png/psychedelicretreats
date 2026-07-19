@@ -1,0 +1,68 @@
+---
+import { NAV_LINKS } from '../lib/site';
+const path = Astro.url.pathname;
+---
+
+<header class="sticky top-0 z-40 border-b border-line bg-cream/95 backdrop-blur">
+  <div class="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-4 sm:px-6 lg:px-8">
+    <a href="/" class="font-serif text-lg font-medium text-forest-900 sm:text-xl">
+      Psychedelic Retreats <span class="text-terracotta-600">Australia</span>
+    </a>
+
+    <nav class="hidden items-center gap-6 lg:flex" aria-label="Primary">
+      {NAV_LINKS.map((link) => (
+        <a
+          href={link.href}
+          class:list={[
+            'text-sm font-medium text-charcoal-soft hover:text-forest-700',
+            path.startsWith(link.href) && 'text-forest-700',
+          ]}
+        >
+          {link.label}
+        </a>
+      ))}
+    </nav>
+
+    <div class="flex items-center gap-3">
+      <a
+        href="/retreats/"
+        class="hidden rounded-lg bg-forest-600 px-4 py-2 text-sm font-medium text-cream shadow-sm transition hover:bg-forest-700 sm:inline-block"
+      >
+        Find a retreat
+      </a>
+      <button
+        id="mobile-nav-toggle"
+        type="button"
+        class="inline-flex items-center justify-center rounded-lg border border-line p-2 lg:hidden"
+        aria-expanded="false"
+        aria-controls="mobile-nav"
+        aria-label="Toggle navigation menu"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <nav id="mobile-nav" class="hidden flex-col gap-1 border-t border-line px-4 py-3 lg:hidden" aria-label="Mobile">
+    {NAV_LINKS.map((link) => (
+      <a href={link.href} class="rounded-md px-2 py-2 text-sm font-medium text-charcoal-soft hover:bg-forest-50">
+        {link.label}
+      </a>
+    ))}
+    <a href="/retreats/" class="mt-1 rounded-lg bg-forest-600 px-4 py-2 text-center text-sm font-medium text-cream">
+      Find a retreat
+    </a>
+  </nav>
+</header>
+
+<script>
+  const toggle = document.getElementById('mobile-nav-toggle');
+  const nav = document.getElementById('mobile-nav');
+  toggle?.addEventListener('click', () => {
+    const isOpen = nav?.classList.toggle('flex');
+    nav?.classList.toggle('hidden');
+    toggle.setAttribute('aria-expanded', String(Boolean(isOpen)));
+  });
+</script>

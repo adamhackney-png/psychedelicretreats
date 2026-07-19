@@ -1,0 +1,39 @@
+---
+interface Props {
+  variant: 'medical' | 'legal' | 'affiliate';
+  class?: string;
+}
+const { variant, class: className = '' } = Astro.props;
+
+const COPY: Record<Props['variant'], { title: string; body: string }> = {
+  medical: {
+    title: 'This is not medical advice',
+    body: 'Content on this page is for general information only and does not constitute medical, psychological, or therapeutic advice. It is not a substitute for consultation with a qualified, registered health professional. Do not disregard professional medical advice, or delay seeking it, because of something you have read here. Individual circumstances, contraindications, and risks vary — always seek independent, qualified guidance before making decisions about your health.',
+  },
+  legal: {
+    title: 'Legal status notice',
+    body: 'Laws governing psychedelic and other controlled substances vary by country and change over time. Information here reflects our understanding at the time of publication and sourced from the links provided — it is general information, not legal advice, and may be out of date. Always verify current law in the relevant jurisdiction, and the jurisdiction you are travelling from, before making any decisions.',
+  },
+  affiliate: {
+    title: 'Affiliate disclosure',
+    body: 'This page may contain affiliate links. If you click through and make a booking or purchase, we may earn a commission at no extra cost to you. Affiliate relationships never influence our vetting checklist ratings or editorial content — see our editorial policy for how we handle this.',
+  },
+};
+
+const { title, body } = COPY[variant];
+---
+
+<aside class="rounded-lg border border-line bg-cream-dark/60 px-4 py-3 text-xs leading-relaxed text-charcoal-soft" class:list={[className]}>
+  <p class="font-semibold text-charcoal">{title}</p>
+  <p class="mt-1">{body}</p>
+  {variant === 'legal' && (
+    <p class="mt-1">
+      <a href="/medical-disclaimer/" class="underline">Read our full disclaimer</a>
+    </p>
+  )}
+  {variant === 'affiliate' && (
+    <p class="mt-1">
+      <a href="/editorial-policy/" class="underline">Read our editorial policy</a>
+    </p>
+  )}
+</aside>

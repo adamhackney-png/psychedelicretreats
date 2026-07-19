@@ -1,0 +1,91 @@
+@import "tailwindcss";
+
+@import "@fontsource/fraunces/400.css";
+@import "@fontsource/fraunces/500.css";
+@import "@fontsource/fraunces/600.css";
+@import "@fontsource/fraunces/400-italic.css";
+@import "@fontsource/inter/400.css";
+@import "@fontsource/inter/500.css";
+@import "@fontsource/inter/600.css";
+@import "@fontsource/inter/700.css";
+
+@theme {
+  /* Brand palette — warm off-white / deep forest green / muted terracotta / charcoal */
+  --color-cream: #faf6ef;
+  --color-cream-dark: #f2ecdf;
+  --color-forest-50: #eef2ee;
+  --color-forest-100: #d7e2d6;
+  --color-forest-300: #93ab8e;
+  --color-forest-500: #4c6b48;
+  --color-forest-600: #3a5537;
+  --color-forest-700: #2c4129;
+  --color-forest-900: #1a271a;
+  --color-terracotta-100: #f3e0d3;
+  --color-terracotta-300: #e0ac8a;
+  --color-terracotta-500: #c17851;
+  --color-terracotta-600: #a5613e;
+  --color-charcoal: #2b2a27;
+  --color-charcoal-soft: #565349;
+  --color-line: #e7e0d2;
+
+  --font-serif: "Fraunces", ui-serif, Georgia, serif;
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+
+  --radius-lg: 0.75rem;
+  --radius-xl: 1.25rem;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    background-color: var(--color-cream);
+    color: var(--color-charcoal);
+    font-family: var(--font-sans);
+  }
+  h1, h2, h3, h4 {
+    font-family: var(--font-serif);
+    font-weight: 500;
+    color: var(--color-forest-900);
+  }
+  a {
+    color: var(--color-forest-600);
+  }
+  ::selection {
+    background-color: var(--color-terracotta-100);
+  }
+}
+
+@layer components {
+  .prose-article {
+    max-width: 68ch;
+  }
+  .prose-article p {
+    margin-top: 1.1em;
+    margin-bottom: 1.1em;
+    line-height: 1.75;
+  }
+  .prose-article h2 {
+    margin-top: 2em;
+    margin-bottom: 0.6em;
+    font-size: 1.5rem;
+  }
+  .prose-article h3 {
+    margin-top: 1.6em;
+    margin-bottom: 0.5em;
+    font-size: 1.2rem;
+  }
+  .prose-article ul, .prose-article ol {
+    margin-top: 1em;
+    margin-bottom: 1em;
+    padding-left: 1.4em;
+  }
+  .prose-article li {
+    margin-top: 0.4em;
+  }
+  .prose-article a {
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+}
