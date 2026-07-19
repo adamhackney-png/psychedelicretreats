@@ -1,0 +1,24 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import NewsletterSignup from '../../components/NewsletterSignup.astro';
+---
+
+<BaseLayout
+  title="Newsletter"
+  description="Join the Psychedelic Retreats Australia newsletter for vetted retreat updates, legal-status changes, and our retreat vetting checklist."
+>
+  <Breadcrumbs items={[{ name: 'Newsletter', path: '/newsletter/' }]} />
+
+  <section class="mx-auto max-w-3xl px-4 pb-20 sm:px-6 lg:px-8">
+    <h1 class="font-serif text-3xl font-medium text-forest-900 sm:text-4xl">Newsletter</h1>
+    <p class="mt-3 text-charcoal-soft">
+      Occasional emails when something changes that matters — a legal-status update, a new vetted listing, or a
+      new guide. No spam, unsubscribe anytime.
+    </p>
+
+    <div class="mt-8">
+      <NewsletterSignup />
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,38 @@
+---
+import { getCollection, getEntry, render } from 'astro:content';
+import ArticleLayout from '../../layouts/ArticleLayout.astro';
+
+export async function getStaticPaths() {
+  const news = await getCollection('news');
+  return news.map((item) => ({ params: { slug: item.id }, props: { item } }));
+}
+
+const { item } = Astro.props;
+const { Content, headings } = await render(item);
+const d = item.data;
+
+const author = await getEntry('authors', d.authorSlug);
+---
+
+<ArticleLayout
+  section="news"
+  title={d.title}
+  description={d.description}
+  path={`/news/${item.id}/`}
+  authorName={author?.data.name ?? 'Psychedelic Retreats Australia'}
+  authorBio={author?.data.bio}
+  publishedAt={d.publishedAt}
+  updatedAt={d.updatedAt}
+  lastReviewed={d.lastReviewed}
+  headings={headings}
+  sources={d.sources}
+  faq={d.faq}
+  noindex={d.draft}
+>
+  {d.draft && (
+    <div class="mb-6 rounded-lg border border-terracotta-300 bg-terracotta-100/40 px-4 py-3 text-sm text-charcoal">
+      <strong class="font-semibold">Draft — pending editorial review.</strong>
+    </div>
+  )}
+  <Content />
+</ArticleLayout>

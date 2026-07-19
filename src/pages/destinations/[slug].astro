@@ -1,0 +1,102 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import LegalStatusPanel from '../../components/LegalStatusPanel.astro';
+import ListingCard from '../../components/ListingCard.astro';
+import FAQ from '../../components/FAQ.astro';
+import { CATEGORY_META } from '../../lib/site';
+import { faqJsonLd } from '../../lib/seo';
+
+export async function getStaticPaths() {
+  const destinations = await getCollection('destinations');
+  return destinations.map((destination) => ({ params: { slug: destination.id }, props: { destination } }));
+}
+
+const { destination } = Astro.props;
+const { Content } = await render(destination);
+const d = destination.data;
+
+const listings = (await getCollection('listings')).filter((l) => l.data.destinationSlug === destination.id);
+const jsonLd = faqJsonLd(d.faq);
+---
+
+<BaseLayout
+  title={`${d.name} — Legal Status, Cost & What to Expect`}
+  description={d.legalStatus.summary}
+  jsonLd={jsonLd ? [jsonLd] : undefined}
+>
+  <Breadcrumbs items={[{ name: 'Destinations', path: '/destinations/' }, { name: d.name, path: `/destinations/${destination.id}/` }]} />
+
+  <section class="mx-auto max-w-7xl px-4 pb-8 sm:px-6 lg:px-8">
+    <h1 class="font-serif text-3xl font-medium text-forest-900 sm:text-4xl">{d.name}</h1>
+  </section>
+
+  <section class="mx-auto max-w-7xl px-4 pb-10 sm:px-6 lg:px-8">
+    <LegalStatusPanel summary={d.legalStatus.summary} details={d.legalStatus.details} sourceUrls={d.legalStatus.sourceUrls} />
+  </section>
+
+  <section class="mx-auto max-w-7xl px-4 pb-10 sm:px-6 lg:px-8">
+    <div class="prose-article max-w-3xl">
+      <Content />
+    </div>
+  </section>
+
+  {d.costTableAUD.length > 0 && (
+    <section class="mx-auto max-w-7xl px-4 pb-10 sm:px-6 lg:px-8">
+      <h2 class="text-xl font-medium">Typical costs (AUD)</h2>
+      <p class="mt-1 text-xs text-charcoal-soft">Indicative only — verify current pricing before booking.</p>
+      <div class="mt-4 overflow-x-auto rounded-lg border border-line bg-white">
+        <table class="w-full text-left text-sm">
+          <thead class="border-b border-line bg-cream-dark/40">
+            <tr>
+              <th class="px-4 py-3 font-semibold text-charcoal">Item</th>
+              <th class="px-4 py-3 font-semibold text-charcoal">Low (AUD)</th>
+              <th class="px-4 py-3 font-semibold text-charcoal">High (AUD)</th>
+              <th class="px-4 py-3 font-semibold text-charcoal">Notes</th>
+            </tr>
+          </thead>
+          <tbody>
+            {d.costTableAUD.map((row) => (
+              <tr class="border-b border-line last:border-0">
+                <td class="px-4 py-3 text-charcoal">{row.item}</td>
+                <td class="px-4 py-3 text-charcoal-soft">${row.low.toLocaleString()}</td>
+                <td class="px-4 py-3 text-charcoal-soft">${row.high.toLocaleString()}</td>
+                <td class="px-4 py-3 text-charcoal-soft">{row.notes ?? '—'}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </section>
+  )}
+
+  {listings.length > 0 && (
+    <section class="mx-auto max-w-7xl px-4 pb-10 sm:px-6 lg:px-8">
+      <h2 class="text-xl font-medium">Listings in {d.name}</h2>
+      <div class="mt-4 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {listings.map((listing) => (
+          <ListingCard
+            slug={listing.id}
+            name={listing.data.name}
+            mode={listing.data.mode}
+            categoryLabel={CATEGORY_META[listing.data.categories[0]]?.label ?? listing.data.categories[0]}
+            country={listing.data.country}
+            destinationSlug={listing.data.destinationSlug}
+            region={listing.data.region}
+            priceBandAUD={listing.data.priceBandAUD}
+            durationDays={listing.data.durationDays}
+            featuredTier={listing.data.featuredTier}
+            claimed={listing.data.claimed}
+          />
+        ))}
+      </div>
+    </section>
+  )}
+
+  {d.faq.length > 0 && (
+    <section class="mx-auto max-w-3xl px-4 pb-20 sm:px-6 lg:px-8">
+      <FAQ items={d.faq} />
+    </section>
+  )}
+</BaseLayout>

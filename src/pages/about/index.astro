@@ -1,0 +1,59 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import { SITE } from '../../lib/site';
+---
+
+<BaseLayout
+  title="About Us"
+  description="Who publishes Psychedelic Retreats Australia, why it exists, and what it is and isn't."
+>
+  <Breadcrumbs items={[{ name: 'About', path: '/about/' }]} />
+
+  <article class="mx-auto max-w-3xl px-4 pb-20 sm:px-6 lg:px-8">
+    <h1 class="font-serif text-3xl font-medium text-forest-900 sm:text-4xl">About {SITE.name}</h1>
+
+    <div class="prose-article mt-8">
+      <p>
+        {SITE.name} is an independent Australian directory and information hub covering legal psychedelic retreats
+        abroad, Australian clinical services (ketamine, and psilocybin/MDMA-assisted therapy via the TGA Authorised
+        Prescriber pathway), breathwork retreats, and psychedelic integration support.
+      </p>
+
+      <h2>What we are</h2>
+      <ul>
+        <li>An independent publisher and directory — we catalogue and describe, we don't operate any retreat or clinic.</li>
+        <li>A source of vetted, sourced, factual information — every listing links to the sources behind its claims.</li>
+        <li>Partly funded by affiliate links, Featured/Premium Partner listings, and lead-generation enquiries — see our editorial policy for how we keep that separate from editorial content.</li>
+      </ul>
+
+      <h2>What we are not</h2>
+      <ul>
+        <li>Not a medical provider, and nothing on this site is medical advice.</li>
+        <li>Not a booking agent — we don't process bookings or payments for retreats.</li>
+        <li>Not affiliated with any Australian clinical service we list, and we don't receive prescriber referral fees.</li>
+        <li>Not a legal adviser — legal-status information is general and may be out of date; always verify independently.</li>
+      </ul>
+
+      <h2>Who's behind this</h2>
+      <p>
+        {SITE.name} is founded and published by {SITE.ownerName}, an independent researcher and publisher — not a
+        medical, legal, or financial professional. See the author bio on our guides for more.
+      </p>
+
+      <h2>How we vet listings</h2>
+      <p>
+        Every listing includes a vetting checklist showing what the operator publicly states about legal
+        jurisdiction, medical/psychological screening, facilitator experience, emergency protocols, independent
+        reviews, and pricing transparency. "Stated" means the operator discloses this publicly — it is not
+        independent verification by us. We encourage you to verify independently before booking anything.
+      </p>
+
+      <h2>Get in touch</h2>
+      <p>
+        Questions, corrections, or want to be listed? See our <a href="/contact/">contact page</a> or{' '}
+        <a href="/for-operators/">operator page</a>.
+      </p>
+    </div>
+  </article>
+</BaseLayout>

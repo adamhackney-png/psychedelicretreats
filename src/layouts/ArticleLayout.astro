@@ -1,0 +1,123 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import TOC from '../components/TOC.astro';
+import FAQ from '../components/FAQ.astro';
+import SourcesList from '../components/SourcesList.astro';
+import DisclaimerBlock from '../components/DisclaimerBlock.astro';
+import CrisisSupportNote from '../components/CrisisSupportNote.astro';
+import { articleJsonLd, faqJsonLd } from '../lib/seo';
+
+interface Props {
+  section: 'guides' | 'news';
+  title: string;
+  description: string;
+  path: string;
+  authorName: string;
+  authorBio?: string;
+  publishedAt: Date;
+  updatedAt: Date;
+  lastReviewed?: Date;
+  headings: { depth: number; slug: string; text: string }[];
+  sources: { title: string; url: string }[];
+  faq: { q: string; a: string }[];
+  relatedItems?: { name: string; href: string; kind: string }[];
+  showCrisisNote?: boolean;
+  noindex?: boolean;
+}
+
+const {
+  section,
+  title,
+  description,
+  path,
+  authorName,
+  authorBio,
+  publishedAt,
+  updatedAt,
+  lastReviewed,
+  headings,
+  sources,
+  faq,
+  relatedItems = [],
+  showCrisisNote = false,
+  noindex = false,
+} = Astro.props;
+
+const jsonLd = [
+  articleJsonLd({ headline: title, description, path, authorName, publishedAt, updatedAt, isNews: section === 'news' }),
+  ...(faq.length ? [faqJsonLd(faq)!] : []),
+];
+
+const dateFmt = (d: Date) => d.toLocaleDateString('en-AU', { day: 'numeric', month: 'long', year: 'numeric' });
+---
+
+<BaseLayout title={title} description={description} type="article" jsonLd={jsonLd} noindex={noindex}>
+  <Breadcrumbs items={[{ name: section === 'guides' ? 'Guides' : 'News', path: `/${section}/` }, { name: title, path }]} />
+
+  <article class="mx-auto max-w-7xl px-4 pb-20 sm:px-6 lg:px-8">
+    <div class="grid gap-10 lg:grid-cols-[1fr_260px]">
+      <div class="min-w-0">
+        <h1 class="font-serif text-3xl font-medium text-forest-900 sm:text-4xl">{title}</h1>
+
+        <div class="mt-4 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-charcoal-soft">
+          <span>By {authorName}</span>
+          <span aria-hidden="true">·</span>
+          <time datetime={publishedAt.toISOString()}>Published {dateFmt(publishedAt)}</time>
+          {lastReviewed && (
+            <>
+              <span aria-hidden="true">·</span>
+              <span>Last reviewed {dateFmt(lastReviewed)}</span>
+            </>
+          )}
+        </div>
+
+        <div class="prose-article mt-8">
+          <slot />
+        </div>
+
+        {sources.length > 0 && (
+          <div class="mt-10">
+            <SourcesList sources={sources} />
+          </div>
+        )}
+
+        <div class="mt-10 space-y-4">
+          <DisclaimerBlock variant="medical" />
+          {showCrisisNote && <CrisisSupportNote />}
+        </div>
+
+        {faq.length > 0 && (
+          <div class="mt-10">
+            <FAQ items={faq} />
+          </div>
+        )}
+
+        {relatedItems.length > 0 && (
+          <div class="mt-10">
+            <h2 class="text-xl font-medium">Related</h2>
+            <div class="mt-4 grid gap-4 sm:grid-cols-2">
+              {relatedItems.map((item) => (
+                <a href={item.href} class="rounded-lg border border-line bg-white p-4 shadow-sm transition hover:shadow-md">
+                  <p class="text-xs font-semibold uppercase tracking-wide text-terracotta-600">{item.kind}</p>
+                  <p class="mt-1 text-sm font-medium text-forest-900">{item.name}</p>
+                </a>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+
+      <aside class="space-y-6 lg:sticky lg:top-20 lg:self-start">
+        <TOC headings={headings} />
+        {authorBio && (
+          <div class="rounded-lg border border-line bg-white p-5">
+            <p class="text-xs font-semibold uppercase tracking-wide text-charcoal-soft">Written by</p>
+            <p class="mt-2 text-sm font-medium text-forest-900">{authorName}</p>
+            <p class="mt-1 text-xs leading-relaxed text-charcoal-soft">{authorBio}</p>
+          </div>
+        )}
+      </aside>
+    </div>
+  </article>
+</BaseLayout>

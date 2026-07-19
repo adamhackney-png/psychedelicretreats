@@ -1,0 +1,68 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import { SITE } from '../../lib/site';
+---
+
+<BaseLayout title="Privacy Policy" description="How Psychedelic Retreats Australia collects, uses, and protects personal information.">
+  <Breadcrumbs items={[{ name: 'Privacy Policy', path: '/privacy/' }]} />
+
+  <article class="mx-auto max-w-3xl px-4 pb-20 sm:px-6 lg:px-8">
+    <h1 class="font-serif text-3xl font-medium text-forest-900 sm:text-4xl">Privacy Policy</h1>
+    <p class="mt-2 text-sm text-charcoal-soft">
+      {/* TODO-ADAM: have this policy reviewed against the Australian Privacy Act 1988 (APPs) before this page goes live — this is a compliant-style draft, not legal advice, and doesn't yet reference a specific ABN/entity. */}
+      Last updated: 19 July 2026 (draft)
+    </p>
+
+    <div class="prose-article mt-8">
+      <h2>What we collect</h2>
+      <ul>
+        <li><strong>Enquiry and claim forms:</strong> name, email, and message content you submit via our enquiry or operator-claim forms.</li>
+        <li><strong>Newsletter signup:</strong> your email address, via our newsletter provider (MailerLite).</li>
+        <li><strong>Analytics:</strong> aggregated, privacy-preserving website analytics via Cloudflare Web Analytics, which does not use cookies or track individuals across sites.</li>
+        <li><strong>Anti-spam verification:</strong> Cloudflare Turnstile may process limited technical data (such as your IP address) to verify form submissions aren't automated.</li>
+      </ul>
+
+      <h2>How we use it</h2>
+      <p>
+        We use enquiry/claim form submissions to respond to you and, where relevant, to pass your enquiry to the
+        listed operator. We use your email for newsletter signups only to send the content you signed up for. We
+        do not sell your personal information.
+      </p>
+
+      <h2>Where it's stored</h2>
+      <p>
+        Form submissions are processed via Cloudflare Pages Functions and may be logged to a Cloudflare KV
+        namespace and/or emailed to us for record-keeping. Newsletter data is held by our newsletter provider,
+        MailerLite, under its own privacy policy.
+      </p>
+
+      <h2>Third parties</h2>
+      <p>
+        We use Cloudflare (hosting, forms, analytics, anti-spam), MailerLite (newsletter), and an email-sending
+        provider (Resend or MailChannels) to operate this site — each processes limited data as described above,
+        under their own privacy policies.
+      </p>
+
+      <h2>Your rights</h2>
+      <p>
+        You can ask us to access, correct, or delete personal information we hold about you, or unsubscribe from
+        our newsletter at any time via the link in any email. <a href="/contact/">Contact us</a> to make a request.
+      </p>
+
+      <h2>Cookies</h2>
+      <p>
+        This site does not use tracking or advertising cookies. Any cookies used are strictly functional (for
+        example, Cloudflare Turnstile's anti-spam verification).
+      </p>
+
+      <h2>Changes to this policy</h2>
+      <p>We may update this policy from time to time; the "last updated" date above reflects the most recent revision.</p>
+
+      <h2>Contact</h2>
+      <p>
+        Privacy questions or requests: <a href={`mailto:${SITE.contactEmail}`}>{SITE.contactEmail}</a>.
+      </p>
+    </div>
+  </article>
+</BaseLayout>

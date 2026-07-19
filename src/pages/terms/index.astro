@@ -1,0 +1,76 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import { SITE } from '../../lib/site';
+---
+
+<BaseLayout title="Terms of Use" description="Terms of use for Psychedelic Retreats Australia.">
+  <Breadcrumbs items={[{ name: 'Terms of Use', path: '/terms/' }]} />
+
+  <article class="mx-auto max-w-3xl px-4 pb-20 sm:px-6 lg:px-8">
+    <h1 class="font-serif text-3xl font-medium text-forest-900 sm:text-4xl">Terms of Use</h1>
+    <p class="mt-2 text-sm text-charcoal-soft">
+      {/* TODO-ADAM: have these terms reviewed by a qualified lawyer before this page goes live — this is a compliant-style draft, not legal advice. */}
+      Last updated: 19 July 2026 (draft)
+    </p>
+
+    <div class="prose-article mt-8">
+      <h2>Who we are</h2>
+      <p>
+        {SITE.name} ({SITE.url}) is published by {SITE.ownerName}. These terms govern your use of the site.
+        By using this site, you agree to these terms.
+      </p>
+
+      <h2>Informational directory only</h2>
+      <p>
+        This site is an independent content and directory service. We do not process bookings, payments, or
+        accounts. Any booking, enquiry, or transaction you make with a listed operator is between you and that
+        operator — we are not a party to it, and are not responsible for the operator's conduct, safety practices,
+        pricing accuracy, or service delivery.
+      </p>
+
+      <h2>No medical, legal, or financial advice</h2>
+      <p>
+        Nothing on this site constitutes medical, legal, or financial advice. See our{' '}
+        <a href="/medical-disclaimer/">medical disclaimer</a> for more. Legal-status information may be out of
+        date — always verify independently.
+      </p>
+
+      <h2>Accuracy of listings</h2>
+      <p>
+        We source listing facts from operators' own public materials, linked on each listing. We make reasonable
+        efforts to keep information current but do not guarantee accuracy, and operators may change their
+        offerings, pricing, or practices without notice. See our <a href="/editorial-policy/">editorial policy</a>{' '}
+        for how we vet and update listings.
+      </p>
+
+      <h2>Affiliate links &amp; paid placements</h2>
+      <p>
+        Some listings include affiliate links or paid Featured/Premium Partner placement — see our{' '}
+        <a href="/editorial-policy/#affiliate-disclosure">affiliate disclosure</a> for details.
+      </p>
+
+      <h2>Intellectual property</h2>
+      <p>
+        Site content is owned by {SITE.name} or its licensors, except where a listing quotes or links to a
+        third-party source. You may not reproduce substantial portions of this site's original content without
+        permission.
+      </p>
+
+      <h2>Limitation of liability</h2>
+      <p>
+        To the maximum extent permitted by law, {SITE.name} is not liable for any loss or damage arising from your
+        use of this site or reliance on its content, including decisions made about retreats, clinical services,
+        or travel based on information found here.
+      </p>
+
+      <h2>Changes to these terms</h2>
+      <p>We may update these terms from time to time; the "last updated" date above reflects the most recent revision.</p>
+
+      <h2>Contact</h2>
+      <p>
+        Questions about these terms? <a href="/contact/">Contact us</a>.
+      </p>
+    </div>
+  </article>
+</BaseLayout>

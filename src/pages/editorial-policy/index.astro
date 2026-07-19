@@ -1,0 +1,67 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import { SITE } from '../../lib/site';
+---
+
+<BaseLayout
+  title="Editorial Policy"
+  description="How we research, vet, and write listings and guides, how affiliate and Featured/Premium Partner revenue works, and how we keep the two separate."
+>
+  <Breadcrumbs items={[{ name: 'Editorial Policy', path: '/editorial-policy/' }]} />
+
+  <article class="mx-auto max-w-3xl px-4 pb-20 sm:px-6 lg:px-8">
+    <h1 class="font-serif text-3xl font-medium text-forest-900 sm:text-4xl">Editorial Policy</h1>
+
+    <div class="prose-article mt-8">
+      <h2>Our compliance principles</h2>
+      <ul>
+        <li>We write informationally, never promotionally, about substances. No efficacy claims, no "treats/cures/heals" language, no therapeutic-outcome testimonials.</li>
+        <li>Australian psilocybin/MDMA and ketamine services are listed in a restrained "neutral mode": name, location, service category, and a contact link only — no pricing, no calls to action, no descriptions beyond a single factual sentence, no images beyond a logo.</li>
+        <li>We don't promote any activity illegal in Australia. International retreat pages state legality in the host jurisdiction, not in Australia.</li>
+        <li>We don't publish generic "what a retreat is like" descriptions without a specific, sourced operator behind the claim.</li>
+      </ul>
+
+      <h2>How we research and vet listings</h2>
+      <p>
+        Every listing's facts are sourced from the operator's own public website or another reputable public
+        source, linked directly on the listing. Every listing shows a vetting checklist — legal jurisdiction,
+        medical/psychological screening, facilitator experience, emergency protocol, independent reviews, and
+        pricing transparency — marked "Stated" only where the operator publicly discloses it. "Stated" is not
+        independent verification; it means we found it stated in the operator's own materials.
+      </p>
+      <p>
+        New and unclaimed listings are marked accordingly. An operator can claim their listing for free via our{' '}
+        <a href="/for-operators/">operator page</a> to correct or add information, which we review before publishing.
+      </p>
+
+      <h2 id="affiliate-disclosure">Affiliate disclosure</h2>
+      <p>
+        Some listings include affiliate links — if you click through and book, we may earn a commission at no
+        extra cost to you. Affiliate links are marked <code>rel="sponsored nofollow"</code>, and any page carrying
+        one displays an affiliate-disclosure notice. Affiliate relationships never influence a listing's vetting
+        checklist ratings or factual content.
+      </p>
+
+      <h2>Featured &amp; Premium Partner listings</h2>
+      <p>
+        Operators can pay for Featured or Premium Partner placement (priority position in category and destination
+        pages, and a badge). This tier <strong>never</strong> changes a listing's vetting checklist ratings or
+        factual accuracy — it only affects where a listing appears, not what it says. See our{' '}
+        <a href="/for-operators/">operator page</a> for current tiers.
+      </p>
+
+      <h2>Corrections</h2>
+      <p>
+        If you find an error, or you're an operator with more current information than what's shown, please use
+        our <a href="/contact/">contact page</a> or claim your listing. We aim to review corrections promptly.
+      </p>
+
+      <h2>Author &amp; ownership transparency</h2>
+      <p>
+        {SITE.name} is founded and published by {SITE.ownerName}, who is not a medical, legal, or financial
+        professional — see our <a href="/about/">about page</a>.
+      </p>
+    </div>
+  </article>
+</BaseLayout>

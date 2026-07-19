@@ -1,6 +1,6 @@
 ---
 interface Props {
-  kind: 'enquire' | 'claim';
+  kind: 'enquire' | 'claim' | 'contact';
   listingSlug?: string;
   listingName?: string;
   operatorEmail?: string;
@@ -37,6 +37,7 @@ const formId = `${kind}-form${listingSlug ? `-${listingSlug}` : ''}`;
       <input id={`${formId}-email`} name="email" type="email" required class="mt-1 w-full rounded-md border border-line px-3 py-2 text-sm" />
     </div>
     {kind === 'claim' && (
+      /* Not shown for kind="contact" — a general enquiry has no "organisation" to be from. */
       <div>
         <label for={`${formId}-role`} class="text-xs font-medium text-charcoal-soft">Your role at this organisation</label>
         <input id={`${formId}-role`} name="role" type="text" required class="mt-1 w-full rounded-md border border-line px-3 py-2 text-sm" />

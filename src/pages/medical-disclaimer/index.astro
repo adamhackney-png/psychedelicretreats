@@ -1,0 +1,56 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import CrisisSupportNote from '../../components/CrisisSupportNote.astro';
+import { SITE } from '../../lib/site';
+---
+
+<BaseLayout
+  title="Medical Disclaimer"
+  description="This site is not medical advice. Read our full medical and legal disclaimer before making any decisions."
+>
+  <Breadcrumbs items={[{ name: 'Medical Disclaimer', path: '/medical-disclaimer/' }]} />
+
+  <article class="mx-auto max-w-3xl px-4 pb-20 sm:px-6 lg:px-8">
+    <h1 class="font-serif text-3xl font-medium text-forest-900 sm:text-4xl">Medical Disclaimer</h1>
+
+    <div class="prose-article mt-8">
+      <h2>Not medical advice</h2>
+      <p>
+        Content on {SITE.name} — including listings, guides, news, and tools — is for general information only
+        and does not constitute medical, psychological, or therapeutic advice. It is not a substitute for
+        consultation with a qualified, registered health professional. Do not disregard professional medical
+        advice, or delay seeking it, because of something you have read here.
+      </p>
+
+      <h2>We are not a medical provider</h2>
+      <p>
+        {SITE.name} is an independent publisher and directory. We are not a medical provider, retreat operator,
+        booking agent, or referrer, and we do not receive prescriber referral fees from any listed clinical
+        service. Nothing on this site should be read as a recommendation to undertake any specific treatment,
+        retreat, or substance experience.
+      </p>
+
+      <h2>Individual risk varies</h2>
+      <p>
+        Contraindications, risks, and appropriate screening vary by individual health history, current
+        medications, and the specific substance or practice involved. Information on this site about
+        contraindications or safety practices reflects what operators publicly state, or general information we've
+        compiled — it is not a personal risk assessment. Always seek independent, qualified medical guidance before
+        making decisions about your health.
+      </p>
+
+      <h2>Legal status is not medical guidance</h2>
+      <p>
+        A jurisdiction's legal status for a substance or practice says nothing about its safety for you personally.
+        See our <a href="/editorial-policy/">editorial policy</a> for how we research and vet listings, and each
+        listing's vetting checklist for what's publicly stated about medical screening.
+      </p>
+
+      <h2>If you need support now</h2>
+    </div>
+    <div class="mt-4">
+      <CrisisSupportNote />
+    </div>
+  </article>
+</BaseLayout>

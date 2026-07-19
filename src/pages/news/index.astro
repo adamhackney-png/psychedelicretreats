@@ -1,0 +1,40 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+
+const news = (await getCollection('news')).sort((a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf());
+---
+
+<BaseLayout
+  title="News — Legal & Regulatory Updates"
+  description="News and regulatory updates relevant to psychedelic retreats, Australian clinical pathways, and the legal landscape."
+>
+  <Breadcrumbs items={[{ name: 'News', path: '/news/' }]} />
+
+  <section class="mx-auto max-w-7xl px-4 pb-8 sm:px-6 lg:px-8">
+    <div class="flex items-end justify-between gap-4">
+      <h1 class="font-serif text-3xl font-medium text-forest-900 sm:text-4xl">News</h1>
+      <a href="/news/rss.xml" class="text-sm font-medium text-forest-600 hover:text-forest-700">RSS feed</a>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-7xl px-4 pb-20 sm:px-6 lg:px-8">
+    <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      {news.map((item) => (
+        <a href={`/news/${item.id}/`} class="relative rounded-lg border border-line bg-white p-5 shadow-sm transition hover:shadow-md">
+          {item.data.draft && (
+            <span class="absolute right-4 top-4 rounded-full bg-terracotta-100 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wide text-terracotta-600">
+              Draft
+            </span>
+          )}
+          <time class="text-xs font-medium text-charcoal-soft" datetime={item.data.publishedAt.toISOString()}>
+            {item.data.publishedAt.toLocaleDateString('en-AU', { day: 'numeric', month: 'short', year: 'numeric' })}
+          </time>
+          <h2 class="mt-2 font-serif text-lg font-medium text-forest-900">{item.data.title}</h2>
+          <p class="mt-2 text-sm text-charcoal-soft">{item.data.description}</p>
+        </a>
+      ))}
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,48 @@
+---
+import { getCollection, getEntry, render } from 'astro:content';
+import ArticleLayout from '../../layouts/ArticleLayout.astro';
+
+export async function getStaticPaths() {
+  const guides = await getCollection('guides');
+  return guides.map((guide) => ({ params: { slug: guide.id }, props: { guide } }));
+}
+
+const { guide } = Astro.props;
+const { Content, headings } = await render(guide);
+const d = guide.data;
+
+const author = await getEntry('authors', d.authorSlug);
+
+const relatedListingEntries = await Promise.all(
+  d.relatedListings.map((slug) => getEntry('listings', slug)),
+);
+const relatedItems = relatedListingEntries
+  .filter((entry): entry is NonNullable<typeof entry> => Boolean(entry))
+  .map((entry) => ({ name: entry.data.name, href: `/listing/${entry.id}/`, kind: 'Listing' }));
+---
+
+<ArticleLayout
+  section="guides"
+  title={d.title}
+  description={d.description}
+  path={`/guides/${guide.id}/`}
+  authorName={author?.data.name ?? 'Psychedelic Retreats Australia'}
+  authorBio={author?.data.bio}
+  publishedAt={d.publishedAt}
+  updatedAt={d.updatedAt}
+  lastReviewed={d.lastReviewed}
+  headings={headings}
+  sources={d.sources}
+  faq={d.faq}
+  relatedItems={relatedItems}
+  showCrisisNote={d.cluster === 'safety' || d.cluster === 'adjacent'}
+  noindex={d.draft}
+>
+  {d.draft && (
+    <div class="mb-6 rounded-lg border border-terracotta-300 bg-terracotta-100/40 px-4 py-3 text-sm text-charcoal">
+      <strong class="font-semibold">Draft — pending editorial review.</strong> This guide is a working draft; facts
+      marked TODO-ADAM in the source still need verification before this is considered final.
+    </div>
+  )}
+  <Content />
+</ArticleLayout>
