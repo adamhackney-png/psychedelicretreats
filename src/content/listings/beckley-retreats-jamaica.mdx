@@ -29,13 +29,16 @@ publishedAt: 2026-07-19
 updatedAt: 2026-07-19
 ---
 
+import AudPrice from '../../components/AudPrice.astro';
+import PriceFootnote from '../../components/PriceFootnote.astro';
+
 Beckley Retreats' Jamaica program runs the same eleven-week structure as its Netherlands program — around four weeks of virtual preparation, a 5–6 day in-person retreat, and roughly six weeks of integration support — held at Good Hope Estate, about 45 minutes from Montego Bay's airport.
 
 Psilocybin mushrooms were never scheduled under Jamaica's Dangerous Drugs Act, and Beckley's own materials state this explicitly. Facilitator bios published by the program include Head of Research Dr AZA Allsop, and the program describes a similar ~1:3 facilitator ratio to its other locations.
 
-Published pricing is roughly USD $5,975–$11,550 (approx. A$8,540–A$16,508*) depending on room type and occupancy.
+Published pricing is roughly USD $5,975–$11,550 (approx. <AudPrice usd={5975} usdHigh={11550} />) depending on room type and occupancy.
 
-\* AUD figures are indicative only, converted from the operator's published USD pricing at a rate of US$1 = A$1.4293 (XE.com mid-market rate, 20 July 2026), rounded to the nearest dollar. They exclude card, transfer or dynamic-currency-conversion fees and will vary with the exchange rate at time of payment — confirm current pricing directly with the operator.
+<PriceFootnote />
 
 {/*
   TODO-ADAM: verify whether exporting mushrooms is genuinely restricted at every stage of

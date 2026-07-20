@@ -28,13 +28,16 @@ publishedAt: 2026-07-19
 updatedAt: 2026-07-19
 ---
 
+import AudPrice from '../../components/AudPrice.astro';
+import PriceFootnote from '../../components/PriceFootnote.astro';
+
 Temple of the Way of Light offers 8-day and 12-day residential retreats (and longer plant-dieta programs via a partner) in the Amazon rainforest near Iquitos, Peru, for up to 24 guests per retreat. Ceremonies are led by a team of Shipibo-Conibo healers alongside Western, trauma-informed facilitators trained in approaches including IFS, Somatic Experiencing, and Hakomi.
 
 The centre publishes a detailed safety page describing a medical screening process developed with the harm-reduction organisation ICEERS and reviewed by an off-site doctor and psychologist — the site states roughly 70% of applicants are accepted, implying genuine screening rather than a formality. The published emergency protocol is unusually detailed: an onsite nurse, first-aid-trained staff, an AED, a contracted private clinic in Iquitos, and a stated 30–45 minute evacuation process by river and road to hospital care.
 
-Published pricing is roughly USD $2,960–$5,700 (approx. A$4,231–A$8,147*) depending on program length.
+Published pricing is roughly USD $2,960–$5,700 (approx. <AudPrice usd={2960} usdHigh={5700} />) depending on program length.
 
-\* AUD figures are indicative only, converted from the operator's published USD pricing at a rate of US$1 = A$1.4293 (XE.com mid-market rate, 20 July 2026), rounded to the nearest dollar. They exclude card, transfer or dynamic-currency-conversion fees and will vary with the exchange rate at time of payment — confirm current pricing directly with the operator.
+<PriceFootnote />
 
 {/*
   TODO-ADAM: Peru has no comprehensive retreat-centre licensing system, so "legal

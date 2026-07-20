@@ -29,12 +29,15 @@ publishedAt: 2026-07-20
 updatedAt: 2026-07-20
 ---
 
+import AudPrice from '../../components/AudPrice.astro';
+import PriceFootnote from '../../components/PriceFootnote.astro';
+
 MycoMeditations runs 8-day residential psilocybin retreats in Jamaica, operating since 2014 across three venues around Treasure Beach and the south coast (Blue Marlin, Rainbow Tree and Bluefields Bay). Each retreat includes three psilocybin sessions alongside roughly 20 hours of group preparation and integration work, with a further eight weeks of post-retreat integration sessions offered afterwards.
 
 Psilocybin mushrooms have never been scheduled under Jamaican law, and MycoMeditations' own materials state that psilocybin is legal in Jamaica, the only location of its retreats. Groups typically run at 8–10 guests. The operator describes an application and screening process reviewed by its therapy team, and states that its retreat teams include licensed therapists and on-site nursing, with physicians and a psychiatrist on call.
 
-Published pricing (in USD) starts at $6,250 per person (approx. A$8,933*) for shared occupancy at Blue Marlin, rising to $13,600 (approx. A$19,438*) for single occupancy at Bluefields Bay, its highest-priced venue.
+Published pricing (in USD) starts at $6,250 per person (approx. <AudPrice usd={6250} />) for shared occupancy at Blue Marlin, rising to $13,600 (approx. <AudPrice usd={13600} />) for single occupancy at Bluefields Bay, its highest-priced venue.
 
 This program is held in Jamaica, where psilocybin is not a prohibited substance. Psilocybin remains a prohibited substance in Australia outside the authorised clinical pathway. Australians travel at their own responsibility; this is not medical advice.
 
-\* AUD figures are indicative only, converted from the operator's published USD pricing at a rate of US$1 = A$1.4293 (XE.com mid-market rate, 20 July 2026), rounded to the nearest dollar. They exclude card, transfer or dynamic-currency-conversion fees and will vary with the exchange rate at time of payment — confirm current pricing directly with the operator.
+<PriceFootnote />

@@ -29,12 +29,15 @@ publishedAt: 2026-07-20
 updatedAt: 2026-07-20
 ---
 
+import AudPrice from '../../components/AudPrice.astro';
+import PriceFootnote from '../../components/PriceFootnote.astro';
+
 Atman Retreat runs 4-day, 3-night group psilocybin retreats at a private gated villa near Montego Bay, Jamaica, founded in 2018 by Aaron Nesmith-Beck. Retreats take up to 12 participants supported by three facilitators and two additional staff, and include a group psilocybin session, guided preparation and integration activities, one-on-one facilitator check-ins, accommodation, meals and airport transfers.
 
 Atman's materials state that retreats are held in Jamaica, where psilocybin mushrooms are legal. The application process addresses contraindications — the FAQ notes that people with personal or family histories of bipolar disorder, schizophrenia or other psychotic conditions may be at risk — and the operator states a covering physician is on call throughout psilocybin sessions. Facilitator bios published on the site describe master's-level qualifications in psychology and social work, Hakomi somatic-psychotherapy training, and MAPS-associated training backgrounds.
 
-Published pricing is USD $2,295 (approx. A$3,280*), with a limited low-income rate of USD $395 (approx. A$565*); flights are not included.
+Published pricing is USD $2,295 (approx. <AudPrice usd={2295} />), with a limited low-income rate of USD $395 (approx. <AudPrice usd={395} />); flights are not included.
 
 This program is held in Jamaica, where psilocybin is not a prohibited substance. Psilocybin remains a prohibited substance in Australia outside the authorised clinical pathway. Australians travel at their own responsibility; this is not medical advice.
 
-\* AUD figures are indicative only, converted from the operator's published USD pricing at a rate of US$1 = A$1.4293 (XE.com mid-market rate, 20 July 2026), rounded to the nearest dollar. They exclude card, transfer or dynamic-currency-conversion fees and will vary with the exchange rate at time of payment — confirm current pricing directly with the operator.
+<PriceFootnote />

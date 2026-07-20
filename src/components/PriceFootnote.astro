@@ -1,0 +1,19 @@
+---
+import { getUsdToAudRate } from '../lib/fx';
+
+const { rate, date } = await getUsdToAudRate();
+const formattedDate = new Date(`${date}T00:00:00Z`).toLocaleDateString('en-AU', {
+  day: 'numeric',
+  month: 'long',
+  year: 'numeric',
+  timeZone: 'UTC',
+});
+---
+
+<p>
+  * AUD figures are indicative only, calculated automatically from the USD→AUD exchange rate
+  at the time this page was last built (US$1 = A${rate.toFixed(4)}, {formattedDate}, source:
+  Frankfurter/European Central Bank reference rates), rounded to the nearest dollar. They
+  exclude card, transfer or dynamic-currency-conversion fees and will vary with the exchange
+  rate at time of payment — confirm current pricing directly with the operator.
+</p>

@@ -1,0 +1,19 @@
+---
+import { usdToAud } from '../lib/fx';
+
+interface Props {
+  usd: number;
+  usdHigh?: number;
+}
+
+const { usd, usdHigh } = Astro.props;
+
+const aud = await usdToAud(usd);
+const audHigh = usdHigh ? await usdToAud(usdHigh) : undefined;
+
+const formatted = audHigh
+  ? `A$${aud.toLocaleString('en-AU')}–A$${audHigh.toLocaleString('en-AU')}`
+  : `A$${aud.toLocaleString('en-AU')}`;
+---
+
+{formatted}*
