@@ -82,6 +82,7 @@ Set these in **Cloudflare Pages → Settings → Environment variables** (Produc
 | `MAILERLITE_API_KEY`            | quiz results delivery (future)   | Only needed if you move off the embedded form      |
 | `PUBLIC_MAILERLITE_FORM_ID`     | `NewsletterSignup`, quiz         | MailerLite embedded form ID                        |
 | `PUBLIC_CF_ANALYTICS_TOKEN`     | `BaseLayout`                     | Cloudflare Web Analytics token                     |
+| `PUBLIC_GA4_MEASUREMENT_ID`     | `BaseLayout`                     | Google Analytics 4 Measurement ID (e.g. `G-XXXXXXX`) |
 | `RETREATS_LOG_KV`               | `/functions/api/*` (KV binding)  | KV namespace binding for a JSON-line lead log       |
 
 ## Deploy runbook (30 minutes)

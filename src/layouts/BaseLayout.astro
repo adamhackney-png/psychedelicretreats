@@ -28,6 +28,7 @@ const ogImage = image.startsWith('http') ? image : new URL(image, SITE.url).toSt
 const jsonLdBlocks = [organizationJsonLd(), ...(jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [])];
 
 const CF_ANALYTICS_TOKEN = import.meta.env.PUBLIC_CF_ANALYTICS_TOKEN;
+const GA4_MEASUREMENT_ID = import.meta.env.PUBLIC_GA4_MEASUREMENT_ID;
 ---
 
 <!doctype html>
@@ -78,6 +79,17 @@ const CF_ANALYTICS_TOKEN = import.meta.env.PUBLIC_CF_ANALYTICS_TOKEN;
         src="https://static.cloudflareinsights.com/beacon.min.js"
         data-cf-beacon={JSON.stringify({ token: CF_ANALYTICS_TOKEN })}
       ></script>
+    )}
+    {GA4_MEASUREMENT_ID && (
+      <>
+        <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${GA4_MEASUREMENT_ID}`}></script>
+        <script is:inline define:vars={{ GA4_MEASUREMENT_ID }}>
+          window.dataLayer = window.dataLayer || [];
+          function gtag() { dataLayer.push(arguments); }
+          gtag('js', new Date());
+          gtag('config', GA4_MEASUREMENT_ID);
+        </script>
+      </>
     )}
   </body>
 </html>
