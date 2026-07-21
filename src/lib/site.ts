@@ -5,7 +5,6 @@ export const SITE = {
   description:
     'An independent Australian directory and information hub for legal psychedelic retreats, Australian clinical services, breathwork retreats, and integration support.',
   contactEmail: 'info@psychedelicretreats.com.au',
-  ownerName: 'Adam Hackney',
   twitter: '@psychedelicretreatsau',
 } as const;
 

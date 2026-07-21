@@ -4,7 +4,6 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import VettingChecklist from '../../components/VettingChecklist.astro';
 import DisclaimerBlock from '../../components/DisclaimerBlock.astro';
-import ClaimBanner from '../../components/ClaimBanner.astro';
 import SourcesList from '../../components/SourcesList.astro';
 import EnquiryForm from '../../components/EnquiryForm.astro';
 import CrisisSupportNote from '../../components/CrisisSupportNote.astro';
@@ -43,12 +42,6 @@ const jsonLd = articleJsonLd({
   <Breadcrumbs items={breadcrumbItems} />
 
   <div class="mx-auto max-w-7xl px-4 pb-20 sm:px-6 lg:px-8">
-    {!d.claimed && (
-      <div class="mb-6">
-        <ClaimBanner listingSlug={listing.id} />
-      </div>
-    )}
-
     <div class="grid gap-10 lg:grid-cols-3">
       <div class="lg:col-span-2">
         <p class="text-xs font-semibold uppercase tracking-wide text-terracotta-600">{categoryLabel}</p>
