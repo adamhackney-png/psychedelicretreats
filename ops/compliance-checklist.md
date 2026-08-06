@@ -14,7 +14,7 @@ Machine-checkable pre-publish rules for psychedelicretreats.com.au. Any automati
 ## Quality rules (fix before presenting)
 8. Every factual claim has a source URL (in frontmatter `sources[]` or inline).
 9. Australian spelling; prices in AUD; dates unambiguous; `lastReviewed`/`updatedAt` set.
-10. Draft flag: all automation output ships with `draft: true` and/or lands as a PR — nothing publishes directly.
+10. **Publication routing** (revised 2026-08-06 — supersedes "nothing publishes directly"). Automation may publish directly to main, going live immediately, ONLY for: Australian breathwork listings, Australian integration-practitioner listings, neutral-mode Australian clinic listings, and non-substantive maintenance edits (updatedAt bumps, corrected URLs, last-verified updates). Everything else lands as a PR titled "[verify before merge]". ESCALATION — regardless of category, it goes to a PR if it carries any TODO-ADAM, any vetting field resting on less than an unambiguous operator statement, any unresolved compliance flag, any legality question, any unverified claim about a named individual's credentials or conduct, any substance (psilocybin, ayahuasca, MDMA, ketamine, esketamine, cannabis), any destination page, any news post, or any substantive correction. When uncertain, it does not qualify — open a PR. Full routing spec in `ops/routine-prompt.md`.
 11. Tone: informational, neutral, safety-first. Banned framing: "treat", "cure", "heal", "medicine that works", hype language.
 
 ## Decision log (append borderline calls here — demonstrates good faith)
