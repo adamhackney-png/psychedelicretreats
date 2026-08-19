@@ -1,0 +1,58 @@
+---
+name: "Satya Therapeutics"
+categories: ["psilocybin"]
+mode: "standard"
+destinationSlug: "oregon"
+country: "United States"
+region: "Ashland, Oregon"
+priceBandAUD: "under3k"
+languages: ["English"]
+groupSizeMax: 4
+website: "https://satyatherapeutics.com/"
+enquiryEnabled: false
+claimed: false
+vetting:
+  legalJurisdiction: "stated"
+  medicalScreening: "stated"
+  facilitatorExperience: "stated"
+  emergencyProtocol: "unverified"
+  independentReviews: "stated"
+  pricingDisclosed: "stated"
+sourceUrls:
+  - "https://satyatherapeutics.com/"
+  - "https://satyatherapeutics.com/psilocybin-therapy-cost/"
+  - "https://satyatherapeutics.com/faq/"
+  - "https://www.oregon.gov/oha/ph/preventionwellness/pages/psilocybin-access-psilocybin-services.aspx"
+images: []
+summary: "A licensed psilocybin service centre in Ashland, Oregon, offering facilitated day sessions under the state-regulated Oregon Psilocybin Services program, with published all-inclusive pricing."
+publishedAt: 2026-08-03
+updatedAt: 2026-08-03
+---
+
+import AudPrice from '../../components/AudPrice.astro';
+import PriceFootnote from '../../components/PriceFootnote.astro';
+
+Satya Therapeutics is a psilocybin service centre in Ashland, Oregon, operating within the state-regulated Oregon Psilocybin Services framework. Its site publishes both a service-centre licence (SC-eedd2de6) and a manufacturer licence (MF-ed7ca70a), and states that its facilitators are licensed by the Oregon Health Authority. Unlike a residential retreat, this is a day-session model: a required preparation session at least 24 hours before dosing, an administration session of up to 8 hours at the centre, and integration sessions afterwards, which the operator states its facilitators provide at no extra charge. Sessions run one-on-one or in small group journeys of up to four people, and the operator states it has conducted over 1,650 guided sessions.
+
+Under the Oregon program, services are available to adults 21 and over — including international visitors — with no prescription or diagnosis required, and psilocybin products are consumed on-site only. The operator's published screening notes state that people currently taking lithium, or with active suicidal ideation or active psychosis, cannot participate under state regulations, and it advises clients to consult their own doctor about heart conditions, mental health concerns and medication interactions such as SSRIs.
+
+Published pricing is all-inclusive — room, psilocybin and facilitation — ranging from USD $900 to $2,100 per session (approx. <AudPrice usd={900} usdHigh={2100} />) depending on facilitator and room selection.
+
+This service operates in Oregon, USA, where psilocybin services are legal for adults 21+ at licensed service centres under a state-regulated program. Psilocybin remains a prohibited substance in Australia outside the authorised clinical pathway. Australians travel at their own responsibility; this is not medical advice.
+
+<PriceFootnote />
+
+{/*
+  TODO-ADAM: (1) priceBandAUD "under3k" is keyed to the published starting/typical session
+  price (US$900) — top-tier rooms at US$2,100 convert to just over A$3k at recent rates, so
+  consider whether the band should be presented differently for a per-session (not
+  per-retreat) price. (2) independentReviews "stated" rests on the operator's claim of
+  "75 5-star Google reviews" — its own reviews page hosts only first-party testimonials with
+  no platform links; spot-check the Google listing before relying on this (mycomeditations
+  precedent). (3) facilitatorExperience "stated" is based on the site's OHA-licensed-
+  facilitators claim; individual facilitator bios weren't reviewed this run. (4) No
+  emergency/adverse-event protocol is published beyond state-required facilitator training —
+  hence "unverified". (5) Verify both licence numbers against the OPS licensee directory
+  (psilocybin.oregon.gov/license-directory) before merge. (6) Street address not stated on
+  the pages reviewed — "Ashland, Oregon" only.
+*/}
