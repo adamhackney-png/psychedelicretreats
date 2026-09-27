@@ -26,14 +26,14 @@ sourceUrls:
 images: []
 summary: "Group ayahuasca ceremonies led by Shipibo shaman Maestro Ricardo Amaringo, from short retreats to a multi-month shamanism apprenticeship, near Iquitos, Peru."
 publishedAt: 2026-07-19
-updatedAt: 2026-07-27
+updatedAt: 2026-09-27
 ---
 
 Nihue Rao Centro Espiritual offers ayahuasca retreats of a minimum 7 days (four ceremonies), with longer stays of 2–4 weeks recommended by the centre for deeper work, plus a separate multi-month "School of Ancestral Knowledge" shamanism apprenticeship track. Ceremonies are led by Maestro Ricardo Amaringo, a Shipibo-Conibo shaman the site describes as having over 44 years of experience and having trained more than 30 apprentices.
 
 The centre publishes a dedicated reviews page on its own site, separate from third-party platforms.
 
-As of July 2026 the centre publishes pricing on its retreats page: US$1,600 for the 7-day starter retreat, rising with length of stay (11–21-day healing retreats, and 1–2-month deep-healing stays listed at up to US$7,500).
+As of July 2026 the centre publishes pricing on its retreats page: US$1,600 for the 7-day starter retreat, US$2,100 for the 11-day healing retreat, and US$5,800 for the 6-week deep-healing retreat.
 
 This program is held in Peru, where traditional ayahuasca ceremony is legal and culturally protected (see our Peru destination guide). Ayahuasca (which contains DMT) is a prohibited substance in Australia. Australians travel at their own responsibility; this is not medical advice.
 
@@ -52,4 +52,14 @@ This program is held in Peru, where traditional ayahuasca ceremony is legal and 
   Etnikas precedent). Longer stays exceed the band; the band reflects the typical
   (7-day, durationDays) program. Sanity-check before merge. This correction also adds
   the standard Peru legality/responsibility paragraph, which this listing predated.
+
+  TODO-ADAM (2026-09-27 correction — recovered from an orphaned 2026-09-09 branch that
+  was never opened as its own PR): replaced the vague "up to US$7,500" longer-stay
+  figure with the specific per-program prices found on the operator's retreat.guru
+  booking pages (Starter Retreat 7-day US$1,600; Healing Retreat 11-day US$2,100; Deep
+  Healing Retreat 6-week US$5,800) — same operator, third-party booking platform rather
+  than a direct fetch of nihuerao.com itself (WebFetch has returned EGRESS_BLOCKED for
+  every run since 2026-08-06), so please sanity-check these three figures against the
+  site directly before merge. priceBandAUD unchanged ("under3k", keyed to the 7-day
+  starter per the existing precedent above).
 */}
