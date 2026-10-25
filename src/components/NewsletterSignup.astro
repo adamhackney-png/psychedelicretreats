@@ -11,10 +11,12 @@ interface Props {
 const {
   heading = 'Get the free Retreat Vetting Checklist',
   body = 'Join the newsletter for vetted retreat updates, legal-status changes, and our 12-point checklist before you book anything.',
-  formId = import.meta.env.PUBLIC_MAILERLITE_FORM_ID ?? 'PLACEHOLDER_FORM_ID',
+  // MailerLite → Forms → "Website newsletter" (adds to the "Newsletter" group). Both IDs are public.
+  formId = import.meta.env.PUBLIC_MAILERLITE_FORM_ID || '202276800073566058',
   compact = false,
   headingLevel = 'h3',
 } = Astro.props;
+const accountId = import.meta.env.PUBLIC_MAILERLITE_ACCOUNT_ID || '2740054';
 const Heading = headingLevel;
 ---
 
@@ -23,17 +25,15 @@ const Heading = headingLevel;
     <Heading class:list={['font-serif font-medium text-cream', compact ? 'text-xl' : 'text-2xl sm:text-3xl']}>{heading}</Heading>
     <p class="text-sm text-forest-100/90">{body}</p>
 
-    <!--
-      MailerLite embedded form placeholder — group: "quiz" / "newsletter".
-      Replace data-form-id with your MailerLite form ID (env: PUBLIC_MAILERLITE_FORM_ID),
-      and swap this markup for the embed snippet from MailerLite → Forms → Embed.
-    -->
+    <!-- Posts to MailerLite's form endpoint; the script below submits it in-page (CORS is open) and falls back to a normal POST without JS. -->
     <form
       class="mt-2 flex w-full max-w-md flex-col gap-2 sm:flex-row"
-      action={`https://assets.mailerlite.com/jsonp/0/forms/${formId}/subscribe`}
+      action={`https://assets.mailerlite.com/jsonp/${accountId}/forms/${formId}/subscribe`}
       method="post"
       data-newsletter-form
     >
+      <input type="hidden" name="ml-submit" value="1" />
+      <input type="hidden" name="anticsrf" value="true" />
       <label for="newsletter-email" class="sr-only">Email address</label>
       <input
         id="newsletter-email"
@@ -50,6 +50,43 @@ const Heading = headingLevel;
         Send it to me
       </button>
     </form>
+    <p class="hidden text-sm text-cream" role="status" aria-live="polite" data-newsletter-status></p>
     <p class="text-xs text-forest-100/90">No spam. Unsubscribe anytime. See our <a href="/privacy/" class="text-cream underline">privacy policy</a>.</p>
   </div>
 </div>
+
+<script>
+  const CHECKLIST_URL = '/guides/retreat-vetting-checklist-12-questions/';
+
+  document.querySelectorAll<HTMLFormElement>('form[data-newsletter-form]').forEach((form) => {
+    const status = form.parentElement?.querySelector<HTMLElement>('[data-newsletter-status]');
+    const button = form.querySelector<HTMLButtonElement>('button[type="submit"]');
+
+    const show = (html: string) => {
+      if (!status) return;
+      status.innerHTML = html;
+      status.classList.remove('hidden');
+    };
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      if (button) button.disabled = true;
+      const data = new FormData(form);
+      data.set('ajax', '1');
+      try {
+        const res = await fetch(form.action, { method: 'POST', body: data });
+        const json = await res.json();
+        if (!json.success) throw new Error(JSON.stringify(json.errors ?? json));
+        form.classList.add('hidden');
+        show(
+          `You're subscribed — thank you. Here's the checklist: <a class="underline" href="${CHECKLIST_URL}">12 questions to ask before booking any retreat</a>.`,
+        );
+        (window as any).gtag?.('event', 'sign_up', { method: 'newsletter', page_path: location.pathname });
+      } catch (err) {
+        console.error('Newsletter signup failed', err);
+        show('Sorry, that didn\'t go through. Check the email address and try again.');
+        if (button) button.disabled = false;
+      }
+    });
+  });
+</script>
