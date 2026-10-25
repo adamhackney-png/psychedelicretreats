@@ -47,7 +47,16 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
     .filter(Boolean)
     .join('\n');
 
-  await sendEmail({
+  // Keep a copy first, so a submission survives even if the email fails.
+  if (env.RETREATS_LOG_KV) {
+    const logKey = `log:claim:${Date.now()}:${crypto.randomUUID()}`;
+    await env.RETREATS_LOG_KV.put(
+      logKey,
+      JSON.stringify({ type: 'claim', name, email, role, listingSlug, listingName, message, ip, at: new Date().toISOString() }),
+    );
+  }
+
+  const sent = await sendEmail({
     apiKey: env.RESEND_API_KEY,
     to: [env.CONTACT_EMAIL],
     replyTo: email,
@@ -55,11 +64,10 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
     text,
   });
 
-  if (env.RETREATS_LOG_KV) {
-    const logKey = `log:claim:${Date.now()}:${crypto.randomUUID()}`;
-    await env.RETREATS_LOG_KV.put(
-      logKey,
-      JSON.stringify({ type: 'claim', name, email, role, listingSlug, listingName, message, ip, at: new Date().toISOString() }),
+  if (!sent) {
+    return Response.json(
+      { ok: false, error: 'We could not send your message. Please email info@psychedelicretreats.com.au directly.' },
+      { status: 502 },
     );
   }
 
