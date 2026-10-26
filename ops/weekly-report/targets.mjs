@@ -16,6 +16,15 @@ const [weekly, targets] = await Promise.all([readTab('Weekly'), readTab('Targets
 const latest = weekly.filter((r) => /^\d{4}-\d{2}-\d{2}$/.test(r['Week ending'])).sort((a, b) => a['Week ending'].localeCompare(b['Week ending']));
 const asOf = latest.at(-1)?.['Week ending'];
 const day = (iso) => Date.parse(`${iso}T00:00:00Z`) / 86400000;
+// Sheets may hand a typed date back as YYYY-MM-DD, D/M/YYYY (en-AU display) or a serial number.
+function isoDate(v) {
+  const s = String(v).trim().replace(/^'/, '');
+  if (/^\d{4}-\d{2}-\d{2}$/.test(s)) return s;
+  const dmy = s.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
+  if (dmy) return `${dmy[3]}-${dmy[2].padStart(2, '0')}-${dmy[1].padStart(2, '0')}`;
+  if (/^\d+(\.\d+)?$/.test(s)) return new Date(Date.UTC(1899, 11, 30) + Number(s) * 86400000).toISOString().slice(0, 10);
+  throw new Error(`unrecognised date: ${s}`);
+}
 
 function actual(measure) {
   const [kind, column] = measure.split(':');
@@ -39,7 +48,7 @@ const out = targets.map((t) => {
   const a = actual(t.Measure);
   const next = milestones.find((m) => m.date >= asOf) ?? milestones.at(-1);
   const prevIdx = milestones.indexOf(next) - 1;
-  const from = prevIdx >= 0 ? { date: milestones[prevIdx].date, value: milestones[prevIdx].onTrack } : { date: t['Baseline date'], value: Number(t.Baseline) };
+  const from = prevIdx >= 0 ? { date: milestones[prevIdx].date, value: milestones[prevIdx].onTrack } : { date: isoDate(t['Baseline date']), value: Number(t.Baseline) };
   const share = Math.min(1, Math.max(0, (day(asOf) - day(from.date)) / (day(next.date) - day(from.date))));
   const expected = Math.round(from.value + (next.onTrack - from.value) * share);
   const entry = { metric: t.Metric, asOf, actual: a?.value ?? null, expectedNow: expected, nextMilestone: next };
