@@ -15,6 +15,8 @@ substances, legality stated for international content). Paid ads are not an opti
 - [ ] Image alt text and Open Graph images for guides and listings that lack them. (pr)
 - [ ] Check Core Web Vitals / page weight on the 5 most-viewed pages and fix anything slow. (pr)
 
+- [ ] Search Console: request a recrawl for /guides/breathwork-retreats-in-australia/ and /guides/safety-screening-and-contraindications/ (not done 2026-10-26 — daily limit), then check the Page indexing report for any other pages still marked noindex from their draft days. (adam — needs a browser session with Claude)
+
 ## AI answers
 - [ ] An "About / editorial policy" section that states methodology clearly — AI answer engines favour clearly sourced, attributable content.
 - [ ] A concise FAQ block on each guide answering the exact question in its title in the first 2–3 sentences.
