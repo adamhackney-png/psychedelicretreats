@@ -30,3 +30,9 @@ substances, legality stated for international content). Paid ads are not an opti
 - [ ] Research affiliate/referral programs for platforms our listings book through (e.g. BookRetreats, Retreat Guru) and for operators directly; list terms and sign-up links for Adam. (adam)
 - [ ] Find 10 relevant resource/links pages (harm-reduction orgs, integration directories, Australian psychedelic research groups) that could reasonably link to the vetting checklist or legal guide; draft polite suggestions. (draft)
 - [ ] Operator referral report: once operator clicks exist, a monthly per-operator click summary to use in partnership pitches. (auto, via the weekly report)
+
+## Added by sprint 2026-10-26
+- [ ] Retry "Is psilocybin legal in Australia? State-by-state" once page fetch works (needs primary state legislation). [carried from G-20261026-4] (pr)
+- [ ] Rendered titles get a " | Psychedelic Retreats" suffix (+22 chars); consider a shorter suffix or dropping it on long titles. (pr — code)
+- [ ] Verify which Australian breathwork operators are on BookRetreats before pursuing its affiliate programme. (adam)
+- [ ] Add `lastReviewed` re-verification pass for the 10 guides (none have lastReviewed set). (pr)
