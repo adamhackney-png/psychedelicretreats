@@ -133,3 +133,5 @@ Mind Medicine Australia · Australian Psychedelic Society · Monash Neuromedicin
 
 ## Outreach templates
 (To be added after first real replies — refine from what works.)
+
+**2026-10-26 intake test:** Routine intake Action installed; this line was published to main by it.
