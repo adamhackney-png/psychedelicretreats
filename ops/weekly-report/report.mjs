@@ -2,15 +2,18 @@
 //
 // Prints one JSON object: this week vs last week for GA4 traffic and events, Search Console,
 // MailerLite newsletter, and enquiries/claims logged in KV, plus site activity from git.
+// With --record it also appends the week's headline numbers to the "PRA weekly report" Google
+// Sheet (skipped if that week is already there) and reports what it did under "sheet".
 // Each source is fetched independently; a failure becomes { error } so the rest still reports.
 //
 // Environment ("PRA reports" cloud environment):
 //   GA4_PROPERTY_ID      plain env var
 //   GOOGLE_SA_KEY_B64    plain env var, base64 of the weekly-report service account JSON key
+//   REPORT_SHEET_ID      plain env var, the Google Sheet the service account can edit
 //   MailerLite and Cloudflare tokens are network secrets: the proxy adds the Authorization header
 //   for connect.mailerlite.com and api.cloudflare.com, so this script sends none.
 //
-// Usage: node ops/weekly-report/report.mjs [YYYY-MM-DD week-ending Sunday]
+// Usage: node ops/weekly-report/report.mjs [--record] [YYYY-MM-DD week-ending Sunday]
 
 import { createSign } from 'node:crypto';
 import { execFileSync, execSync } from 'node:child_process';
@@ -93,7 +96,11 @@ async function google() {
   const enc = (o) => Buffer.from(JSON.stringify(o)).toString('base64url');
   const unsigned = `${enc({ alg: 'RS256', typ: 'JWT' })}.${enc({
     iss: key.client_email,
-    scope: 'https://www.googleapis.com/auth/analytics.readonly https://www.googleapis.com/auth/webmasters.readonly',
+    scope: [
+      'https://www.googleapis.com/auth/analytics.readonly',
+      'https://www.googleapis.com/auth/webmasters.readonly',
+      'https://www.googleapis.com/auth/spreadsheets',
+    ].join(' '),
     aud: 'https://oauth2.googleapis.com/token',
     iat: now,
     exp: now + 3600,
@@ -305,9 +312,51 @@ async function siteUp() {
   return { status: res.status, ms: Date.now() - started };
 }
 
+// ---- Google Sheet history (one row per week) ----
+
+const SHEET_COLUMNS = [
+  ['Week ending', (r) => r.window.cur.end],
+  ['Visitors', (r) => r.ga4.totals?.cur.activeUsers],
+  ['New users', (r) => r.ga4.totals?.cur.newUsers],
+  ['Sessions', (r) => r.ga4.totals?.cur.sessions],
+  ['Page views', (r) => r.ga4.totals?.cur.screenPageViews],
+  ['Organic search sessions', (r) => r.ga4.channels?.cur['Organic Search'] ?? (r.ga4.channels ? 0 : undefined)],
+  ['Search clicks', (r) => r.searchConsole.cur?.clicks],
+  ['Search impressions', (r) => r.searchConsole.cur?.impressions],
+  ['Operator clicks', (r) => (r.ga4.events ? r.ga4.events.cur.outbound_click ?? 0 : undefined)],
+  ['Enquiries', (r) => r.leads.cur?.enquire],
+  ['Claims/contact', (r) => r.leads.cur?.claim],
+  ['Newsletter joins', (r) => r.newsletter.joined?.cur],
+  ['Subscribers', (r) => r.newsletter.activeSubscribers],
+  ['Listings live', (r) => r.site.totals?.listings],
+  ['Recorded at', () => new Date().toISOString()],
+];
+
+async function recordInSheet(report) {
+  const id = process.env.REPORT_SHEET_ID;
+  if (!id) throw new Error('REPORT_SHEET_ID is not set');
+  const base = `https://sheets.googleapis.com/v4/spreadsheets/${id}/values`;
+  const auth = { Authorization: `Bearer ${await google()}` };
+  const existing = await json(`${base}/A:A`, { headers: auth });
+  const weeks = (existing.values ?? []).map((row) => row[0]);
+  const week = report.window.cur.end;
+  if (weeks.includes(week)) return { status: 'already recorded', week };
+
+  const rows = weeks.length ? [] : [SHEET_COLUMNS.map(([name]) => name)];
+  // Missing data stays blank rather than 0, so a failed source is visible in the sheet.
+  rows.push(SHEET_COLUMNS.map(([, get]) => get(report) ?? ''));
+  await json(`${base}/A1:append?valueInputOption=RAW&insertDataOption=INSERT_ROWS`, {
+    method: 'POST',
+    headers: { ...auth, 'Content-Type': 'application/json' },
+    body: JSON.stringify({ values: rows }),
+  });
+  return { status: 'recorded', week, url: `https://docs.google.com/spreadsheets/d/${id}` };
+}
+
 // ---- Main ----
 
-const w = windows(process.argv[2]);
+const args = process.argv.slice(2);
+const w = windows(args.find((a) => /^\d{4}-\d{2}-\d{2}$/.test(a)));
 const [ga, gsc, ml, kv, up] = await Promise.all([
   section(() => ga4(w)),
   section(() => searchConsole(w)),
@@ -315,10 +364,14 @@ const [ga, gsc, ml, kv, up] = await Promise.all([
   section(() => leads(w)),
   section(siteUp),
 ]);
-console.log(
-  JSON.stringify(
-    { window: w, proxy: process.env.HTTPS_PROXY || process.env.https_proxy ? 'set' : 'unset', ga4: ga, searchConsole: gsc, newsletter: ml, leads: kv, site: { up, ...(await section(() => siteActivity(w))) } },
-    null,
-    2,
-  ),
-);
+const report = {
+  window: w,
+  proxy: process.env.HTTPS_PROXY || process.env.https_proxy ? 'set' : 'unset',
+  ga4: ga,
+  searchConsole: gsc,
+  newsletter: ml,
+  leads: kv,
+  site: { up, ...(await section(() => siteActivity(w))) },
+};
+if (args.includes('--record')) report.sheet = await section(() => recordInSheet(report));
+console.log(JSON.stringify(report, null, 2));
