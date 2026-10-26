@@ -13,7 +13,7 @@
 // Usage: node ops/weekly-report/report.mjs [YYYY-MM-DD week-ending Sunday]
 
 import { createSign } from 'node:crypto';
-import { execSync } from 'node:child_process';
+import { execFileSync, execSync } from 'node:child_process';
 
 const TZ = 'Australia/Melbourne';
 const GSC_SITE = 'sc-domain:psychedelicretreats.com.au';
@@ -57,6 +57,19 @@ async function json(url, init = {}) {
   const res = await fetch(url, init);
   const text = await res.text();
   if (!res.ok) throw new Error(`${res.status} ${url.split('?')[0]}: ${text.slice(0, 300)}`);
+  return text ? JSON.parse(text) : {};
+}
+// GET through curl, which honours the session's HTTPS_PROXY: network secrets are added by that
+// proxy, and Node's fetch bypasses it.
+function viaProxy(url) {
+  const out = execFileSync('curl', ['-sSg', '-H', 'Accept: application/json', '-w', '\n%{http_code}', url], {
+    encoding: 'utf8',
+    maxBuffer: 50 * 1024 * 1024,
+  });
+  const i = out.lastIndexOf('\n');
+  const status = Number(out.slice(i + 1));
+  const text = out.slice(0, i);
+  if (status < 200 || status >= 300) throw new Error(`${status} ${url.split('?')[0]}: ${text.slice(0, 300)}`);
   return text ? JSON.parse(text) : {};
 }
 async function section(fn) {
@@ -208,9 +221,7 @@ async function searchConsole(w) {
 // ---- MailerLite (Authorization added by the network-secret proxy) ----
 
 async function mailerlite(w) {
-  const groups = await json(`https://connect.mailerlite.com/api/groups?filter[name]=${encodeURIComponent(NEWSLETTER_GROUP)}`, {
-    headers: { Accept: 'application/json' },
-  });
+  const groups = viaProxy(`https://connect.mailerlite.com/api/groups?filter[name]=${encodeURIComponent(NEWSLETTER_GROUP)}`);
   const group = (groups.data ?? []).find((g) => g.name === NEWSLETTER_GROUP);
   if (!group) throw new Error(`MailerLite group "${NEWSLETTER_GROUP}" not found`);
 
@@ -221,9 +232,8 @@ async function mailerlite(w) {
   let joinedPrev = 0;
   let cursor = '';
   for (let page = 0; page < 50; page++) {
-    const res = await json(
+    const res = viaProxy(
       `https://connect.mailerlite.com/api/groups/${group.id}/subscribers?limit=100${cursor ? `&cursor=${cursor}` : ''}`,
-      { headers: { Accept: 'application/json' } },
     );
     for (const s of res.data ?? []) {
       const t = Date.parse(`${(s.subscribed_at || s.created_at || '').replace(' ', 'T')}Z`);
@@ -251,7 +261,7 @@ async function leads(w) {
   const prevFrom = melbourneMidnight(w.prev.start);
   let cursor = '';
   for (let page = 0; page < 50; page++) {
-    const res = await json(
+    const res = viaProxy(
       `https://api.cloudflare.com/client/v4/accounts/${CF_ACCOUNT}/storage/kv/namespaces/${KV_NAMESPACE}/keys?prefix=log:&limit=1000${cursor ? `&cursor=${cursor}` : ''}`,
     );
     for (const { name } of res.result ?? []) {
@@ -307,7 +317,7 @@ const [ga, gsc, ml, kv, up] = await Promise.all([
 ]);
 console.log(
   JSON.stringify(
-    { window: w, ga4: ga, searchConsole: gsc, newsletter: ml, leads: kv, site: { up, ...(await section(() => siteActivity(w))) } },
+    { window: w, proxy: process.env.HTTPS_PROXY || process.env.https_proxy ? 'set' : 'unset', ga4: ga, searchConsole: gsc, newsletter: ml, leads: kv, site: { up, ...(await section(() => siteActivity(w))) } },
     null,
     2,
   ),
