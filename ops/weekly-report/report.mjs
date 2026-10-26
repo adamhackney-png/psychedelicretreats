@@ -136,7 +136,7 @@ async function ga4(w) {
       limit: 10,
     }),
     run({
-      dateRanges: curOnly,
+      dateRanges: both,
       dimensions: [{ name: 'sessionDefaultChannelGroup' }],
       metrics: [{ name: 'sessions' }],
       orderBys: [{ metric: { metricName: 'sessions' }, desc: true }],
@@ -163,11 +163,20 @@ async function ga4(w) {
     const range = row.dimensionValues[rangeIndex(row)].value;
     eventCounts[range][name] = num(row.metricValues[0].value);
   }
+  // { cur: { 'Organic Search': n, ... }, prev: { ... } }
+  function channelsByRange(res) {
+    const out = { cur: {}, prev: {} };
+    for (const row of res.rows ?? []) {
+      const name = row.dimensionValues.find((d) => !['cur', 'prev'].includes(d.value)).value;
+      out[row.dimensionValues[rangeIndex(row)].value][name] = num(row.metricValues[0].value);
+    }
+    return out;
+  }
   return {
     totals: summary,
     events: eventCounts,
     topPages: (pages.rows ?? []).map((r) => ({ path: r.dimensionValues[0].value, views: num(r.metricValues[0].value) })),
-    channels: (channels.rows ?? []).map((r) => ({ channel: r.dimensionValues[0].value, sessions: num(r.metricValues[0].value) })),
+    channels: channelsByRange(channels),
     outboundByListing: (clicksByListing.rows ?? []).map((r) => ({
       listing: r.dimensionValues[0].value,
       linkType: r.dimensionValues[1].value,
