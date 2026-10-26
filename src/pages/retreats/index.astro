@@ -3,6 +3,7 @@ import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import ListingCard from '../../components/ListingCard.astro';
+import FindOperator from '../../components/FindOperator.astro';
 import { RETREAT_CATEGORIES, CATEGORY_META, isRetreatCategory } from '../../lib/site';
 import { itemListJsonLd } from '../../lib/seo';
 
@@ -33,6 +34,13 @@ const jsonLd = itemListJsonLd(featured.map((l) => ({ name: l.data.name, path: `/
     </p>
   </section>
 
+  <section class="mx-auto max-w-7xl px-4 pb-8 sm:px-6 lg:px-8">
+    <FindOperator
+      listings={featured.slice(0, 6).map((l) => ({ slug: l.id, name: l.data.name, country: l.data.country }))}
+      listingsAnchor="listings"
+    />
+  </section>
+
   <section class="mx-auto max-w-7xl px-4 pb-16 sm:px-6 lg:px-8">
     <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
       {RETREAT_CATEGORIES.map((cat) => (
@@ -44,7 +52,7 @@ const jsonLd = itemListJsonLd(featured.map((l) => ({ name: l.data.name, path: `/
     </div>
   </section>
 
-  <section class="mx-auto max-w-7xl px-4 pb-20 sm:px-6 lg:px-8">
+  <section id="listings" class="mx-auto max-w-7xl px-4 pb-20 sm:px-6 lg:px-8">
     <h2 class="text-2xl font-medium">All retreat listings</h2>
     <div class="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
       {featured.map((listing) => (

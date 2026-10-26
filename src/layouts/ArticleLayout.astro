@@ -6,6 +6,7 @@ import FAQ from '../components/FAQ.astro';
 import SourcesList from '../components/SourcesList.astro';
 import DisclaimerBlock from '../components/DisclaimerBlock.astro';
 import CrisisSupportNote from '../components/CrisisSupportNote.astro';
+import NewsletterSignup from '../components/NewsletterSignup.astro';
 import { articleJsonLd } from '../lib/seo';
 
 interface Props {
@@ -77,6 +78,17 @@ const ogImage = `/og/${path.replace(/^\/|\/$/g, '')}.png`;
           <slot />
         </div>
 
+        {section === 'guides' && (
+          // Rendered after the body (the no-JS position); the script below moves it to just before the second h2.
+          <div class="my-10" data-guide-newsletter>
+            <NewsletterSignup
+              compact
+              heading="Get the free Retreat Vetting Checklist"
+              body="Join the newsletter for vetted retreat updates and legal-status changes, plus our 12-point checklist to use before you book anything."
+            />
+          </div>
+        )}
+
         {sources.length > 0 && (
           <div class="mt-10">
             <SourcesList sources={sources} />
@@ -122,3 +134,9 @@ const ogImage = `/og/${path.replace(/^\/|\/$/g, '')}.png`;
     </div>
   </article>
 </BaseLayout>
+
+<script>
+  const block = document.querySelector<HTMLElement>('[data-guide-newsletter]');
+  const secondHeading = document.querySelectorAll('.prose-article h2')[1];
+  if (block && secondHeading) secondHeading.before(block);
+</script>
