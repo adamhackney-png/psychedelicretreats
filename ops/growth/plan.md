@@ -1,12 +1,12 @@
-# Growth plan — week of 2026-10-26
+# Growth plan — week of 2026-11-02
 
-Seed plan written when the growth loop was set up. Search Console was only verified on 2026-10-26 and
-operator-click tracking started the same day, so this week works from the backlog rather than data.
+Aimed at the visitors and Google impressions targets (the only ones with no judgeable lead yet): last week's metadata
+and structured-data work needs indexing and links to show up, so this week adds discovery paths and a next step for readers.
 
 | ID | Type | What | Target | Why | Judged next week by |
 |---|---|---|---|---|---|
-| G-20261026-1 | auto | Rewrite title + description of every guide for Australian search intent (≤60 / ≤155 chars, keep claims compliant) | all of src/content/guides | Titles are written for readers, not searches; Search Console has no history yet, so this is the cheapest broad lift | Impressions per guide in Search Console over the next 2–4 weeks |
-| G-20261026-2 | auto | Fill `relatedListings` on every guide with 3–6 relevant listings | all of src/content/guides | Internal links pass authority to listings and give readers a next step toward an operator | Operator clicks from guide pages |
-| G-20261026-3 | pr | Structured data: Organization + WebSite site-wide, BreadcrumbList, FAQPage where `faq` exists, Article on guides/news, ItemList on index pages | BaseLayout and page templates | Eligibility for rich results; clearer signals for AI answer engines | Rich-result report in Search Console; no build errors |
-| G-20261026-4 | pr | One new guide: "Is psilocybin legal in Australia? State-by-state (2026)" — check the legal guide first and make it complementary, fully sourced | new guide | High-intent Australian question the site is well placed to answer | Impressions for legality queries |
-| G-20261026-5 | adam | Affiliate/referral programs: research which booking platforms and operators our listings use that run referral programs; list terms + sign-up links | done file | First revenue path that doesn't depend on operator deals | Adam signs up to at least one |
+| G-20261102-1 | adam | Confirm the sitemap (https://psychedelicretreats.com.au/sitemap-index.xml) is submitted in Search Console and request indexing for the home page, /retreats/ and the legal guide | Search Console | Serves Google impressions: 0 impressions despite organic sessions suggests pages are not yet indexed | Impressions appear in Search Console |
+| G-20261102-2 | pr | Retry "Is psilocybin legal in Australia? State-by-state (2026)" using primary state legislation; if sources still cannot be fetched, skip again | new guide | Serves Google impressions: highest-value open item, high-intent Australian query | Guide merged; impressions for legality queries |
+| G-20261102-3 | pr | Add a clear "Find an operator" next step (links to relevant listings) on /retreats/ and /retreats/psilocybin/ | those two index pages | Serves operator clicks: both get views with 0 operator clicks | Operator clicks from those pages |
+| G-20261102-4 | draft | Find 10 relevant resource/links pages (harm-reduction orgs, integration directories, Australian research groups) and draft polite link suggestions for the vetting checklist or legal guide | done file | Serves visitors: backlinks are the main route to organic traffic for a new site | Adam sends at least 3 |
+| G-20261102-5 | pr | Inline newsletter signup after the first section of every guide | guide layout | Serves newsletter subscribers and keeps guide readers engaged | Newsletter joins from guide pages |

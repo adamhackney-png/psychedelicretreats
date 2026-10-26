@@ -21,18 +21,20 @@ substances, legality stated for international content). Paid ads are not an opti
 
 ## Email
 - [ ] Monthly digest to the Newsletter group (new listings, legal/news roundup, one guide) — drafted in MailerLite on the first Monday of each month.
-- [ ] Newsletter signup placement: inline after the first section of every guide, and on listing pages.
+- [ ] [planned 2026-11-02] Newsletter signup placement: inline after the first section of every guide, and on listing pages.
 - [ ] Re-enable the retreat-match quiz as a lead magnet once traffic justifies it.
 
 ## Partnerships, links and revenue
 - [ ] "Listed on Psychedelic Retreats Australia" badge + snippet operators can embed (backlink). (pr)
 - [ ] Claim-your-listing emails to the 10 listings with the most operator clicks. (draft — Adam sends from info@)
 - [ ] Research affiliate/referral programs for platforms our listings book through (e.g. BookRetreats, Retreat Guru) and for operators directly; list terms and sign-up links for Adam. (adam)
-- [ ] Find 10 relevant resource/links pages (harm-reduction orgs, integration directories, Australian psychedelic research groups) that could reasonably link to the vetting checklist or legal guide; draft polite suggestions. (draft)
+- [ ] [planned 2026-11-02] Find 10 relevant resource/links pages (harm-reduction orgs, integration directories, Australian psychedelic research groups) that could reasonably link to the vetting checklist or legal guide; draft polite suggestions. (draft)
 - [ ] Operator referral report: once operator clicks exist, a monthly per-operator click summary to use in partnership pitches. (auto, via the weekly report)
 
 ## Added by sprint 2026-10-26
-- [ ] Retry "Is psilocybin legal in Australia? State-by-state" once page fetch works (needs primary state legislation). [carried from G-20261026-4] (pr)
+- [ ] [planned 2026-11-02] Retry "Is psilocybin legal in Australia? State-by-state" once page fetch works (needs primary state legislation). [carried from G-20261026-4] (pr)
 - [ ] Rendered titles get a " | Psychedelic Retreats" suffix (+22 chars); consider a shorter suffix or dropping it on long titles. (pr — code)
 - [ ] Verify which Australian breathwork operators are on BookRetreats before pursuing its affiliate programme. (adam)
 - [ ] Add `lastReviewed` re-verification pass for the 10 guides (none have lastReviewed set). (pr)
+- [ ] Add a "Find an operator" next step on retreat index pages [planned 2026-11-02] (pr)
+- [ ] Confirm sitemap submission and indexing in Search Console [planned 2026-11-02] (adam)
