@@ -1,0 +1,62 @@
+# The research routine can only push to its own claude/charming-dijkstra-* branch.
+# This publishes the parts that are allowed to go live unreviewed (run log + eligible
+# Australian breathwork/integration listings, see .github/scripts/classify_routine_changes.py)
+# and leaves everything else on the branch for the routine's own review PR.
+name: Routine intake
+
+on:
+  push:
+    branches: ["claude/charming-dijkstra-**"]
+
+permissions:
+  contents: write
+  pull-requests: read
+
+concurrency:
+  group: routine-intake
+  cancel-in-progress: false
+
+jobs:
+  intake:
+    runs-on: ubuntu-latest
+    env:
+      BRANCH: ${{ github.ref_name }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Classify changes
+        run: |
+          git fetch origin "$BRANCH"
+          BASE=$(git merge-base origin/main "origin/$BRANCH")
+          python3 .github/scripts/classify_routine_changes.py "$BASE" "origin/$BRANCH" origin/main
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Publish eligible files to main
+        run: |
+          if [ ! -s auto.txt ]; then echo "Nothing eligible for auto-publish."; exit 0; fi
+          xargs git checkout "origin/$BRANCH" -- < auto.txt
+          npm ci
+          npm run check
+          npm run build
+          git config user.name "routine-intake[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          { echo "Routine auto-publish from $BRANCH"; echo; cat auto.txt; } > /tmp/msg
+          git commit -F /tmp/msg
+          git push origin HEAD:main
+
+      # The routine opens its own review PR; this only tidies up when nothing is left to review.
+      - name: Remove the branch if nothing needs review
+        run: |
+          if [ -s review.txt ]; then
+            echo "Needs review (the routine's PR covers these):"; cat review.txt
+            exit 0
+          fi
+          echo "Everything was published; deleting $BRANCH (this also closes any PR for it)."
+          git push origin --delete "$BRANCH"
