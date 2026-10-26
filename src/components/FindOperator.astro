@@ -1,0 +1,37 @@
+---
+interface Props {
+  /** Up to a few listings to link to directly. */
+  listings?: { slug: string; name: string; country: string }[];
+  /** Anchor id of the listings grid on the same page. */
+  listingsAnchor?: string;
+}
+
+const { listings = [], listingsAnchor = 'listings' } = Astro.props;
+---
+
+<div class="rounded-xl border border-line bg-white p-6 shadow-sm">
+  <h2 class="font-serif text-xl font-medium text-forest-900">Find an operator</h2>
+  <p class="mt-2 max-w-3xl text-sm text-charcoal-soft">
+    Compare the listings below, read each operator's vetting checklist, then visit their site or send an enquiry
+    from the listing page. Run the{' '}
+    <a href="/guides/retreat-vetting-checklist-12-questions/" class="text-forest-600 underline">12-question vetting checklist</a>{' '}
+    before you commit to anything.
+  </p>
+  {listings.length > 0 && (
+    <ul class="mt-4 flex flex-wrap gap-2">
+      {listings.map((l) => (
+        <li>
+          <a
+            href={`/listing/${l.slug}/`}
+            class="inline-block rounded-full border border-line px-3 py-1 text-sm text-forest-900 transition hover:bg-cream"
+          >
+            {l.name} <span class="text-charcoal-soft">· {l.country}</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  )}
+  <p class="mt-4">
+    <a href={`#${listingsAnchor}`} class="text-sm font-semibold text-terracotta-600 underline">Jump to all listings</a>
+  </p>
+</div>

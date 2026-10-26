@@ -3,6 +3,7 @@ import { getCollection } from 'astro:content';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import Breadcrumbs from '../../../components/Breadcrumbs.astro';
 import ListingCard from '../../../components/ListingCard.astro';
+import FindOperator from '../../../components/FindOperator.astro';
 import FilterBar from '../../../components/FilterBar.astro';
 import FAQComponent from '../../../components/FAQ.astro';
 import { RETREAT_CATEGORIES } from '../../../lib/site';
@@ -42,11 +43,20 @@ const jsonLd = itemListJsonLd(listings.map((l) => ({ name: l.data.name, path: `/
     <p class="mt-3 max-w-3xl text-charcoal-soft">{copy.intro}</p>
   </section>
 
+  {listings.length > 0 && (
+    <section class="mx-auto max-w-7xl px-4 pb-8 sm:px-6 lg:px-8">
+      <FindOperator
+        listings={listings.slice(0, 6).map((l) => ({ slug: l.id, name: l.data.name, country: l.data.country }))}
+        listingsAnchor="listings"
+      />
+    </section>
+  )}
+
   <section class="mx-auto max-w-7xl px-4 pb-8 sm:px-6 lg:px-8">
     <FilterBar destinationSlugs={destinationSlugs} />
   </section>
 
-  <section class="mx-auto max-w-7xl px-4 pb-16 sm:px-6 lg:px-8">
+  <section id="listings" class="mx-auto max-w-7xl px-4 pb-16 sm:px-6 lg:px-8">
     <h2 class="sr-only">Listings</h2>
     {listings.length === 0 ? (
       <p class="rounded-lg border border-line bg-white p-6 text-sm text-charcoal-soft">
