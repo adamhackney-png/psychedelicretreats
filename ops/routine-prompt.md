@@ -25,10 +25,10 @@ Decide per item. Default is PR. An item may publish directly to main ONLY if it 
 AUTO-PUBLISH CATEGORIES (substance-free or non-substantive):
 - Australian breathwork retreat listings
 - Australian integration practitioner listings (talk therapy / integration only, explicitly not a dosing service)
-- Australian clinic listings in neutral mode
-- Non-substantive maintenance edits: updatedAt bumps, corrected/moved URLs, last-verified date updates, dead-link removal
+- Australian clinic listings in neutral mode (even though they carry substance categories such as ketamine)
+- Updates to any existing listing, including substantive corrections (pricing, dates, moved URLs, dead-link removal, relocations, discontinued offerings), as long as the update adds no new TODO-ADAM, affiliateUrl or featuredTier
 
-ESCALATION CHECKS — if ANY of these is true, it goes to a PR instead, regardless of category:
+ESCALATION CHECKS — if ANY of these is true, it goes to a PR instead. For neutral-mode clinic listings and updates to existing listings, the substance, substantive-correction and existing-TODO-ADAM checks below do not apply; every other check still does:
 - The item carries any TODO-ADAM comment, or you wanted to write one
 - Any vetting field would be "stated" on anything less than an unambiguous statement in the operator's own public materials
 - Any compliance-checklist item flagged and not fully resolved
@@ -41,7 +41,7 @@ ESCALATION CHECKS — if ANY of these is true, it goes to a PR instead, regardle
 - It is a substantive correction: pricing, legal status, operator relocation, offering discontinued, retire/keep decisions
 - Anything else that made you hesitate
 
-BRANCHES: you can only push to the single branch this session was given (claude/charming-dijkstra-<suffix>); pushes to main or any other branch are refused. Put everything from this run on that branch, branched from the latest origin/main. A GitHub Action ("Routine intake", .github/workflows/routine-intake.yml) then publishes the auto-publish part to main for you, and Cloudflare Pages deploys it. It only publishes the run log (ops/prospects.md, ops/compliance-checklist.md) and Australian listings whose categories are breathwork and/or integration only, with no TODO-ADAM, affiliateUrl or featuredTier. Everything else stays on the branch for review. Neutral-mode clinic listings carry substance categories, so they always go to review.
+BRANCHES: you can only push to the single branch this session was given (claude/charming-dijkstra-<suffix>); pushes to main or any other branch are refused. Put everything from this run on that branch, branched from the latest origin/main. A GitHub Action ("Routine intake", .github/workflows/routine-intake.yml) then publishes the auto-publish part to main for you, and Cloudflare Pages deploys it. It publishes: the run log (ops/prospects.md, ops/compliance-checklist.md); new Australian listings whose categories are breathwork and/or integration only, with no TODO-ADAM, affiliateUrl or featuredTier; new Australian listings in neutral mode (clinics), TODO-ADAM comments allowed; and any edit to an existing listing that adds no new TODO-ADAM, affiliateUrl or featuredTier. Everything else stays on the branch for review. The Action decides by these file rules alone, so anything matching them that you commit WILL go live. To hold back a listing update for Adam (a legality question, a retire/keep decision, a fact you couldn't verify), add a TODO-ADAM comment to it; the Action then leaves it for review. If a new clinic listing needs review, don't commit it; describe it in your summary instead. List every TODO-ADAM in auto-published files under (a) in your summary so Adam can spot-check them.
 
 FOR AUTO-PUBLISH ITEMS: commit them to your branch in one commit titled "Automated listings YYYY-MM-DD" and list every file in the commit body.
 
