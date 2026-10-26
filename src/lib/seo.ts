@@ -22,10 +22,24 @@ export function organizationJsonLd() {
   return {
     '@context': 'https://schema.org',
     '@type': 'Organization',
+    '@id': `${SITE.url}/#organization`,
     name: SITE.name,
     url: SITE.url,
     email: SITE.contactEmail,
     description: SITE.description,
+  };
+}
+
+export function websiteJsonLd() {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    '@id': `${SITE.url}/#website`,
+    name: SITE.name,
+    url: SITE.url,
+    description: SITE.description,
+    inLanguage: 'en-AU',
+    publisher: { '@id': `${SITE.url}/#organization` },
   };
 }
 
@@ -73,7 +87,7 @@ export function articleJsonLd(opts: {
     datePublished: opts.publishedAt.toISOString(),
     dateModified: opts.updatedAt.toISOString(),
     author: { '@type': 'Person', name: opts.authorName },
-    publisher: { '@type': 'Organization', name: SITE.name },
+    publisher: { '@type': 'Organization', '@id': `${SITE.url}/#organization`, name: SITE.name },
   };
 }
 

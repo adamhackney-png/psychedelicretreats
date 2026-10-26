@@ -2,14 +2,18 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import { itemListJsonLd } from '../../lib/seo';
 
 const destinations = await getCollection('destinations');
 const listings = await getCollection('listings');
 const countBySlug = (slug: string) => listings.filter((l) => l.data.destinationSlug === slug).length;
+
+const jsonLd = itemListJsonLd(destinations.map((d) => ({ name: d.data.name, path: `/destinations/${d.id}/` })));
 ---
 
 <BaseLayout
   title="Destinations — Legal Status by Country"
+  jsonLd={jsonLd}
   description="Legal status, cost, and logistics for legal psychedelic retreat destinations, by country."
 >
   <Breadcrumbs items={[{ name: 'Destinations', path: '/destinations/' }]} />
