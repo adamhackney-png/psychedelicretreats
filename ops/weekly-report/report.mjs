@@ -307,7 +307,13 @@ function siteActivity(w) {
       .filter(Boolean)
       .filter((v, i, a) => a.indexOf(v) === i),
     routineAutoPublishes: Number(git(`log --since="${since}" --until="${until}" --oneline --grep="Routine auto-publish" | wc -l`)),
-    totals: { listings: count('src/content/listings'), news: count('src/content/news'), guides: count('src/content/guides') },
+    totals: {
+      listings: count('src/content/listings'),
+      news: count('src/content/news'),
+      guides: count('src/content/guides'),
+      destinations: count('src/content/destinations'),
+      claimedListings: Number(git(`grep -l "^claimed: true" -- src/content/listings | wc -l`)),
+    },
   };
 }
 
@@ -335,22 +341,32 @@ const SHEET_COLUMNS = [
   ['Subscribers', (r) => r.newsletter.activeSubscribers],
   ['Listings live', (r) => r.site.totals?.listings],
   ['Recorded at', () => new Date().toISOString()],
+  // Added after the first rows were written, so they go last to keep existing rows aligned.
+  ['Pages live', (r) => (r.site.totals ? r.site.totals.listings + r.site.totals.news + r.site.totals.guides + r.site.totals.destinations : undefined)],
+  ['Claimed listings', (r) => r.site.totals?.claimedListings],
 ];
+const WEEKLY_TAB = 'Weekly';
 
 async function recordInSheet(report) {
   const id = process.env.REPORT_SHEET_ID;
   if (!id) throw new Error('REPORT_SHEET_ID is not set');
   const base = `https://sheets.googleapis.com/v4/spreadsheets/${id}/values`;
   const auth = { Authorization: `Bearer ${await google()}` };
-  const existing = await json(`${base}/A:A`, { headers: auth });
+  const tab = (r) => encodeURIComponent(`${WEEKLY_TAB}!${r}`);
+  const existing = await json(`${base}/${tab('A:A')}`, { headers: auth });
   const weeks = (existing.values ?? []).map((row) => row[0]);
   const week = report.window.cur.end;
   if (weeks.includes(week)) return { status: 'already recorded', week };
 
-  const rows = weeks.length ? [] : [SHEET_COLUMNS.map(([name]) => name)];
+  // Keep the header row current (columns are only ever added at the end).
+  await json(`${base}/${tab('A1')}?valueInputOption=RAW`, {
+    method: 'PUT',
+    headers: { ...auth, 'Content-Type': 'application/json' },
+    body: JSON.stringify({ values: [SHEET_COLUMNS.map(([name]) => name)] }),
+  });
   // Missing data stays blank rather than 0, so a failed source is visible in the sheet.
-  rows.push(SHEET_COLUMNS.map(([, get]) => get(report) ?? ''));
-  await json(`${base}/A1:append?valueInputOption=RAW&insertDataOption=INSERT_ROWS`, {
+  const rows = [SHEET_COLUMNS.map(([, get]) => get(report) ?? '')];
+  await json(`${base}/${tab('A1')}:append?valueInputOption=RAW&insertDataOption=INSERT_ROWS`, {
     method: 'POST',
     headers: { ...auth, 'Content-Type': 'application/json' },
     body: JSON.stringify({ values: rows }),

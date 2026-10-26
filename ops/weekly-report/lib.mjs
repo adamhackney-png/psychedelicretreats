@@ -74,3 +74,15 @@ export async function googlePost(url, body) {
     body: JSON.stringify(body),
   });
 }
+
+// Rows of a tab in the "PRA weekly report" sheet (REPORT_SHEET_ID) as objects keyed by the header row.
+export async function readTab(tab) {
+  const id = process.env.REPORT_SHEET_ID;
+  if (!id) throw new Error('REPORT_SHEET_ID is not set');
+  const range = encodeURIComponent(`'${tab.replace(/'/g, "''")}'!A:Z`);
+  const res = await json(`https://sheets.googleapis.com/v4/spreadsheets/${id}/values/${range}`, {
+    headers: { Authorization: `Bearer ${await google()}` },
+  });
+  const [header = [], ...rows] = res.values ?? [];
+  return rows.map((r) => Object.fromEntries(header.map((h, i) => [h, r[i] ?? ''])));
+}
