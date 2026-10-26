@@ -40,3 +40,9 @@ substances, legality stated for international content). Paid ads are not an opti
 - [ ] Add `lastReviewed` re-verification pass for the 10 guides (none have lastReviewed set). (pr)
 - [ ] Add a "Find an operator" next step on retreat index pages [planned 2026-11-02] (pr)
 - [ ] Confirm sitemap submission and indexing in Search Console [planned 2026-11-02] (adam)
+
+## Added by sprint 2026-11-02
+- [ ] Legal-guide sources: ask Adam to drop PDFs/links for the NSW, QLD, WA, SA, TAS, ACT, NT drug acts and the TGA position, since fetch is blocked for NSW/TGA (legislation.vic.gov.au works). (adam)
+- [ ] Newsletter signup on listing pages and the retreat-match results (the guide placement shipped in the 2026-11-02 PR). (pr)
+- [ ] Track which guide the newsletter join came from (e.g. a hidden source field in MailerLite) instead of relying on `page_path` in Analytics. (pr)
+- [ ] Follow-up on the 10 link-suggestion targets in done/2026-11-02.md: note who replied, replace targets 3 and 8 with better ones. (draft)
