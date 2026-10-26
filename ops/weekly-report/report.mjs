@@ -1,7 +1,9 @@
 // Weekly metrics for psychedelicretreats.com.au — run by the "PRA weekly report" routine.
 //
 // Prints one JSON object: this week vs last week for GA4 traffic and events, Search Console,
-// MailerLite newsletter, and enquiries/claims logged in KV, plus site activity from git.
+// MailerLite newsletter, and enquiries/claims logged in KV, plus site activity from git and
+// growth signals (nearly-ranking queries, low click-through pages, pages without referrals,
+// stalest guides) for the weekly growth plan.
 // With --record it also appends the week's headline numbers to the "PRA weekly report" Google
 // Sheet (skipped if that week is already there) and reports what it did under "sheet".
 // Each source is fetched independently; a failure becomes { error } so the rest still reports.
@@ -15,8 +17,9 @@
 //
 // Usage: node ops/weekly-report/report.mjs [--record] [YYYY-MM-DD week-ending Sunday]
 
-import { createSign } from 'node:crypto';
-import { execFileSync, execSync } from 'node:child_process';
+import { execSync } from 'node:child_process';
+import { readFileSync } from 'node:fs';
+import { google, googlePost, json, num, section, viaProxy } from './lib.mjs';
 
 const TZ = 'Australia/Melbourne';
 const GSC_SITE = 'sc-domain:psychedelicretreats.com.au';
@@ -52,77 +55,6 @@ function melbourneMidnight(iso) {
     .find((p) => p.type === 'timeZoneName')
     .value.replace('GMT', '') || '+00:00';
   return Date.parse(`${iso}T00:00:00${offset}`);
-}
-
-// ---- Helpers ----
-
-async function json(url, init = {}) {
-  const res = await fetch(url, init);
-  const text = await res.text();
-  if (!res.ok) throw new Error(`${res.status} ${url.split('?')[0]}: ${text.slice(0, 300)}`);
-  return text ? JSON.parse(text) : {};
-}
-// GET through curl, which honours the session's HTTPS_PROXY: network secrets are added by that
-// proxy, and Node's fetch bypasses it.
-function viaProxy(url) {
-  const out = execFileSync('curl', ['-sSg', '-H', 'Accept: application/json', '-w', '\n%{http_code}', url], {
-    encoding: 'utf8',
-    maxBuffer: 50 * 1024 * 1024,
-  });
-  const i = out.lastIndexOf('\n');
-  const status = Number(out.slice(i + 1));
-  const text = out.slice(0, i);
-  if (status < 200 || status >= 300) throw new Error(`${status} ${url.split('?')[0]}: ${text.slice(0, 300)}`);
-  return text ? JSON.parse(text) : {};
-}
-async function section(fn) {
-  try {
-    return await fn();
-  } catch (err) {
-    return { error: String(err.message || err) };
-  }
-}
-const num = (v) => Number(v ?? 0);
-
-// ---- Google (service account JWT → access token) ----
-
-let googleToken;
-async function google() {
-  if (googleToken) return googleToken;
-  const b64 = process.env.GOOGLE_SA_KEY_B64;
-  if (!b64) throw new Error('GOOGLE_SA_KEY_B64 is not set');
-  const key = JSON.parse(Buffer.from(b64, 'base64').toString('utf8'));
-  const now = Math.floor(Date.now() / 1000);
-  const enc = (o) => Buffer.from(JSON.stringify(o)).toString('base64url');
-  const unsigned = `${enc({ alg: 'RS256', typ: 'JWT' })}.${enc({
-    iss: key.client_email,
-    scope: [
-      'https://www.googleapis.com/auth/analytics.readonly',
-      'https://www.googleapis.com/auth/webmasters.readonly',
-      'https://www.googleapis.com/auth/spreadsheets',
-    ].join(' '),
-    aud: 'https://oauth2.googleapis.com/token',
-    iat: now,
-    exp: now + 3600,
-  })}`;
-  const signature = createSign('RSA-SHA256').update(unsigned).sign(key.private_key, 'base64url');
-  const res = await json('https://oauth2.googleapis.com/token', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-    body: new URLSearchParams({
-      grant_type: 'urn:ietf:params:oauth:grant-type:jwt-bearer',
-      assertion: `${unsigned}.${signature}`,
-    }),
-  });
-  googleToken = res.access_token;
-  return googleToken;
-}
-async function googlePost(url, body) {
-  return json(url, {
-    method: 'POST',
-    headers: { Authorization: `Bearer ${await google()}`, 'Content-Type': 'application/json' },
-    body: JSON.stringify(body),
-  });
 }
 
 // ---- GA4 ----
@@ -284,6 +216,79 @@ async function leads(w) {
   return { ...counts, note: '"claim" includes contact-form messages (both post to /api/claim).' };
 }
 
+// ---- Growth signals: where the next gains are likely to come from ----
+
+const SITE = 'https://psychedelicretreats.com.au';
+const CONTENT_URL = { guides: '/guides/', news: '/news/', destinations: '/destinations/', listings: '/listing/' };
+
+async function growthSignals(w) {
+  const gscUrl = `https://searchconsole.googleapis.com/webmasters/v3/sites/${encodeURIComponent(GSC_SITE)}/searchAnalytics/query`;
+  // 28 days gives enough search data on a young site to spot patterns.
+  const span = { start: addDays(w.cur.end, -27), end: w.cur.end };
+  const [byQueryPage, byPage, gaPages] = await Promise.all([
+    section(() => googlePost(gscUrl, { startDate: span.start, endDate: span.end, dimensions: ['query', 'page'], rowLimit: 500 })),
+    section(() => googlePost(gscUrl, { startDate: span.start, endDate: span.end, dimensions: ['page'], rowLimit: 200 })),
+    section(() =>
+      googlePost(`https://analyticsdata.googleapis.com/v1beta/properties/${process.env.GA4_PROPERTY_ID}:runReport`, {
+        dateRanges: [{ startDate: span.start, endDate: span.end }],
+        dimensions: [{ name: 'pagePath' }, { name: 'eventName' }],
+        metrics: [{ name: 'eventCount' }],
+        dimensionFilter: { filter: { fieldName: 'eventName', inListFilter: { values: ['page_view', 'outbound_click'] } } },
+        limit: 1000,
+      }),
+    ),
+  ]);
+
+  const out = { span };
+  if (byQueryPage.error) out.nearlyRanking = byQueryPage;
+  else
+    // Queries already showing on pages 1–2 but below the top 3: a better title, heading or section can lift them.
+    out.nearlyRanking = (byQueryPage.rows ?? [])
+      .map((r) => ({ query: r.keys[0], page: r.keys[1].replace(SITE, ''), impressions: num(r.impressions), clicks: num(r.clicks), position: Math.round(num(r.position) * 10) / 10 }))
+      .filter((r) => r.position >= 4 && r.position <= 20)
+      .sort((a, b) => b.impressions - a.impressions)
+      .slice(0, 20);
+  if (byPage.error) out.lowClickThrough = byPage;
+  else
+    // Seen in search but rarely clicked: the title and description aren't earning the click.
+    out.lowClickThrough = (byPage.rows ?? [])
+      .map((r) => ({ page: r.keys[0].replace(SITE, ''), impressions: num(r.impressions), clicks: num(r.clicks), ctr: Math.round(num(r.ctr) * 1000) / 10, position: Math.round(num(r.position) * 10) / 10 }))
+      .filter((r) => r.impressions >= 20 && r.ctr < 2)
+      .sort((a, b) => b.impressions - a.impressions)
+      .slice(0, 10);
+  if (gaPages.error) out.viewsWithoutReferrals = gaPages;
+  else {
+    const pages = {};
+    for (const r of gaPages.rows ?? []) {
+      const [path, event] = r.dimensionValues.map((d) => d.value);
+      pages[path] ??= { page: path, views: 0, operatorClicks: 0 };
+      pages[path][event === 'page_view' ? 'views' : 'operatorClicks'] += num(r.metricValues[0].value);
+    }
+    // Listing and guide pages people read without clicking through to an operator.
+    out.viewsWithoutReferrals = Object.values(pages)
+      .filter((p) => /^\/(listing|guides|retreats|destinations)\//.test(p.page) && p.views >= 3 && p.operatorClicks === 0)
+      .sort((a, b) => b.views - a.views)
+      .slice(0, 10);
+  }
+  out.stalest = staleContent();
+  return out;
+}
+
+// Guides and destination pages ordered by last update, oldest first.
+function staleContent() {
+  const rows = [];
+  for (const dir of ['guides', 'destinations']) {
+    for (const file of execSync(`git ls-files src/content/${dir}`, { encoding: 'utf8' }).split('\n').filter((f) => f.endsWith('.mdx') || f.endsWith('.md'))) {
+      const text = readFileSync(file, 'utf8');
+      const date = (text.match(/^(?:lastReviewed|updatedAt):\s*"?([0-9-]{10})/m) ?? [])[1];
+      const title = (text.match(/^title:\s*"?(.+?)"?\s*$/m) ?? [])[1];
+      const slug = file.split('/').pop().replace(/\.mdx?$/, '');
+      rows.push({ page: `${CONTENT_URL[dir]}${slug}/`, title, updated: date ?? 'unknown' });
+    }
+  }
+  return rows.sort((a, b) => a.updated.localeCompare(b.updated)).slice(0, 8);
+}
+
 // ---- Site activity from the repo ----
 
 function siteActivity(w) {
@@ -364,6 +369,7 @@ const [ga, gsc, ml, kv, up] = await Promise.all([
   section(() => leads(w)),
   section(siteUp),
 ]);
+const growth = await section(() => growthSignals(w));
 const report = {
   window: w,
   proxy: process.env.HTTPS_PROXY || process.env.https_proxy ? 'set' : 'unset',
@@ -372,6 +378,7 @@ const report = {
   newsletter: ml,
   leads: kv,
   site: { up, ...(await section(() => siteActivity(w))) },
+  growth,
 };
 if (args.includes('--record')) report.sheet = await section(() => recordInSheet(report));
 console.log(JSON.stringify(report, null, 2));

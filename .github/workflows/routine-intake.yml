@@ -1,4 +1,4 @@
-# The research routine can only push to its own claude/charming-dijkstra-* branch.
+# The research, weekly-report and growth-sprint routines can only push to their own branches.
 # This publishes the parts that are allowed to go live unreviewed (run log + eligible
 # listings, see .github/scripts/classify_routine_changes.py for the exact rules)
 # and leaves everything else on the branch for the routine's own review PR.
@@ -6,7 +6,7 @@ name: Routine intake
 
 on:
   push:
-    branches: ["claude/charming-dijkstra-**"]
+    branches: ["claude/charming-dijkstra-**", "claude/weekly-report-**", "claude/growth-sprint-**"]
 
 permissions:
   contents: write
