@@ -28,7 +28,8 @@ const ogImage = image.startsWith('http') ? image : new URL(image, SITE.url).toSt
 const jsonLdBlocks = [organizationJsonLd(), ...(jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [])];
 
 const CF_ANALYTICS_TOKEN = import.meta.env.PUBLIC_CF_ANALYTICS_TOKEN;
-const GA4_MEASUREMENT_ID = import.meta.env.PUBLIC_GA4_MEASUREMENT_ID;
+// Public ID (it ships in every page); the default keeps tracking on if the Pages env var is ever removed.
+const GA4_MEASUREMENT_ID = import.meta.env.PUBLIC_GA4_MEASUREMENT_ID || 'G-NCN1ENBC45';
 ---
 
 <!doctype html>
