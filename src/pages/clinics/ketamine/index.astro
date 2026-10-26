@@ -6,12 +6,16 @@ import ListingCard from '../../../components/ListingCard.astro';
 import ClinicExplainer from '../../../components/ClinicExplainer.astro';
 import DisclaimerBlock from '../../../components/DisclaimerBlock.astro';
 import CrisisSupportNote from '../../../components/CrisisSupportNote.astro';
+import { itemListJsonLd } from '../../../lib/seo';
 
 const listings = (await getCollection('listings')).filter((entry) => entry.data.categories.includes('ketamine'));
+
+const jsonLd = itemListJsonLd(listings.map((l) => ({ name: l.data.name, path: `/listing/${l.id}/` })));
 ---
 
 <BaseLayout
   title="Ketamine Clinics in Australia"
+  jsonLd={jsonLd}
   description="A factual, independent directory of Australian ketamine clinical services. Neutral-mode listings only — not affiliated, no promotional content."
 >
   <Breadcrumbs items={[{ name: 'Clinics', path: '/clinics/ketamine/' }, { name: 'Ketamine', path: '/clinics/ketamine/' }]} />

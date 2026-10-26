@@ -4,12 +4,16 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import ListingCard from '../../components/ListingCard.astro';
 import CrisisSupportNote from '../../components/CrisisSupportNote.astro';
+import { itemListJsonLd } from '../../lib/seo';
 
 const listings = (await getCollection('listings')).filter((entry) => entry.data.categories.includes('integration'));
+
+const jsonLd = itemListJsonLd(listings.map((l) => ({ name: l.data.name, path: `/listing/${l.id}/` })));
 ---
 
 <BaseLayout
   title="Integration Therapists & Coaches (Australia)"
+  jsonLd={jsonLd}
   description="Find psychedelic integration therapists and coaches supporting people in Australia — an independent, sourced directory."
 >
   <Breadcrumbs items={[{ name: 'Integration', path: '/integration/' }]} />

@@ -2,12 +2,16 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import { itemListJsonLd } from '../../lib/seo';
 
 const news = (await getCollection('news')).sort((a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf());
+
+const jsonLd = itemListJsonLd(news.filter((n) => !n.data.draft).map((n) => ({ name: n.data.title, path: `/news/${n.id}/` })));
 ---
 
 <BaseLayout
   title="News — Legal & Regulatory Updates"
+  jsonLd={jsonLd}
   description="News and regulatory updates relevant to psychedelic retreats, Australian clinical pathways, and the legal landscape."
 >
   <Breadcrumbs items={[{ name: 'News', path: '/news/' }]} />
