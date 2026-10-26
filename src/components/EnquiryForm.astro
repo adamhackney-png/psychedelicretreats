@@ -24,7 +24,7 @@ const formId = `${kind}-form${listingSlug ? `-${listingSlug}` : ''}`;
 const Heading = headingLevel;
 ---
 
-<div class="rounded-lg border border-line bg-white p-6" id={formId} data-enquiry-form data-endpoint={endpoint}>
+<div class="rounded-lg border border-line bg-white p-6" id={formId} data-enquiry-form data-endpoint={endpoint} data-kind={kind} data-listing={listingSlug}>
   <Heading class="font-serif text-lg font-medium text-forest-900">{heading}</Heading>
 
   <form class="mt-4 space-y-3" data-form>
@@ -93,6 +93,7 @@ const Heading = headingLevel;
         });
         if (!response.ok) throw new Error('Request failed');
         if (status) status.textContent = 'Thanks — we’ve received your message and will be in touch.';
+        (window as any).gtag?.('event', 'generate_lead', { form_type: wrapper.dataset.kind, listing: wrapper.dataset.listing });
         form.reset();
       } catch {
         if (status) status.textContent = 'Something went wrong sending that. Please email info@psychedelicretreats.com.au directly.';

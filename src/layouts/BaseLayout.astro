@@ -87,8 +87,21 @@ const GA4_MEASUREMENT_ID = import.meta.env.PUBLIC_GA4_MEASUREMENT_ID || 'G-NCN1E
         <script is:inline define:vars={{ GA4_MEASUREMENT_ID }}>
           window.dataLayer = window.dataLayer || [];
           function gtag() { dataLayer.push(arguments); }
+          // define:vars wraps this script in a function, so expose gtag for component scripts.
+          window.gtag = gtag;
           gtag('js', new Date());
           gtag('config', GA4_MEASUREMENT_ID);
+          // Referral clicks to operators (listing pages mark these with data-outbound / data-listing).
+          document.addEventListener('click', function (e) {
+            var link = e.target.closest && e.target.closest('a[data-outbound]');
+            if (!link) return;
+            gtag('event', 'outbound_click', {
+              link_type: link.dataset.outbound,
+              listing: link.dataset.listing,
+              link_domain: link.hostname,
+              transport_type: 'beacon',
+            });
+          });
         </script>
       </>
     )}

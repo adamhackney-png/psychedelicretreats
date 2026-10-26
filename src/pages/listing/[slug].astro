@@ -132,7 +132,7 @@ const jsonLd = articleJsonLd({
               This is a neutral-mode listing for an Australian clinical service. We do not display pricing, calls
               to action, or promotional content for these services.
             </p>
-            <a href={d.website} target="_blank" rel="noopener noreferrer" class="mt-3 inline-block text-forest-600 underline">
+            <a href={d.website} target="_blank" rel="noopener noreferrer" data-outbound="clinic" data-listing={listing.id} class="mt-3 inline-block text-forest-600 underline">
               Visit official service page →
             </a>
           </div>
@@ -142,6 +142,8 @@ const jsonLd = articleJsonLd({
               href={d.affiliateUrl}
               target="_blank"
               rel="sponsored nofollow noopener"
+              data-outbound="affiliate"
+              data-listing={listing.id}
               class="block rounded-lg bg-forest-600 px-4 py-3 text-center text-sm font-semibold text-cream transition hover:bg-forest-700"
             >
               Visit official website
@@ -155,6 +157,8 @@ const jsonLd = articleJsonLd({
             href={d.website}
             target="_blank"
             rel="noopener noreferrer"
+            data-outbound="website"
+            data-listing={listing.id}
             class="block rounded-lg bg-forest-600 px-4 py-3 text-center text-sm font-semibold text-cream transition hover:bg-forest-700"
           >
             Visit official website
