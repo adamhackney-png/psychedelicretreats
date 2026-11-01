@@ -1,12 +1,13 @@
-# Growth plan — week of 2026-11-02
+# Growth plan — week of 2026-11-09
 
-Aimed at the visitors and Google impressions targets (the only ones with no judgeable lead yet): last week's metadata
-and structured-data work needs indexing and links to show up, so this week adds discovery paths and a next step for readers.
+Aimed at Google impressions (furthest behind: about 42% of where it should be) and newsletter subscribers (about 67%). Last
+week's metadata work looks to be indexing (impressions rose), so this week pushes pages already sitting just off page one,
+adds a new Australian-intent guide, and gets last week's PR live.
 
 | ID | Type | What | Target | Why | Judged next week by |
 |---|---|---|---|---|---|
-| G-20261102-1 | done | Done by Claude on 2026-10-26: sitemap was already submitted (21 Jul) and has been resubmitted; recrawl requested for the home page, /retreats/ and 8 of the 10 guides (Google's daily limit). Several guides were last crawled in July while still drafts, so Google had them as noindex or unknown | Search Console | Serves Google impressions | Impressions appear in Search Console |
-| G-20261102-2 | pr | Retry "Is psilocybin legal in Australia? State-by-state (2026)" using primary state legislation; if sources still cannot be fetched, skip again | new guide | Serves Google impressions: highest-value open item, high-intent Australian query | Guide merged; impressions for legality queries |
-| G-20261102-3 | pr | Add a clear "Find an operator" next step (links to relevant listings) on /retreats/ and /retreats/psilocybin/ | those two index pages | Serves operator clicks: both get views with 0 operator clicks | Operator clicks from those pages |
-| G-20261102-4 | draft | Find 10 relevant resource/links pages (harm-reduction orgs, integration directories, Australian research groups) and draft polite link suggestions for the vetting checklist or legal guide | done file | Serves visitors: backlinks are the main route to organic traffic for a new site | Adam sends at least 3 |
-| G-20261102-5 | pr | Inline newsletter signup after the first section of every guide | guide layout | Serves newsletter subscribers and keeps guide readers engaged | Newsletter joins from guide pages |
+| G-20261109-1 | auto | Rewrite title and description of /guides/ and the legal psilocybin retreats guide for "psilocybin retreat australia" / "psilocybin retreat" (both around position 10-11) | /guides/, /guides/psilocybin-retreats-where-legal-how-they-work/ | Serves Google impressions: nearly-ranking queries, small change could reach page one | Position and impressions for those queries (2-4 weeks) |
+| G-20261109-2 | auto | Adjust title/description of the ketamine therapy guide to answer "how referral works" (query "referral for ketamine treatment", position 8.5); neutral, informational, no efficacy claims | /guides/ketamine-therapy-in-australia/ | Serves Google impressions: nearly-ranking query | Impressions and clicks for that query |
+| G-20261109-3 | pr | New guide: "Integration support in Australia after a retreat" (sourced, Australian spelling, Lifeline 13 11 14); check the existing integration guide first to avoid overlap | new guide | Serves Google impressions and newsletter subscribers: new Australian-intent content, includes signup | Guide merged; impressions for integration queries |
+| G-20261109-4 | pr | Newsletter signup on listing pages and the retreat-match results (guide placement is in PR #37) | listing layout | Serves newsletter subscribers: listings are the most-viewed page type | Joins with a listing page_path |
+| G-20261109-5 | adam | Three asks, in order: merge PR #37 https://github.com/adamhackney-png/psychedelicretreats/pull/37 (verify first); send at least 3 link suggestions from ops/growth/done/2026-11-02.md (order 7, 6, 5); drop links or PDFs of the NSW, QLD, WA, SA, TAS, ACT, NT drug acts and the TGA position so the legality guide can be written | PR #37, outreach, legal guide | Serves visitors, impressions and operator clicks: all three are blocked on Adam | PR merged; number of suggestions sent; sources supplied |

@@ -46,3 +46,9 @@ substances, legality stated for international content). Paid ads are not an opti
 - [ ] Newsletter signup on listing pages and the retreat-match results (the guide placement shipped in the 2026-11-02 PR). (pr)
 - [ ] Track which guide the newsletter join came from (e.g. a hidden source field in MailerLite) instead of relying on `page_path` in Analytics. (pr)
 - [ ] Follow-up on the 10 link-suggestion targets in done/2026-11-02.md: note who replied, replace targets 3 and 8 with better ones. (draft)
+
+## Added by report 2026-11-02
+- [ ] [planned 2026-11-09] New guide: Integration support in Australia after a retreat. (pr)
+- [ ] [planned 2026-11-09] Newsletter signup on listing pages and retreat-match results. (pr)
+- [ ] [planned 2026-11-09] Metadata for /guides/, psilocybin legal guide and ketamine guide from nearly-ranking queries. (auto)
+- [ ] Fix the Cloudflare KV token used by the weekly report so enquiries and claims can be counted. (adam)
