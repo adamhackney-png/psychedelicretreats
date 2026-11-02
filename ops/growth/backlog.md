@@ -52,3 +52,8 @@ substances, legality stated for international content). Paid ads are not an opti
 - [ ] [planned 2026-11-09] Newsletter signup on listing pages and retreat-match results. (pr)
 - [ ] [planned 2026-11-09] Metadata for /guides/, psilocybin legal guide and ketamine guide from nearly-ranking queries. (auto)
 - [ ] Fix the Cloudflare KV token used by the weekly report so enquiries and claims can be counted. (adam)
+
+## Added by sprint 2026-11-09
+- [ ] Merge or cross-link `what-is-psychedelic-integration` and the new integration-after-retreat guide to avoid cannibalising queries. (pr)
+- [ ] Add verified Medicare mental-health-plan details to the integration guide once Adam supplies a source. (adam)
+- [ ] Move metadata for index pages (/guides/, hubs) into a content file so `auto` can edit them. (pr — code)
