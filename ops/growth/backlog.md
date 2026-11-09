@@ -62,3 +62,8 @@ substances, legality stated for international content). Paid ads are not an opti
 - [ ] /retreats/ayahuasca/ is the top search-click page but ranks around position 34; strengthen its title, intro and internal links from the legal and cost guides. (pr)
 - [ ] /clinics/ketamine/ has the most impressions (65) at position ~69; decide whether to build it out or leave it, given compliance limits on promoting prescription substances. (adam)
 - [ ] AI Assistant referrals rose to 5 sessions: keep guides concise and sourced, and watch this channel. (auto)
+
+## Added by sprint 2026-11-16
+- [ ] Listing pages: add a "next step" block linking to the destination page, category guide and 2–3 related listings (listings have no `relatedListings`), to push operator clicks. (pr — code)
+- [ ] When PR #37's listing-page signup merges, pass `source="listing"` to it. (pr)
+- [ ] Re-verify cost-guide AUD figures with an "as of" date, then set `lastReviewed`. (adam/pr)
