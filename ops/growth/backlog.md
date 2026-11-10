@@ -65,5 +65,5 @@ substances, legality stated for international content). Paid ads are not an opti
 
 ## Added by sprint 2026-11-16
 - [ ] Listing pages: add a "next step" block linking to the destination page, category guide and 2–3 related listings (listings have no `relatedListings`), to push operator clicks. (pr — code)
-- [ ] When PR #37's listing-page signup merges, pass `source="listing"` to it. (pr)
+- [x] When PR #37's listing-page signup merges, pass `source="listing"` to it. (pr) — done 2026-11-10 in PR #40 (the signup came from PR #39).
 - [ ] Re-verify cost-guide AUD figures with an "as of" date, then set `lastReviewed`. (adam/pr)

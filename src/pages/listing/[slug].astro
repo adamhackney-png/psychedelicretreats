@@ -176,7 +176,7 @@ const jsonLd = articleJsonLd({
     {/* Neutral-mode (Australian clinic) listings carry no calls to action, so no signup there. */}
     {d.mode === 'standard' && (
       <div class="mt-12">
-        <NewsletterSignup compact />
+        <NewsletterSignup compact source="listing" />
       </div>
     )}
   </div>
