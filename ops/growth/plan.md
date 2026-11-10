@@ -1,12 +1,14 @@
-# Growth plan — week of 2026-11-02
+# Growth plan — week of 2026-11-16
 
-Aimed at the visitors and Google impressions targets (the only ones with no judgeable lead yet): last week's metadata
-and structured-data work needs indexing and links to show up, so this week adds discovery paths and a next step for readers.
+Aimed at newsletter subscribers (furthest behind, about 40% of where they should be) and Google impressions (about 45%). The
+newsletter and integration-guide work is built but sits in open PRs, so the biggest lever this week is getting it live (Adam's ask).
+Alongside that: lift click-through on pages already near page one, give the most-viewed listing a stronger next step, and make
+newsletter joins attributable.
 
 | ID | Type | What | Target | Why | Judged next week by |
 |---|---|---|---|---|---|
-| G-20261102-1 | done | Done by Claude on 2026-10-26: sitemap was already submitted (21 Jul) and has been resubmitted; recrawl requested for the home page, /retreats/ and 8 of the 10 guides (Google's daily limit). Several guides were last crawled in July while still drafts, so Google had them as noindex or unknown | Search Console | Serves Google impressions | Impressions appear in Search Console |
-| G-20261102-2 | pr | Retry "Is psilocybin legal in Australia? State-by-state (2026)" using primary state legislation; if sources still cannot be fetched, skip again | new guide | Serves Google impressions: highest-value open item, high-intent Australian query | Guide merged; impressions for legality queries |
-| G-20261102-3 | pr | Add a clear "Find an operator" next step (links to relevant listings) on /retreats/ and /retreats/psilocybin/ | those two index pages | Serves operator clicks: both get views with 0 operator clicks | Operator clicks from those pages |
-| G-20261102-4 | draft | Find 10 relevant resource/links pages (harm-reduction orgs, integration directories, Australian research groups) and draft polite link suggestions for the vetting checklist or legal guide | done file | Serves visitors: backlinks are the main route to organic traffic for a new site | Adam sends at least 3 |
-| G-20261102-5 | pr | Inline newsletter signup after the first section of every guide | guide layout | Serves newsletter subscribers and keeps guide readers engaged | Newsletter joins from guide pages |
+| G-20261116-1 | auto | Rewrite title and description of the legal guide ("is ayahuasca legal" / "is ayahuasca legal in Australia", position 8-13, 0 clicks) and the cost guide ("ayahuasca retreat australia cost", position 6.7); Australian spelling, AUD, no efficacy claims, under 60/155 characters | /guides/australians-legal-guide-to-psychedelic-retreats-2026/, /guides/how-much-does-a-psychedelic-retreat-cost/ | Serves Google impressions: low click-through and nearly-ranking queries | Clicks and position for those queries (2-4 weeks) |
+| G-20261116-2 | auto | Review the Rise Temple Retreat listing (most-viewed listing, 0 operator clicks, ranks about position 6 for its page): clearer summary, make the operator website link and a relatedListings next step prominent, within the checklist | /listing/rise-temple-retreat/ | Serves operator clicks: views without referrals | Operator clicks from that listing |
+| G-20261116-3 | pr | Record which page a newsletter join came from (hidden source field sent to MailerLite) so signup placements can be compared | newsletter signup component | Serves newsletter subscribers: currently only page_path in Analytics, with tiny numbers | Merged; joins carry a source |
+| G-20261116-4 | draft | Draft claim-your-listing emails for the listings with operator clicks (amanda-oliver-integrate-therapy, elevated-mind-retreats-netherlands) for Adam to send from info@ | ops/growth/done | Serves claimed listings and operator relationships: first referral-revenue groundwork | Drafts ready; any replies |
+| G-20261116-5 | adam | Three asks, in order: (1) verify and merge PR #37 https://github.com/adamhackney-png/psychedelicretreats/pull/37 and PR #39 https://github.com/adamhackney-png/psychedelicretreats/pull/39 (signups, integration guide draft, /guides/ metadata); (2) send at least 3 link suggestions from ops/growth/done/2026-11-02.md; (3) fix the Cloudflare KV token for the weekly report (returns 401) so enquiries and claims are counted | PRs #37, #39, outreach, report token | Serves newsletter subscribers, impressions and visibility of leads: all blocked on Adam | PRs merged; suggestions sent; leads section populated |
