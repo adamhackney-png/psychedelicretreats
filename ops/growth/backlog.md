@@ -60,7 +60,8 @@ substances, legality stated for international content). Paid ads are not an opti
 
 ## Added by report 2026-11-09
 - [ ] /retreats/ayahuasca/ is the top search-click page but ranks around position 34; strengthen its title, intro and internal links from the legal and cost guides. (pr)
-- [ ] /clinics/ketamine/ has the most impressions (65) at position ~69; decide whether to build it out or leave it, given compliance limits on promoting prescription substances. (adam)
+- [x] /clinics/ketamine/ has the most impressions (65) at position ~69; decide whether to build it out or leave it, given compliance limits on promoting prescription substances. (adam) — decided 2026-11-11: modest neutral build-out (item below).
+- [ ] /clinics/ketamine/: short factual intro on how ketamine and esketamine are prescribed and accessed in Australia (TGA scheduling, PBS listing for esketamine, prescriber requirements), sourced to TGA/PBS/legislation only; plus more neutral-mode Australian clinic listings. Rules 1, 2, 5, 6, 11: no outcomes, conditions-as-benefits, prices, CTAs or adjectives; legal-status notice and Lifeline pointer. (pr)
 - [ ] AI Assistant referrals rose to 5 sessions: keep guides concise and sourced, and watch this channel. (auto)
 
 ## Added by sprint 2026-11-16
