@@ -15,7 +15,7 @@ substances, legality stated for international content). Paid ads are not an opti
 - [ ] Image alt text and Open Graph images for guides and listings that lack them. (pr)
 - [ ] Check Core Web Vitals / page weight on the 5 most-viewed pages and fix anything slow. (pr)
 
-- [ ] Search Console: request a recrawl for /guides/breathwork-retreats-in-australia/ and /guides/safety-screening-and-contraindications/ (not done 2026-10-26 — daily limit), then check the Page indexing report for any other pages still marked noindex from their draft days. (adam — needs a browser session with Claude)
+- [x] Search Console: request a recrawl for /guides/breathwork-retreats-in-australia/ and /guides/safety-screening-and-contraindications/ (done 2026-11-10, plus the legality and integration guides; both were 'Discovered – currently not indexed'), then check the Page indexing report for any other pages still marked noindex from their draft days. (adam — needs a browser session with Claude)
 
 ## AI answers
 - [ ] An "About / editorial policy" section that states methodology clearly — AI answer engines favour clearly sourced, attributable content.
@@ -28,8 +28,8 @@ substances, legality stated for international content). Paid ads are not an opti
 
 ## Partnerships, links and revenue
 - [ ] "Listed on Psychedelic Retreats Australia" badge + snippet operators can embed (backlink). (pr)
-- [ ] [planned 2026-11-16] Claim-your-listing emails to the 10 listings with the most operator clicks. (draft — Adam sends from info@)
-- [ ] Research affiliate/referral programs for platforms our listings book through (e.g. BookRetreats, Retreat Guru) and for operators directly; list terms and sign-up links for Adam. (adam)
+- [ ] [planned 2026-11-16] Claim-your-listing emails to the 10 listings with the most operator clicks. (draft — Adam sends from info@) — 2 drafts in done/2026-11-16.md; contacts found 2026-11-10: Elevated Mind = contact@elevatedmindretreats.com; Integrate Therapy = contact form only, https://integratetc.com.au/contact/.
+- [x] Research affiliate/referral programs for platforms our listings book through (e.g. BookRetreats, Retreat Guru) and for operators directly; list terms and sign-up links for Adam. (adam) — done 2026-11-10, see ops/growth/affiliate-research.md.
 - [ ] [planned 2026-11-02] Find 10 relevant resource/links pages (harm-reduction orgs, integration directories, Australian psychedelic research groups) that could reasonably link to the vetting checklist or legal guide; draft polite suggestions. (draft)
 - [ ] Operator referral report: once operator clicks exist, a monthly per-operator click summary to use in partnership pitches. (auto, via the weekly report)
 
@@ -48,14 +48,14 @@ substances, legality stated for international content). Paid ads are not an opti
 - [ ] Follow-up on the 10 link-suggestion targets in done/2026-11-02.md: note who replied, replace targets 3 and 8 with better ones. (draft)
 
 ## Added by report 2026-11-02
-- [ ] [planned 2026-11-09, built in PR #39] New guide: Integration support in Australia after a retreat. (pr)
-- [ ] [planned 2026-11-09] Newsletter signup on listing pages and retreat-match results. (pr)
+- [x] [planned 2026-11-09, built in PR #39] New guide: Integration support in Australia after a retreat. (pr) — 2026-11-10: Adam chose to merge it into what-is-psychedelic-integration instead of a second page.
+- [x] [planned 2026-11-09] Newsletter signup on listing pages and retreat-match results. (pr) — merged 2026-11-10 (PR #39).
 - [ ] [planned 2026-11-09] Metadata for /guides/, psilocybin legal guide and ketamine guide from nearly-ranking queries. (auto)
 - [ ] [planned 2026-11-16] Fix the Cloudflare KV token used by the weekly report so enquiries and claims can be counted. (adam)
 
 ## Added by sprint 2026-11-09
-- [ ] Merge or cross-link `what-is-psychedelic-integration` and the new integration-after-retreat guide to avoid cannibalising queries. (pr)
-- [ ] Add verified Medicare mental-health-plan details to the integration guide once Adam supplies a source. (adam)
+- [x] Merge or cross-link `what-is-psychedelic-integration` and the new integration-after-retreat guide to avoid cannibalising queries. (pr) — merged into one guide 2026-11-10.
+- [x] Add verified Medicare mental-health-plan details to the integration guide once Adam supplies a source. (adam) — added 2026-11-10 from health.gov.au Better Access page (updated 6 Feb 2026).
 - [ ] Move metadata for index pages (/guides/, hubs) into a content file so `auto` can edit them. (pr — code)
 
 ## Added by report 2026-11-09
@@ -65,5 +65,5 @@ substances, legality stated for international content). Paid ads are not an opti
 
 ## Added by sprint 2026-11-16
 - [ ] Listing pages: add a "next step" block linking to the destination page, category guide and 2–3 related listings (listings have no `relatedListings`), to push operator clicks. (pr — code)
-- [ ] When PR #37's listing-page signup merges, pass `source="listing"` to it. (pr)
+- [x] When PR #37's listing-page signup merges, pass `source="listing"` to it. (pr) — done 2026-11-10 in PR #40 (the signup came from PR #39).
 - [ ] Re-verify cost-guide AUD figures with an "as of" date, then set `lastReviewed`. (adam/pr)
