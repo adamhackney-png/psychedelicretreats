@@ -28,7 +28,7 @@ substances, legality stated for international content). Paid ads are not an opti
 
 ## Partnerships, links and revenue
 - [ ] "Listed on Psychedelic Retreats Australia" badge + snippet operators can embed (backlink). (pr)
-- [ ] Claim-your-listing emails to the 10 listings with the most operator clicks. (draft — Adam sends from info@)
+- [ ] [planned 2026-11-16] Claim-your-listing emails to the 10 listings with the most operator clicks. (draft — Adam sends from info@)
 - [ ] Research affiliate/referral programs for platforms our listings book through (e.g. BookRetreats, Retreat Guru) and for operators directly; list terms and sign-up links for Adam. (adam)
 - [ ] [planned 2026-11-02] Find 10 relevant resource/links pages (harm-reduction orgs, integration directories, Australian psychedelic research groups) that could reasonably link to the vetting checklist or legal guide; draft polite suggestions. (draft)
 - [ ] Operator referral report: once operator clicks exist, a monthly per-operator click summary to use in partnership pitches. (auto, via the weekly report)
@@ -44,11 +44,26 @@ substances, legality stated for international content). Paid ads are not an opti
 ## Added by sprint 2026-11-02
 - [ ] Legal-guide sources: ask Adam to drop PDFs/links for the NSW, QLD, WA, SA, TAS, ACT, NT drug acts and the TGA position, since fetch is blocked for NSW/TGA (legislation.vic.gov.au works). (adam)
 - [ ] Newsletter signup on listing pages and the retreat-match results (the guide placement shipped in the 2026-11-02 PR). (pr)
-- [ ] Track which guide the newsletter join came from (e.g. a hidden source field in MailerLite) instead of relying on `page_path` in Analytics. (pr)
+- [ ] [planned 2026-11-16] Track which guide the newsletter join came from (e.g. a hidden source field in MailerLite) instead of relying on `page_path` in Analytics. (pr)
 - [ ] Follow-up on the 10 link-suggestion targets in done/2026-11-02.md: note who replied, replace targets 3 and 8 with better ones. (draft)
 
 ## Added by report 2026-11-02
-- [ ] [planned 2026-11-09] New guide: Integration support in Australia after a retreat. (pr)
+- [ ] [planned 2026-11-09, built in PR #39] New guide: Integration support in Australia after a retreat. (pr)
 - [ ] [planned 2026-11-09] Newsletter signup on listing pages and retreat-match results. (pr)
 - [ ] [planned 2026-11-09] Metadata for /guides/, psilocybin legal guide and ketamine guide from nearly-ranking queries. (auto)
-- [ ] Fix the Cloudflare KV token used by the weekly report so enquiries and claims can be counted. (adam)
+- [ ] [planned 2026-11-16] Fix the Cloudflare KV token used by the weekly report so enquiries and claims can be counted. (adam)
+
+## Added by sprint 2026-11-09
+- [ ] Merge or cross-link `what-is-psychedelic-integration` and the new integration-after-retreat guide to avoid cannibalising queries. (pr)
+- [ ] Add verified Medicare mental-health-plan details to the integration guide once Adam supplies a source. (adam)
+- [ ] Move metadata for index pages (/guides/, hubs) into a content file so `auto` can edit them. (pr — code)
+
+## Added by report 2026-11-09
+- [ ] /retreats/ayahuasca/ is the top search-click page but ranks around position 34; strengthen its title, intro and internal links from the legal and cost guides. (pr)
+- [ ] /clinics/ketamine/ has the most impressions (65) at position ~69; decide whether to build it out or leave it, given compliance limits on promoting prescription substances. (adam)
+- [ ] AI Assistant referrals rose to 5 sessions: keep guides concise and sourced, and watch this channel. (auto)
+
+## Added by sprint 2026-11-16
+- [ ] Listing pages: add a "next step" block linking to the destination page, category guide and 2–3 related listings (listings have no `relatedListings`), to push operator clicks. (pr — code)
+- [ ] When PR #37's listing-page signup merges, pass `source="listing"` to it. (pr)
+- [ ] Re-verify cost-guide AUD figures with an "as of" date, then set `lastReviewed`. (adam/pr)
