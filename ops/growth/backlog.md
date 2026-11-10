@@ -36,7 +36,7 @@ substances, legality stated for international content). Paid ads are not an opti
 ## Added by sprint 2026-10-26
 - [ ] [planned 2026-11-02] Retry "Is psilocybin legal in Australia? State-by-state" once page fetch works (needs primary state legislation). [carried from G-20261026-4] (pr)
 - [ ] Rendered titles get a " | Psychedelic Retreats" suffix (+22 chars); consider a shorter suffix or dropping it on long titles. (pr — code)
-- [ ] Verify which Australian breathwork operators are on BookRetreats before pursuing its affiliate programme. (adam)
+- [x] Verify which Australian breathwork operators are on BookRetreats before pursuing its affiliate programme. (adam) — 2026-11-11: none of our breathwork listings, but 4 overseas listings are (Beckley, Tangerine, MycoMeditations, Evolute); see affiliate-research.md.
 - [ ] Add `lastReviewed` re-verification pass for the 10 guides (none have lastReviewed set). (pr)
 - [ ] Add a "Find an operator" next step on retreat index pages [planned 2026-11-02] (pr)
 - [ ] Confirm sitemap submission and indexing in Search Console [planned 2026-11-02] (adam)

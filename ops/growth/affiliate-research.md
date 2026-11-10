@@ -11,3 +11,7 @@ For Adam to decide; routines never sign up (compliance rule). Rates from officia
 Compliance: no referral links on neutral-mode Australian clinic listings; referral links never on psilocybin/ayahuasca content that could read as promoting supply in Australia; disclose on-page.
 
 Next step for Adam: check 3–5 of our overseas listings on BookRetreats; if several are there, apply.
+
+## Update 2026-11-11 — which listed operators are on BookRetreats
+Found on BookRetreats (web search of bookretreats.com): Beckley Retreats (6-day signature retreat, Jamaica), Tangerine Retreat (3- and 5-day, Loenen), MycoMeditations (8-day, Jamaica), Evolute Institute (4-day). Not found: Atman, ONE Retreats, Alalaho, Elevated Mind, Retraite Éveil, Etnikas, Nihue Rao, Temple of the Way of Light. Australian breathwork: BookRetreats has an Australia breathwork category, but none of our listed operators was confirmed there.
+Verdict: 4 of 14 overseas listings are bookable there — worth applying. Links would go on those listing pages only, disclosed (`rel="sponsored"`, visible note), never on Australian listings.
