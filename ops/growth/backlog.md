@@ -51,7 +51,7 @@ substances, legality stated for international content). Paid ads are not an opti
 - [x] [planned 2026-11-09, built in PR #39] New guide: Integration support in Australia after a retreat. (pr) — 2026-11-10: Adam chose to merge it into what-is-psychedelic-integration instead of a second page.
 - [x] [planned 2026-11-09] Newsletter signup on listing pages and retreat-match results. (pr) — merged 2026-11-10 (PR #39).
 - [ ] [planned 2026-11-09] Metadata for /guides/, psilocybin legal guide and ketamine guide from nearly-ranking queries. (auto)
-- [ ] [planned 2026-11-16] Fix the Cloudflare KV token used by the weekly report so enquiries and claims can be counted. (adam)
+- [x] [planned 2026-11-16] Fix the Cloudflare KV token used by the weekly report so enquiries and claims can be counted. (adam) — 2026-11-11: no PRA token existed in Cloudflare; new token "pra-report-kv-read" (Workers KV Storage: Read, account-scoped, no expiry) created by Adam and set as the api.cloudflare.com network secret (Authorization: Bearer) in the PRA reports environment. Confirm on the 2026-11-16 report that the leads section has counts, not an error.
 
 ## Added by sprint 2026-11-09
 - [x] Merge or cross-link `what-is-psychedelic-integration` and the new integration-after-retreat guide to avoid cannibalising queries. (pr) — merged into one guide 2026-11-10.
