@@ -7,6 +7,7 @@ import DisclaimerBlock from '../../components/DisclaimerBlock.astro';
 import SourcesList from '../../components/SourcesList.astro';
 import EnquiryForm from '../../components/EnquiryForm.astro';
 import CrisisSupportNote from '../../components/CrisisSupportNote.astro';
+import NewsletterSignup from '../../components/NewsletterSignup.astro';
 import { PRICE_BANDS, CATEGORY_META } from '../../lib/site';
 import { articleJsonLd } from '../../lib/seo';
 
@@ -171,5 +172,12 @@ const jsonLd = articleJsonLd({
         )}
       </aside>
     </div>
+
+    {/* Neutral-mode (Australian clinic) listings carry no calls to action, so no signup there. */}
+    {d.mode === 'standard' && (
+      <div class="mt-12">
+        <NewsletterSignup compact />
+      </div>
+    )}
   </div>
 </BaseLayout>

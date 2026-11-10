@@ -48,14 +48,14 @@ substances, legality stated for international content). Paid ads are not an opti
 - [ ] Follow-up on the 10 link-suggestion targets in done/2026-11-02.md: note who replied, replace targets 3 and 8 with better ones. (draft)
 
 ## Added by report 2026-11-02
-- [ ] [planned 2026-11-09, built in PR #39] New guide: Integration support in Australia after a retreat. (pr)
-- [ ] [planned 2026-11-09] Newsletter signup on listing pages and retreat-match results. (pr)
+- [x] [planned 2026-11-09, built in PR #39] New guide: Integration support in Australia after a retreat. (pr) — 2026-11-10: Adam chose to merge it into what-is-psychedelic-integration instead of a second page.
+- [x] [planned 2026-11-09] Newsletter signup on listing pages and retreat-match results. (pr) — merged 2026-11-10 (PR #39).
 - [ ] [planned 2026-11-09] Metadata for /guides/, psilocybin legal guide and ketamine guide from nearly-ranking queries. (auto)
 - [ ] [planned 2026-11-16] Fix the Cloudflare KV token used by the weekly report so enquiries and claims can be counted. (adam)
 
 ## Added by sprint 2026-11-09
-- [ ] Merge or cross-link `what-is-psychedelic-integration` and the new integration-after-retreat guide to avoid cannibalising queries. (pr)
-- [ ] Add verified Medicare mental-health-plan details to the integration guide once Adam supplies a source. (adam)
+- [x] Merge or cross-link `what-is-psychedelic-integration` and the new integration-after-retreat guide to avoid cannibalising queries. (pr) — merged into one guide 2026-11-10.
+- [x] Add verified Medicare mental-health-plan details to the integration guide once Adam supplies a source. (adam) — added 2026-11-10 from health.gov.au Better Access page (updated 6 Feb 2026).
 - [ ] Move metadata for index pages (/guides/, hubs) into a content file so `auto` can edit them. (pr — code)
 
 ## Added by report 2026-11-09
