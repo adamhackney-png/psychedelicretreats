@@ -15,7 +15,7 @@ substances, legality stated for international content). Paid ads are not an opti
 - [ ] Image alt text and Open Graph images for guides and listings that lack them. (pr)
 - [ ] Check Core Web Vitals / page weight on the 5 most-viewed pages and fix anything slow. (pr)
 
-- [ ] Search Console: request a recrawl for /guides/breathwork-retreats-in-australia/ and /guides/safety-screening-and-contraindications/ (not done 2026-10-26 — daily limit), then check the Page indexing report for any other pages still marked noindex from their draft days. (adam — needs a browser session with Claude)
+- [x] Search Console: request a recrawl for /guides/breathwork-retreats-in-australia/ and /guides/safety-screening-and-contraindications/ (done 2026-11-10, plus the legality and integration guides; both were 'Discovered – currently not indexed'), then check the Page indexing report for any other pages still marked noindex from their draft days. (adam — needs a browser session with Claude)
 
 ## AI answers
 - [ ] An "About / editorial policy" section that states methodology clearly — AI answer engines favour clearly sourced, attributable content.
@@ -28,8 +28,8 @@ substances, legality stated for international content). Paid ads are not an opti
 
 ## Partnerships, links and revenue
 - [ ] "Listed on Psychedelic Retreats Australia" badge + snippet operators can embed (backlink). (pr)
-- [ ] [planned 2026-11-16] Claim-your-listing emails to the 10 listings with the most operator clicks. (draft — Adam sends from info@)
-- [ ] Research affiliate/referral programs for platforms our listings book through (e.g. BookRetreats, Retreat Guru) and for operators directly; list terms and sign-up links for Adam. (adam)
+- [ ] [planned 2026-11-16] Claim-your-listing emails to the 10 listings with the most operator clicks. (draft — Adam sends from info@) — 2 drafts in done/2026-11-16.md; contacts found 2026-11-10: Elevated Mind = contact@elevatedmindretreats.com; Integrate Therapy = contact form only, https://integratetc.com.au/contact/.
+- [x] Research affiliate/referral programs for platforms our listings book through (e.g. BookRetreats, Retreat Guru) and for operators directly; list terms and sign-up links for Adam. (adam) — done 2026-11-10, see ops/growth/affiliate-research.md.
 - [ ] [planned 2026-11-02] Find 10 relevant resource/links pages (harm-reduction orgs, integration directories, Australian psychedelic research groups) that could reasonably link to the vetting checklist or legal guide; draft polite suggestions. (draft)
 - [ ] Operator referral report: once operator clicks exist, a monthly per-operator click summary to use in partnership pitches. (auto, via the weekly report)
 
