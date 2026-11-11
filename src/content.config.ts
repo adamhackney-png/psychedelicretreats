@@ -21,6 +21,8 @@ const listings = defineCollection({
     groupSizeMax: z.number().int().positive().optional(),
     website: z.url(),
     affiliateUrl: z.url().optional(),
+    // Name of the booking site an affiliateUrl points to (e.g. "BookRetreats"); shown on the button.
+    affiliatePartner: z.string().optional(),
     enquiryEnabled: z.boolean().default(false),
     contactEmail: z.email().optional(),
     claimed: z.boolean().default(false),

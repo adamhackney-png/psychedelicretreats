@@ -147,8 +147,17 @@ const jsonLd = articleJsonLd({
               data-listing={listing.id}
               class="block rounded-lg bg-forest-600 px-4 py-3 text-center text-sm font-semibold text-cream transition hover:bg-forest-700"
             >
-              Visit official website
+              {d.affiliatePartner ? `View dates on ${d.affiliatePartner}` : 'Visit official website'}
             </a>
+            <p class="text-center text-xs text-charcoal-soft">
+              Referral link — we may earn a commission if you book.
+              {d.affiliatePartner && (
+                <>
+                  {' '}Or go to the{' '}
+                  <a href={d.website} target="_blank" rel="noopener noreferrer" data-outbound="website" data-listing={listing.id} class="underline">operator's own website</a>.
+                </>
+              )}
+            </p>
             <DisclaimerBlock variant="affiliate" />
           </div>
         ) : d.enquiryEnabled ? (
