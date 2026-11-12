@@ -1,39 +1,74 @@
 @import "tailwindcss";
 
-@import "@fontsource/fraunces/400.css";
-@import "@fontsource/fraunces/500.css";
-@import "@fontsource/fraunces/600.css";
-@import "@fontsource/fraunces/400-italic.css";
-@import "@fontsource/inter/400.css";
-@import "@fontsource/inter/500.css";
-@import "@fontsource/inter/600.css";
-@import "@fontsource/inter/700.css";
+/* Self-hosted type: Gloock (display serif, one weight) + Schibsted Grotesk (text) */
+@import "@fontsource/gloock/400.css";
+@import "@fontsource/schibsted-grotesk/400.css";
+@import "@fontsource/schibsted-grotesk/500.css";
+@import "@fontsource/schibsted-grotesk/600.css";
+@import "@fontsource/schibsted-grotesk/700.css";
+@import "@fontsource/schibsted-grotesk/800.css";
+@import "@fontsource/schibsted-grotesk/400-italic.css";
 
+/*
+ * "Plate & Field" design system (Nov 2026 redesign).
+ * Off-white page, ink-black type and rules, saturated flat colour fields
+ * carrying Albers-style triangle patterns (src/lib/pattern.ts).
+ *
+ * The legacy token names (forest / terracotta / cream / charcoal) are kept so
+ * every existing utility class picks up the new palette:
+ *   forest-*     -> cobalt (links, primary buttons, focus)
+ *   terracotta-* -> tomato (category labels, highlights)
+ *   cream        -> page off-white, charcoal -> ink
+ */
 @theme {
-  /* Brand palette — warm off-white / deep forest green / muted terracotta / charcoal */
-  --color-cream: #faf6ef;
-  --color-cream-dark: #f2ecdf;
-  --color-forest-50: #eef2ee;
-  --color-forest-100: #d7e2d6;
-  --color-forest-300: #93ab8e;
-  --color-forest-500: #4c6b48;
-  --color-forest-600: #3a5537;
-  --color-forest-700: #2c4129;
-  --color-forest-900: #1a271a;
-  --color-terracotta-100: #f3e0d3;
-  --color-terracotta-300: #e0ac8a;
-  --color-terracotta-500: #c17851;
-  --color-terracotta-600: #8a4d29;
-  --color-terracotta-700: #7d4522;
-  --color-charcoal: #2b2a27;
-  --color-charcoal-soft: #565349;
-  --color-line: #e7e0d2;
+  --color-cream: #fbfaf6;
+  --color-cream-dark: #f1eee5;
+  --color-forest-50: #eef0fd;
+  --color-forest-100: #d6dcfb;
+  --color-forest-300: #8e9cf3;
+  --color-forest-500: #2f4bea;
+  --color-forest-600: #2340e8;
+  --color-forest-700: #1a31bd;
+  --color-forest-900: #0d0d0d;
+  --color-terracotta-100: #fbe2dc;
+  --color-terracotta-300: #ee9a85;
+  --color-terracotta-500: #d4351a;
+  --color-terracotta-600: #b02c15;
+  --color-terracotta-700: #8f2311;
+  --color-charcoal: #0d0d0d;
+  --color-charcoal-soft: #45453f;
+  --color-line: #0d0d0d;
 
-  --font-serif: "Fraunces", ui-serif, Georgia, serif;
-  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --color-ink: #0d0d0d;
+  --color-paper: #fbfaf6;
+  --color-cobalt: #2340e8;
+  --color-tomato: #c9341b;
+  --color-marigold: #ffc21a;
+  --color-acid: #5fd35f;
+  --color-pink: #ff9ec0;
+  --color-sky: #9ed8f5;
+  --color-moss: #0f6b4a;
 
-  --radius-lg: 0.75rem;
-  --radius-xl: 1.25rem;
+  --font-serif: "Gloock", ui-serif, Georgia, serif;
+  --font-sans: "Schibsted Grotesk", ui-sans-serif, system-ui, sans-serif;
+
+  /* Square corners and flat surfaces throughout */
+  --radius-sm: 0;
+  --radius-md: 0;
+  --radius-lg: 0;
+  --radius-xl: 0;
+  --shadow-sm: 0 0 #0000;
+  --shadow-md: 0 0 #0000;
+
+  /* Display sizes are larger than Tailwind's defaults (Gloock is compact) */
+  --text-2xl: 1.75rem;
+  --text-2xl--line-height: 1.12;
+  --text-3xl: 2.375rem;
+  --text-3xl--line-height: 1.04;
+  --text-4xl: 3.25rem;
+  --text-4xl--line-height: 1;
+  --text-5xl: 4rem;
+  --text-5xl--line-height: 1;
 }
 
 @layer base {
@@ -41,52 +76,119 @@
     scroll-behavior: smooth;
   }
   body {
-    background-color: var(--color-cream);
-    color: var(--color-charcoal);
+    background-color: var(--color-paper);
+    color: var(--color-ink);
     font-family: var(--font-sans);
+    font-size: 1.0625rem;
+    -webkit-font-smoothing: antialiased;
   }
   h1, h2, h3, h4 {
     font-family: var(--font-serif);
-    font-weight: 500;
-    color: var(--color-forest-900);
+    font-weight: 400;
+    letter-spacing: -0.012em;
+    color: var(--color-ink);
   }
   a {
     color: var(--color-forest-600);
   }
+  :focus-visible {
+    outline: 3px solid var(--color-cobalt);
+    outline-offset: 2px;
+  }
   ::selection {
-    background-color: var(--color-terracotta-100);
+    background-color: var(--color-marigold);
+    color: var(--color-ink);
+  }
+  input, select, textarea {
+    border-radius: 0;
   }
 }
 
 @layer components {
+  .caps {
+    text-transform: uppercase;
+    letter-spacing: 0.09em;
+    font-weight: 700;
+    font-size: 0.8125rem;
+  }
+  /* Black square-cornered button, used site-wide for primary actions */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 2.875rem;
+    padding: 0 1.25rem;
+    background: var(--color-ink);
+    color: var(--color-paper);
+    font-weight: 700;
+    font-size: 0.9375rem;
+    text-decoration: none;
+    transition: background-color 0.15s;
+  }
+  .btn:hover {
+    background: var(--color-cobalt);
+    color: #fff;
+  }
+
   .prose-article {
     max-width: 68ch;
   }
   .prose-article p {
     margin-top: 1.1em;
     margin-bottom: 1.1em;
-    line-height: 1.75;
+    line-height: 1.7;
   }
   .prose-article h2 {
     margin-top: 2em;
-    margin-bottom: 0.6em;
-    font-size: 1.5rem;
+    margin-bottom: 0.5em;
+    font-size: 2rem;
+    line-height: 1.08;
   }
   .prose-article h3 {
     margin-top: 1.6em;
-    margin-bottom: 0.5em;
-    font-size: 1.2rem;
+    margin-bottom: 0.4em;
+    font-size: 1.4rem;
+    line-height: 1.15;
   }
   .prose-article ul, .prose-article ol {
     margin-top: 1em;
     margin-bottom: 1em;
     padding-left: 1.4em;
   }
+  .prose-article ul { list-style: square; }
+  .prose-article ol { list-style: decimal; }
   .prose-article li {
     margin-top: 0.4em;
   }
+  .prose-article li::marker {
+    color: var(--color-ink);
+  }
   .prose-article a {
     text-decoration: underline;
-    text-underline-offset: 2px;
+    text-decoration-thickness: 1.5px;
+    text-underline-offset: 3px;
+  }
+  .prose-article blockquote {
+    border-left: 4px solid var(--color-ink);
+    padding-left: 1em;
+    font-style: italic;
+  }
+  .prose-article table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.95rem;
+    margin: 1.5em 0;
+    display: block;
+    overflow-x: auto;
+  }
+  .prose-article th, .prose-article td {
+    border-bottom: 1px solid var(--color-ink);
+    padding: 0.6em 0.75em 0.6em 0;
+    text-align: left;
+    vertical-align: top;
+  }
+  .prose-article th {
+    font-weight: 700;
+    border-bottom-width: 2px;
   }
 }

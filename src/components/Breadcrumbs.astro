@@ -15,7 +15,7 @@ const allItems = [{ name: 'Home', path: '/' }, ...items];
 const jsonLd = breadcrumbJsonLd(allItems);
 ---
 
-<nav aria-label="Breadcrumb" class="mx-auto max-w-7xl px-4 py-4 text-sm sm:px-6 lg:px-8">
+<nav aria-label="Breadcrumb" class="mx-auto max-w-[1360px] px-4 py-5 text-sm font-semibold sm:px-6 lg:px-10">
   <ol class="flex flex-wrap items-center gap-1.5 text-charcoal-soft">
     {allItems.map((item, index) => (
       <li class="flex items-center gap-1.5">
@@ -23,7 +23,7 @@ const jsonLd = breadcrumbJsonLd(allItems);
         {index === allItems.length - 1 ? (
           <span class="text-charcoal" aria-current="page">{item.name}</span>
         ) : (
-          <a href={item.path} class="hover:text-forest-700 hover:underline">{item.name}</a>
+          <a href={item.path} class="text-charcoal underline decoration-1 underline-offset-2 hover:text-cobalt">{item.name}</a>
         )}
       </li>
     ))}

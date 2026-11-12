@@ -1,0 +1,25 @@
+---
+import { patternSvg, type PatternOptions } from '../lib/pattern';
+
+interface Props extends PatternOptions {
+  class?: string;
+}
+
+const { class: className, ...options } = Astro.props;
+const svg = patternSvg(options);
+---
+
+<span class:list={['pattern', className]} set:html={svg} />
+
+<style>
+  .pattern {
+    position: absolute;
+    display: block;
+    pointer-events: none;
+  }
+  .pattern :global(svg) {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+</style>

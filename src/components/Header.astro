@@ -3,20 +3,18 @@ import { NAV_LINKS } from '../lib/site';
 const path = Astro.url.pathname;
 ---
 
-<header class="sticky top-0 z-40 border-b border-line bg-cream/95 backdrop-blur">
-  <div class="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-4 sm:px-6 lg:px-8">
-    <a href="/" class="font-serif text-lg font-medium text-forest-900 sm:text-xl">
-      Psychedelic Retreats <span class="text-terracotta-600">Australia</span>
+<header class="site-header sticky top-0 z-40 bg-cream">
+  <div class="mx-auto flex max-w-[1360px] items-center justify-between gap-4 px-4 py-4 sm:px-6 lg:px-10">
+    <a href="/" class="whitespace-nowrap font-serif text-[1.3rem] leading-none text-charcoal no-underline min-[400px]:text-[1.4rem] sm:text-[1.75rem]">
+      Psychedelic Retreats Australia
     </a>
 
-    <nav class="hidden items-center gap-6 lg:flex" aria-label="Primary">
+    <nav class="hidden items-center gap-6 xl:flex" aria-label="Primary">
       {NAV_LINKS.map((link) => (
         <a
           href={link.href}
-          class:list={[
-            'text-sm font-medium text-charcoal-soft hover:text-forest-700',
-            path.startsWith(link.href) && 'text-forest-700',
-          ]}
+          class:list={['nav-link text-[1rem] font-semibold text-charcoal no-underline', path.startsWith(link.href) && 'is-active']}
+          aria-current={path.startsWith(link.href) ? 'page' : undefined}
         >
           {link.label}
         </a>
@@ -24,38 +22,50 @@ const path = Astro.url.pathname;
     </nav>
 
     <div class="flex items-center gap-3">
-      <a
-        href="/retreats/"
-        class="hidden rounded-lg bg-forest-600 px-4 py-2 text-sm font-medium text-cream shadow-sm transition hover:bg-forest-700 sm:inline-block"
-      >
-        Find a retreat
-      </a>
+      <a href="/retreats/" class="btn hidden whitespace-nowrap sm:inline-flex">Find a retreat</a>
       <button
         id="mobile-nav-toggle"
         type="button"
-        class="inline-flex items-center justify-center rounded-lg border border-line p-2 lg:hidden"
+        class="inline-flex h-11 w-11 items-center justify-center border-2 border-charcoal text-charcoal xl:hidden"
         aria-expanded="false"
         aria-controls="mobile-nav"
         aria-label="Toggle navigation menu"
       >
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2" aria-hidden="true">
+          <path stroke-linecap="square" d="M4 7h16M4 12h16M4 17h16" />
         </svg>
       </button>
     </div>
   </div>
 
-  <nav id="mobile-nav" class="hidden flex-col gap-1 border-t border-line px-4 py-3 lg:hidden" aria-label="Mobile">
+  <nav id="mobile-nav" class="hidden flex-col border-t-2 border-charcoal bg-cream px-4 pb-4 sm:px-6 xl:hidden" aria-label="Mobile">
     {NAV_LINKS.map((link) => (
-      <a href={link.href} class="rounded-md px-2 py-2 text-sm font-medium text-charcoal-soft hover:bg-forest-50">
+      <a href={link.href} class="border-b border-charcoal py-3 text-[1.0625rem] font-semibold text-charcoal no-underline">
         {link.label}
       </a>
     ))}
-    <a href="/retreats/" class="mt-1 rounded-lg bg-forest-600 px-4 py-2 text-center text-sm font-medium text-cream">
-      Find a retreat
-    </a>
+    <a href="/retreats/" class="btn mt-4 w-full">Find a retreat</a>
   </nav>
 </header>
+
+<style>
+  .site-header {
+    border-bottom: 2px solid var(--color-ink);
+  }
+  .nav-link {
+    padding: 0.5rem 0;
+    background-image: linear-gradient(var(--color-ink), var(--color-ink));
+    background-size: 0 2px;
+    background-repeat: no-repeat;
+    background-position: 0 100%;
+    transition: background-size 0.2s;
+  }
+  .nav-link:hover,
+  .nav-link.is-active {
+    background-size: 100% 2px;
+    color: var(--color-ink);
+  }
+</style>
 
 <script>
   const toggle = document.getElementById('mobile-nav-toggle');
