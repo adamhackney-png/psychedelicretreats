@@ -1,0 +1,43 @@
+---
+/**
+ * A flat colour field with an Albers-style pattern clustered in one corner.
+ * Replaces image placeholders on cards and listing pages. Decorative only.
+ */
+import Pattern from './Pattern.astro';
+import { FIELDS, fieldFor, type FieldColor } from '../lib/pattern';
+
+interface Props {
+  seed: string;
+  color?: FieldColor;
+  /** Corner the cluster sits in. */
+  corner?: 'br' | 'tr' | 'bl' | 'tl';
+  class?: string;
+}
+
+const { seed, color = fieldFor(seed), corner = 'br', class: className } = Astro.props;
+const field = FIELDS[color];
+const anchor: [number, number] = [corner.endsWith('r') ? 1 : 0, corner.startsWith('b') ? 1 : 0];
+---
+
+<span class:list={['field-art', `corner-${corner}`, className]} style={`background:${field.bg}`} aria-hidden="true">
+  <Pattern seed={seed} ink={field.ink} anchor={anchor} class="field-art-pattern" />
+  <slot />
+</span>
+
+<style>
+  .field-art {
+    position: relative;
+    display: block;
+    overflow: hidden;
+  }
+  .field-art :global(.field-art-pattern) {
+    width: 92%;
+    height: 92%;
+  }
+  .corner-br :global(.field-art-pattern) { right: 0; bottom: 0; }
+  .corner-tr :global(.field-art-pattern) { right: 0; top: 0; }
+  .corner-bl :global(.field-art-pattern) { left: 0; bottom: 0; }
+  .corner-tl :global(.field-art-pattern) { left: 0; top: 0; }
+  .corner-br :global(svg),
+  .corner-bl :global(svg) { transform-origin: center; }
+</style>

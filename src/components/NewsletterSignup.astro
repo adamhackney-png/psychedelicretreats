@@ -1,4 +1,6 @@
 ---
+import Pattern from './Pattern.astro';
+
 interface Props {
   heading?: string;
   body?: string;
@@ -21,16 +23,18 @@ const {
 } = Astro.props;
 const accountId = import.meta.env.PUBLIC_MAILERLITE_ACCOUNT_ID || '2740054';
 const Heading = headingLevel;
+const inputId = `newsletter-email-${source}`;
 ---
 
-<div class:list={['rounded-xl border border-line bg-forest-900 text-cream', compact ? 'p-6' : 'p-8 sm:p-10']}>
-  <div class:list={['mx-auto flex flex-col gap-4', !compact && 'max-w-2xl items-center text-center']}>
-    <Heading class:list={['font-serif font-medium text-cream', compact ? 'text-xl' : 'text-2xl sm:text-3xl']}>{heading}</Heading>
-    <p class="text-sm text-forest-100/90">{body}</p>
+<div class:list={['newsletter-band relative overflow-hidden bg-tomato text-white', compact ? 'p-6' : 'px-6 py-12 sm:px-12 sm:py-16']}>
+  {!compact && <Pattern seed={`newsletter-${source}`} ink="w" anchor={[1, 0.5]} reach={1.4} cols={22} rows={18} class="newsletter-pattern" />}
+  <div class:list={['relative z-10 flex flex-col gap-4', !compact && 'max-w-[640px]']}>
+    <Heading class:list={['font-serif text-white', compact ? 'text-[1.625rem] leading-tight' : 'text-[2.25rem] leading-none sm:text-[3.5rem]']}>{heading}</Heading>
+    <p class:list={['text-white', compact ? 'text-[0.95rem]' : 'text-[1.1rem]']}>{body}</p>
 
     <!-- Posts to MailerLite's form endpoint; the script below submits it in-page (CORS is open) and falls back to a normal POST without JS. -->
     <form
-      class="mt-2 flex w-full max-w-md flex-col gap-2 sm:flex-row"
+      class="mt-2 flex w-full max-w-[540px] flex-wrap bg-white"
       action={`https://assets.mailerlite.com/jsonp/${accountId}/forms/${formId}/subscribe`}
       method="post"
       data-newsletter-form
@@ -39,26 +43,41 @@ const Heading = headingLevel;
       <!-- The script adds fields[signup_source] ("<placement>:<page path>") on submit. It needs a text field with key "signup_source" in MailerLite; if missing, the script retries without it so joins never fail. -->
       <input type="hidden" name="ml-submit" value="1" />
       <input type="hidden" name="anticsrf" value="true" />
-      <label for="newsletter-email" class="sr-only">Email address</label>
+      <label for={inputId} class="sr-only">Email address</label>
       <input
-        id="newsletter-email"
+        id={inputId}
         type="email"
         name="fields[email]"
         required
         placeholder="you@example.com"
-        class="w-full flex-1 rounded-lg border-0 bg-white px-4 py-2.5 text-sm text-charcoal placeholder:text-charcoal-soft focus:outline-none focus:ring-2 focus:ring-terracotta-500"
+        class="min-h-[3.25rem] min-w-0 flex-[1_1_13rem] border-0 bg-transparent px-4 text-base text-charcoal placeholder:text-charcoal-soft focus:outline-none focus-visible:outline-3 focus-visible:outline-offset-0 focus-visible:outline-charcoal"
       />
       <button
         type="submit"
-        class="rounded-lg bg-terracotta-600 px-5 py-2.5 text-sm font-semibold text-cream transition hover:bg-terracotta-700"
+        class="min-h-[3.25rem] flex-[1_0_auto] bg-charcoal px-6 text-[0.95rem] font-bold text-white transition hover:bg-cobalt disabled:opacity-60"
       >
         Send it to me
       </button>
     </form>
-    <p class="hidden text-sm text-cream" role="status" aria-live="polite" data-newsletter-status></p>
-    <p class="text-xs text-forest-100/90">No spam. Unsubscribe anytime. See our <a href="/privacy/" class="text-cream underline">privacy policy</a>.</p>
+    <p class="hidden text-base text-white [&_a]:text-white" role="status" aria-live="polite" data-newsletter-status></p>
+    <p class="text-sm text-white">No spam. Unsubscribe anytime. See our <a href="/privacy/" class="text-white underline">privacy policy</a>.</p>
   </div>
 </div>
+
+<style>
+  .newsletter-band :global(.newsletter-pattern) {
+    right: 0;
+    top: 0;
+    height: 100%;
+    width: 52%;
+  }
+  @media (max-width: 760px) {
+    .newsletter-band :global(.newsletter-pattern) {
+      width: 100%;
+      opacity: 0.35;
+    }
+  }
+</style>
 
 <script>
   const CHECKLIST_URL = '/guides/retreat-vetting-checklist-12-questions/';

@@ -2,6 +2,7 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import CategoryTile from '../../components/CategoryTile.astro';
 import ListingCard from '../../components/ListingCard.astro';
 import FindOperator from '../../components/FindOperator.astro';
 import { RETREAT_CATEGORIES, CATEGORY_META, isRetreatCategory } from '../../lib/site';
@@ -25,7 +26,7 @@ const jsonLd = itemListJsonLd(featured.map((l) => ({ name: l.data.name, path: `/
 >
   <Breadcrumbs items={[{ name: 'Retreats', path: '/retreats/' }]} />
 
-  <section class="mx-auto max-w-7xl px-4 pb-8 sm:px-6 lg:px-8">
+  <section class="mx-auto max-w-[1360px] px-4 pb-8 sm:px-6 lg:px-10">
     <h1 class="font-serif text-3xl font-medium text-forest-900 sm:text-4xl">Retreats directory</h1>
     <p class="mt-3 max-w-2xl text-charcoal-soft">
       Every retreat here operates legally in its host jurisdiction. We catalogue what operators publicly state
@@ -34,29 +35,27 @@ const jsonLd = itemListJsonLd(featured.map((l) => ({ name: l.data.name, path: `/
     </p>
   </section>
 
-  <section class="mx-auto max-w-7xl px-4 pb-8 sm:px-6 lg:px-8">
+  <section class="mx-auto max-w-[1360px] px-4 pb-8 sm:px-6 lg:px-10">
     <FindOperator
       listings={featured.slice(0, 6).map((l) => ({ slug: l.id, name: l.data.name, country: l.data.country }))}
       listingsAnchor="listings"
     />
   </section>
 
-  <section class="mx-auto max-w-7xl px-4 pb-16 sm:px-6 lg:px-8">
-    <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+  <section class="mx-auto max-w-[1360px] px-4 pb-16 sm:px-6 lg:px-10">
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3">
       {RETREAT_CATEGORIES.map((cat) => (
-        <a href={`/retreats/${cat.slug}/`} class="rounded-lg border border-line bg-white p-6 shadow-sm transition hover:shadow-md">
-          <h2 class="font-serif text-lg font-medium text-forest-900">{cat.label}</h2>
-          <p class="mt-2 text-sm text-charcoal-soft">{cat.description}</p>
-        </a>
+        <CategoryTile slug={cat.slug} href={`/retreats/${cat.slug}/`} label={cat.label} description={cat.description} headingLevel="h2" />
       ))}
     </div>
   </section>
 
-  <section id="listings" class="mx-auto max-w-7xl px-4 pb-20 sm:px-6 lg:px-8">
+  <section id="listings" class="mx-auto max-w-[1360px] px-4 pb-20 sm:px-6 lg:px-10">
     <h2 class="text-2xl font-medium">All retreat listings</h2>
     <div class="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-      {featured.map((listing) => (
+      {featured.map((listing, i) => (
         <ListingCard
+          index={i}
           slug={listing.id}
           name={listing.data.name}
           mode={listing.data.mode}

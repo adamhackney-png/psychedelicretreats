@@ -2,6 +2,7 @@
 import { getCollection, render } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import FieldBand from '../../components/FieldBand.astro';
 import LegalStatusPanel from '../../components/LegalStatusPanel.astro';
 import ListingCard from '../../components/ListingCard.astro';
 import FAQ from '../../components/FAQ.astro';
@@ -25,22 +26,22 @@ const listings = (await getCollection('listings')).filter((l) => l.data.destinat
 >
   <Breadcrumbs items={[{ name: 'Destinations', path: '/destinations/' }, { name: d.name, path: `/destinations/${destination.id}/` }]} />
 
-  <section class="mx-auto max-w-7xl px-4 pb-8 sm:px-6 lg:px-8">
-    <h1 class="font-serif text-3xl font-medium text-forest-900 sm:text-4xl">{d.name}</h1>
-  </section>
+  <FieldBand seed={`destination-${destination.id}`}>
+    <h1 class="font-serif text-4xl sm:text-5xl">{d.name}</h1>
+  </FieldBand>
 
-  <section class="mx-auto max-w-7xl px-4 pb-10 sm:px-6 lg:px-8">
+  <section class="mx-auto max-w-[1360px] px-4 pb-10 sm:px-6 lg:px-10">
     <LegalStatusPanel summary={d.legalStatus.summary} details={d.legalStatus.details} sourceUrls={d.legalStatus.sourceUrls} />
   </section>
 
-  <section class="mx-auto max-w-7xl px-4 pb-10 sm:px-6 lg:px-8">
+  <section class="mx-auto max-w-[1360px] px-4 pb-10 sm:px-6 lg:px-10">
     <div class="prose-article max-w-3xl">
       <Content />
     </div>
   </section>
 
   {d.costTableAUD.length > 0 && (
-    <section class="mx-auto max-w-7xl px-4 pb-10 sm:px-6 lg:px-8">
+    <section class="mx-auto max-w-[1360px] px-4 pb-10 sm:px-6 lg:px-10">
       <h2 class="text-xl font-medium">Typical costs (AUD)</h2>
       <p class="mt-1 text-xs text-charcoal-soft">Indicative only — verify current pricing before booking.</p>
       <div class="mt-4 overflow-x-auto rounded-lg border border-line bg-white">
@@ -69,11 +70,12 @@ const listings = (await getCollection('listings')).filter((l) => l.data.destinat
   )}
 
   {listings.length > 0 && (
-    <section class="mx-auto max-w-7xl px-4 pb-10 sm:px-6 lg:px-8">
+    <section class="mx-auto max-w-[1360px] px-4 pb-10 sm:px-6 lg:px-10">
       <h2 class="text-xl font-medium">Listings in {d.name}</h2>
       <div class="mt-4 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {listings.map((listing) => (
+        {listings.map((listing, i) => (
           <ListingCard
+            index={i}
             slug={listing.id}
             name={listing.data.name}
             mode={listing.data.mode}

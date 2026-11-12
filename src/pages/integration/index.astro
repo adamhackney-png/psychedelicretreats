@@ -18,7 +18,7 @@ const jsonLd = itemListJsonLd(listings.map((l) => ({ name: l.data.name, path: `/
 >
   <Breadcrumbs items={[{ name: 'Integration', path: '/integration/' }]} />
 
-  <section class="mx-auto max-w-7xl px-4 pb-8 sm:px-6 lg:px-8">
+  <section class="mx-auto max-w-[1360px] px-4 pb-8 sm:px-6 lg:px-10">
     <h1 class="font-serif text-3xl font-medium text-forest-900 sm:text-4xl">Integration Support</h1>
     <p class="mt-3 max-w-2xl text-charcoal-soft">
       Integration — making sense of and applying insights from an intense experience — is widely regarded as an
@@ -27,14 +27,15 @@ const jsonLd = itemListJsonLd(listings.map((l) => ({ name: l.data.name, path: `/
     </p>
   </section>
 
-  <section class="mx-auto max-w-7xl px-4 pb-16 sm:px-6 lg:px-8">
+  <section class="mx-auto max-w-[1360px] px-4 pb-16 sm:px-6 lg:px-10">
     <h2 class="sr-only">Listings</h2>
     {listings.length === 0 ? (
       <p class="rounded-lg border border-line bg-white p-6 text-sm text-charcoal-soft">Listings coming soon.</p>
     ) : (
       <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {listings.map((listing) => (
+        {listings.map((listing, i) => (
           <ListingCard
+            index={i}
             slug={listing.id}
             name={listing.data.name}
             mode={listing.data.mode}
