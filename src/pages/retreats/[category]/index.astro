@@ -8,6 +8,7 @@ import ListingCard from '../../../components/ListingCard.astro';
 import FindOperator from '../../../components/FindOperator.astro';
 import FilterBar from '../../../components/FilterBar.astro';
 import FAQComponent from '../../../components/FAQ.astro';
+import SourcesList from '../../../components/SourcesList.astro';
 import { RETREAT_CATEGORIES } from '../../../lib/site';
 import { CATEGORY_COPY } from '../../../data/category-copy';
 import { itemListJsonLd } from '../../../lib/seo';
@@ -19,6 +20,8 @@ export async function getStaticPaths() {
 const { category } = Astro.params;
 const meta = RETREAT_CATEGORIES.find((c) => c.slug === category)!;
 const copy = CATEGORY_COPY[category!] ?? { intro: meta.description, faq: [] };
+const pageTitleText = copy.seoTitle ?? `${meta.label} — Legal Retreat Directory`;
+const pageDescription = copy.seoDescription ?? meta.description;
 
 const listings = (await getCollection('listings')).filter((entry) =>
   entry.data.categories.includes(category as any),
@@ -34,8 +37,8 @@ const jsonLd = itemListJsonLd(listings.map((l) => ({ name: l.data.name, path: `/
 ---
 
 <BaseLayout
-  title={`${meta.label} — Legal Retreat Directory`}
-  description={meta.description}
+  title={pageTitleText}
+  description={pageDescription}
   jsonLd={jsonLd}
 >
   <Breadcrumbs items={[{ name: 'Retreats', path: '/retreats/' }, { name: meta.label, path: `/retreats/${meta.slug}/` }]} />
@@ -44,6 +47,23 @@ const jsonLd = itemListJsonLd(listings.map((l) => ({ name: l.data.name, path: `/
     <h1 class="font-serif text-4xl sm:text-5xl">{meta.label}</h1>
     <p class="mt-4 max-w-3xl text-[1.1rem]">{copy.intro}</p>
   </FieldBand>
+
+  {copy.legalNote && (
+    <section class="mx-auto max-w-3xl px-4 pb-10 sm:px-6 lg:px-8" aria-labelledby="legal-status-heading">
+      <div class="border-2 border-charcoal bg-white p-6">
+        <h2 id="legal-status-heading" class="font-serif text-2xl">Legal status</h2>
+        <div class="mt-3 space-y-3 text-charcoal-soft">
+          {copy.legalNote.paragraphs.map((p) => <p>{p}</p>)}
+        </div>
+        <p class="mt-4 text-sm">
+          <a href="/guides/australians-legal-guide-to-psychedelic-retreats-2026/" class="text-forest-600 underline">Australians' legal guide to psychedelic retreats</a>
+        </p>
+        <div class="mt-6">
+          <SourcesList sources={copy.legalNote.sources} />
+        </div>
+      </div>
+    </section>
+  )}
 
   {listings.length > 0 && (
     <section class="mx-auto max-w-[1360px] px-4 pb-8 sm:px-6 lg:px-10">
