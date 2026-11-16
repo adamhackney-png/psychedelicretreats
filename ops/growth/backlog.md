@@ -70,10 +70,14 @@ substances, legality stated for international content). Paid ads are not an opti
 - [ ] Re-verify cost-guide AUD figures with an "as of" date, then set `lastReviewed`. (adam/pr)
 
 ## Added by report 2026-11-16
-- [ ] [planned 2026-11-23] Title/description for the Peru vs Costa Rica vs Netherlands ayahuasca guide, from its safety and legality queries. (auto)
+- [x] [planned 2026-11-23] Title/description for the Peru vs Costa Rica vs Netherlands ayahuasca guide, from its safety and legality queries. (auto) — done 2026-11-16, live.
 - [ ] A reason to subscribe beyond the monthly digest: e.g. the vetting checklist as a printable one-pager sent on signup (needs a MailerLite welcome automation). (adam + pr)
 - [ ] /guides/ index ranks near page one for "psilocybin retreat australia" and "psychedelic retreats australia" with no clicks: once the 2026-11-10 metadata has had 3-4 weeks, review its title/description and add a short intro naming those topics. (pr)
 - [ ] /retreats/ and /retreats/psilocybin/ get views but no operator clicks: check the "Find an operator" step is prominent after the redesign. (pr)
 - [ ] New guides toward the pages-live target: "What happens at a Netherlands truffle retreat", "Travel insurance and psychedelic retreats". (pr)
 - [ ] Plan dates run one week ahead of the calendar (the plan written on Monday 16 Nov is "week of 2026-11-23") because the sprint's guard keys on the done file name; harmless, but worth realigning by hand one week. (adam)
 
+## Added by sprint 2026-11-23
+- [ ] Use the new `legalNote` slot (category-copy.ts) on /retreats/psilocybin/: a sourced host-jurisdiction note for the Netherlands, Jamaica and Oregon, plus Australian Schedule 8/9 status, and an SEO title for "psilocybin retreat australia" intent. (pr)
+- [ ] If the legality-map signup gets views but few joins after 3-4 weeks, move it above the country list. (pr)
+- [ ] Holotropic Sydney publishes no email, only a form; if its claim draft gets no reply, retry after its next workshop date is posted. (adam)
