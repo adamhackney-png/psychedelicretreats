@@ -1,7 +1,14 @@
-export const CATEGORY_COPY: Record<
-  string,
-  { intro: string; faq: { q: string; a: string }[] }
-> = {
+export interface CategoryCopy {
+  intro: string;
+  faq: { q: string; a: string }[];
+  /** Optional page <title> (before the site-name suffix) and meta description; fall back to the shared category label/description. */
+  seoTitle?: string;
+  seoDescription?: string;
+  /** Optional sourced legal-status note shown under the hero, with its sources. Must state host-jurisdiction legality only. */
+  legalNote?: { paragraphs: string[]; sources: { title: string; url: string }[] };
+}
+
+export const CATEGORY_COPY: Record<string, CategoryCopy> = {
   psilocybin: {
     intro:
       'Psilocybin retreats operate legally in a small number of jurisdictions, most notably the Netherlands (via legally-sold psilocybin-containing truffles) and Jamaica (where psilocybin mushrooms are not scheduled). We list only operators publicly stating they operate within their host jurisdiction\'s law — verify current legal status before booking, and see our legal status pages for each destination.',
@@ -11,11 +18,29 @@ export const CATEGORY_COPY: Record<
     ],
   },
   ayahuasca: {
+    seoTitle: 'Ayahuasca Retreats for Australians: Peru & the Law',
+    seoDescription:
+      'Ayahuasca retreats Australians travel to in Peru, where ceremony is legally protected. Not legal in Australia. Compare operators on screening and safety.',
     intro:
-      'Ayahuasca retreats are most commonly offered in Peru, where its traditional and ceremonial use has long-standing legal protection, and in other jurisdictions with varying frameworks. Safety practices, facilitator training, and screening vary widely between centres — this is one of the most important categories to vet carefully.',
+      'Ayahuasca retreats are most commonly offered in Peru, where its traditional and ceremonial use has long-standing legal protection. Safety practices, facilitator training and screening vary widely between centres, so this is one of the most important categories to vet carefully.',
+    legalNote: {
+      paragraphs: [
+        'Where these retreats operate lawfully: every ayahuasca retreat in this directory is in Peru. Peru entered a reservation to the 1971 UN Convention on Psychotropic Substances excluding ayahuasca, and in 2008 declared traditional ayahuasca knowledge and ceremony part of its national cultural heritage. That protects the tradition, not any one business: Peru has no licensing system for retreat centres, so safety depends on the operator.',
+        'Costa Rica is often marketed for ayahuasca, but its legal position is ambiguous: DMT, ayahuasca\'s active compound, is controlled there, and its Ministry of Health issued a public health warning in January 2025. We do not list Costa Rica ayahuasca retreats.',
+        'Ayahuasca is not legal in Australia. DMT is a Schedule 9 prohibited substance in the Poisons Standard, and bringing any ayahuasca or DMT into Australia is a serious offence, even if it was legal where you took part. Australians travel at their own responsibility; this is not medical advice.',
+      ],
+      sources: [
+        { title: 'ICEERS: Ayahuasca in Peru', url: 'https://www.iceers.org/peru/' },
+        { title: 'Ayahuasca declared Peruvian national cultural heritage (2008)', url: 'https://ayahuasca.com/news/ayahuasca-national-cultural-heritage/' },
+        { title: 'Tico Times: Costa Rica issues health warning on ayahuasca, ibogaine use (Jan 2025)', url: 'https://ticotimes.net/2025/01/28/costa-rica-issues-health-warning-on-ayahuasca-ibogaine-use' },
+        { title: 'Poisons Standard October 2026 (Cth), Schedule 9: N,N-dimethyltryptamine (DMT)', url: 'https://www.legislation.gov.au/F2026L01327/latest/text' },
+      ],
+    },
     faq: [
-      { q: 'What should I check before booking an ayahuasca retreat?', a: 'Our Retreat Vetting Checklist guide covers this in detail — at minimum, look for a stated medical/psychological screening process, facilitator training and experience, and an emergency protocol.' },
-      { q: 'Are there health risks to be aware of?', a: 'Yes — ayahuasca has known contraindications with certain medications (notably SSRIs/MAOIs) and health conditions. This is not medical advice; consult a qualified health professional before considering any plant medicine retreat.' },
+      { q: 'Is ayahuasca legal in Australia?', a: 'No. DMT, the active compound in ayahuasca, is a Schedule 9 prohibited substance in Australia, and there are no legal ayahuasca retreats here. Importing ayahuasca or DMT is a serious offence even if you took part legally overseas. See our Australian legal guide for detail. This is general information, not legal advice.' },
+      { q: 'Where are ayahuasca retreats legal?', a: 'Peru has the clearest legal position, protecting traditional ayahuasca ceremony through a UN convention reservation and a 2008 cultural-heritage declaration. Costa Rica is legally ambiguous. Law changes, so verify current status before booking, and see our Peru vs Costa Rica vs Netherlands guide.' },
+      { q: 'What should I check before booking an ayahuasca retreat?', a: 'Our Retreat Vetting Checklist guide covers this in detail. At minimum, look for a stated medical and psychological screening process, facilitator training and experience, and an emergency protocol.' },
+      { q: 'Are there health risks to be aware of?', a: 'Yes. Ayahuasca has known contraindications with certain medications (notably SSRIs and MAOIs) and health conditions. This is not medical advice; consult a qualified health professional before considering any plant medicine retreat.' },
     ],
   },
   'san-pedro-and-other': {
