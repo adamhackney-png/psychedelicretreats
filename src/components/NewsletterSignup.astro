@@ -8,8 +8,10 @@ interface Props {
   compact?: boolean;
   /** Use 'h2' when this band is the primary heading on its page (e.g. a standalone newsletter page). */
   headingLevel?: 'h2' | 'h3';
-  /** Placement label recorded with each join (e.g. 'home', 'guide', 'newsletter-page', 'retreat-match'). */
+  /** Placement label recorded with each join (e.g. 'home', 'guide', 'listing', 'legality-map'). */
   source?: string;
+  /** One plain, factual line saying what subscribers get. Keep it free of efficacy or hype wording. */
+  offer?: string;
 }
 
 const {
@@ -20,6 +22,7 @@ const {
   compact = false,
   headingLevel = 'h3',
   source = 'other',
+  offer = 'What you get: an occasional email when retreat laws change or we add listings and guides, and the checklist straight away.',
 } = Astro.props;
 const accountId = import.meta.env.PUBLIC_MAILERLITE_ACCOUNT_ID || '2740054';
 const Heading = headingLevel;
@@ -31,6 +34,7 @@ const inputId = `newsletter-email-${source}`;
   <div class:list={['relative z-10 flex flex-col gap-4', !compact && 'max-w-[640px]']}>
     <Heading class:list={['font-serif text-white', compact ? 'text-[1.625rem] leading-tight' : 'text-[2.25rem] leading-none sm:text-[3.5rem]']}>{heading}</Heading>
     <p class:list={['text-white', compact ? 'text-[0.95rem]' : 'text-[1.1rem]']}>{body}</p>
+    {offer && <p class:list={['font-bold text-white', compact ? 'text-[0.95rem]' : 'text-base']}>{offer}</p>}
 
     <!-- Posts to MailerLite's form endpoint; the script below submits it in-page (CORS is open) and falls back to a normal POST without JS. -->
     <form
