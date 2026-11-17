@@ -22,3 +22,12 @@ visitor, lead or revenue numbers — those live in the private "PRA weekly repor
 
 Each action has: an ID (`G-YYYYMMDD-n`), type, what, target page(s), the signal that justifies it, and how
 success will be judged next week.
+
+## Demand gaps (new content ideas)
+
+Search Console only shows searches the site already appears for. To find demand the site is missing, the Monday
+report runs `ops/weekly-report/demand.mjs`. It uses free sources only: Google autocomplete (Australian results)
+for the seeds in `demand.md`, and competitors' sitemaps. It keeps the topics that no page, queue item or backlog
+item covers, then checks the strongest few with a web search before queueing them. To steer it, edit `demand.md`:
+add seeds, competitors, and phrases to ignore. It gives no search volumes; an item's autocomplete position is the
+only popularity signal.
