@@ -22,3 +22,7 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
+
+# BookRetreats photos held locally pending written permission - never commit
+photo-hold/
+ops/growth/bookretreats-shortlist.md
