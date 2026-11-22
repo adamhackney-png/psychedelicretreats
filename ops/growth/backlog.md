@@ -28,7 +28,7 @@ substances, legality stated for international content). Paid ads are not an opti
 
 ## Partnerships, links and revenue
 - [ ] "Listed on Psychedelic Retreats Australia" badge + snippet operators can embed (backlink). (pr)
-- [ ] [planned 2026-11-23] Claim-your-listing emails to the 10 listings with the most operator clicks. (draft — Adam sends from info@) — 2 drafts in done/2026-11-16.md; contacts found 2026-11-10: Elevated Mind = contact@elevatedmindretreats.com; Integrate Therapy = contact form only, https://integratetc.com.au/contact/.
+- [ ] [planned 2026-11-30] Claim-your-listing emails to the 10 listings with the most operator clicks. (draft — Adam sends from info@) — 2 drafts in done/2026-11-16.md; contacts found 2026-11-10: Elevated Mind = contact@elevatedmindretreats.com; Integrate Therapy = contact form only, https://integratetc.com.au/contact/.
 - [x] Research affiliate/referral programs for platforms our listings book through (e.g. BookRetreats, Retreat Guru) and for operators directly; list terms and sign-up links for Adam. (adam) — done 2026-11-10, see ops/growth/affiliate-research.md.
 - [ ] [planned 2026-11-02] Find 10 relevant resource/links pages (harm-reduction orgs, integration directories, Australian psychedelic research groups) that could reasonably link to the vetting checklist or legal guide; draft polite suggestions. (draft)
 - [ ] Operator referral report: once operator clicks exist, a monthly per-operator click summary to use in partnership pitches. (auto, via the weekly report)
@@ -71,13 +71,21 @@ substances, legality stated for international content). Paid ads are not an opti
 
 ## Added by report 2026-11-16
 - [x] [planned 2026-11-23] Title/description for the Peru vs Costa Rica vs Netherlands ayahuasca guide, from its safety and legality queries. (auto) — done 2026-11-16, live.
-- [ ] A reason to subscribe beyond the monthly digest: e.g. the vetting checklist as a printable one-pager sent on signup (needs a MailerLite welcome automation). (adam + pr)
+- [ ] [planned 2026-11-30] A reason to subscribe beyond the monthly digest: e.g. the vetting checklist as a printable one-pager sent on signup (needs a MailerLite welcome automation). (adam + pr)
 - [ ] /guides/ index ranks near page one for "psilocybin retreat australia" and "psychedelic retreats australia" with no clicks: once the 2026-11-10 metadata has had 3-4 weeks, review its title/description and add a short intro naming those topics. (pr)
 - [ ] /retreats/ and /retreats/psilocybin/ get views but no operator clicks: check the "Find an operator" step is prominent after the redesign. (pr)
 - [ ] New guides toward the pages-live target: "What happens at a Netherlands truffle retreat", "Travel insurance and psychedelic retreats". (pr)
 - [ ] Plan dates run one week ahead of the calendar (the plan written on Monday 16 Nov is "week of 2026-11-23") because the sprint's guard keys on the done file name; harmless, but worth realigning by hand one week. (adam)
 
 ## Added by sprint 2026-11-23
-- [ ] Use the new `legalNote` slot (category-copy.ts) on /retreats/psilocybin/: a sourced host-jurisdiction note for the Netherlands, Jamaica and Oregon, plus Australian Schedule 8/9 status, and an SEO title for "psilocybin retreat australia" intent. (pr)
+- [ ] [planned 2026-11-30] Use the new `legalNote` slot (category-copy.ts) on /retreats/psilocybin/: a sourced host-jurisdiction note for the Netherlands, Jamaica and Oregon, plus Australian Schedule 8/9 status, and an SEO title for "psilocybin retreat australia" intent. (pr)
 - [ ] If the legality-map signup gets views but few joins after 3-4 weeks, move it above the country list. (pr)
 - [ ] Holotropic Sydney publishes no email, only a form; if its claim draft gets no reply, retry after its next workshop date is posted. (adam)
+
+## Added by report 2026-11-23
+- [ ] [planned 2026-11-30] Ketamine guide title/description for "ketamine infusion" (about position 6, no clicks), neutral wording only. (auto)
+- [ ] [planned 2026-11-30] Psilocybin state-by-state guide title/description: about position 10 with no clicks. (auto)
+- [ ] /guides/australians-legal-guide-to-psychedelic-retreats-2026/ still gets no clicks at about position 8, two weeks after its 10 Nov metadata change. If it still has none by mid-December, add a direct two-sentence answer at the top of the body and an FAQ. (pr)
+- [ ] /tools/legality-map/ shows at about position 16 with no clicks, and its metadata lives in page code. Fold it into the "index-page metadata in a content file" item so `auto` can edit it. (pr — code)
+- [ ] Demand-gap sources are blocked by the cloud environment's network (suggestqueries.google.com and the competitor sites return proxy 403). Adam needs to add those hosts to the routine environment's allowed hosts, or STEP 3B stays empty. (adam)
+
