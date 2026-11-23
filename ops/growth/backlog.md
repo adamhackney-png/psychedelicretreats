@@ -89,3 +89,9 @@ substances, legality stated for international content). Paid ads are not an opti
 - [ ] /tools/legality-map/ shows at about position 16 with no clicks, and its metadata lives in page code. Fold it into the "index-page metadata in a content file" item so `auto` can edit it. (pr — code)
 - [ ] Demand-gap sources are blocked by the cloud environment's network (suggestqueries.google.com and the competitor sites return proxy 403). Adam needs to add those hosts to the routine environment's allowed hosts, or STEP 3B stays empty. (adam)
 
+
+## Added by sprint 2026-11-30
+- [ ] Psilocybin hub intro names only the Netherlands and Jamaica; add Oregon so it matches the new legal box. (pr)
+- [ ] Remove the answered TODO-ADAM about a printable version in the vetting checklist guide once Adam has seen /tools/vetting-checklist/. (pr)
+- [ ] Link the printable checklist from the homepage newsletter band and the /newsletter/ page as the concrete thing people get. (pr)
+- [ ] The same `legalNote` treatment for /retreats/breathwork/ is not needed, but San Pedro has no sourced legal box yet; check whether any San Pedro listings exist before planning one. (pr)
