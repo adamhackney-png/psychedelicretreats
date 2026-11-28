@@ -26,6 +26,8 @@ function draftSlugs(dir) {
 const draftUrls = new Set([
   ...draftSlugs('./src/content/guides').map((slug) => `${SITE}/guides/${slug}/`),
   ...draftSlugs('./src/content/news').map((slug) => `${SITE}/news/${slug}/`),
+  // Post-signup page (noindex).
+  `${SITE}/newsletter/thanks/`,
 ]);
 
 // Static output — Cloudflare Pages Functions (in /functions) handle the

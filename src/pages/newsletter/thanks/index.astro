@@ -1,0 +1,31 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+
+// Post-signup page. The in-page signup shows the checklist link straight away; this page is the landing spot for
+// joins that leave the site (no JavaScript, or a MailerLite form redirect set to this URL). Kept out of search and the sitemap.
+---
+
+<BaseLayout
+  title="You're subscribed"
+  description="Thanks for joining the Psychedelic Retreats Australia newsletter. Here's the retreat vetting checklist."
+  noindex={true}
+>
+  <section class="mx-auto max-w-3xl px-4 py-16 sm:px-6 lg:px-8">
+    <h1 class="font-serif text-3xl font-medium text-forest-900 sm:text-4xl">You're subscribed. Here's your checklist.</h1>
+    <p class="mt-4 text-charcoal-soft">
+      Thanks for joining. As promised, here is the Retreat Vetting Checklist: 12 questions to put to any retreat
+      operator before you book, covering their legal basis, screening, facilitators and emergency planning.
+    </p>
+    <ul class="mt-6 space-y-3">
+      <li><a href="/guides/retreat-vetting-checklist-12-questions/" class="font-bold text-forest-600 underline">Read the checklist guide</a></li>
+      <li><a href="/tools/vetting-checklist/" class="font-bold text-forest-600 underline">Printable version (print or save as PDF)</a></li>
+    </ul>
+    <p class="mt-6 text-charcoal-soft">
+      What comes next: an occasional email when retreat laws change or we add listings and guides. If you get an email
+      asking you to confirm your subscription, click the link in it. You can unsubscribe at any time.
+    </p>
+    <p class="mt-6 text-sm text-charcoal-soft">
+      We're an independent directory, not a medical or treatment provider. Nothing here is medical advice.
+    </p>
+  </section>
+</BaseLayout>

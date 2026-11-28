@@ -10,9 +10,35 @@ export interface CategoryCopy {
 
 export const CATEGORY_COPY: Record<string, CategoryCopy> = {
   psilocybin: {
+    seoTitle: "Psilocybin Retreats for Australians: Where They're Legal",
+    seoDescription:
+      "Psilocybin retreats for Australians in the Netherlands, Jamaica and Oregon, where they're legal. Not legal in Australia. Compare screening and safety.",
     intro:
       'Psilocybin retreats operate legally in a small number of jurisdictions, most notably the Netherlands (via legally-sold psilocybin-containing truffles) and Jamaica (where psilocybin mushrooms are not scheduled). We list only operators publicly stating they operate within their host jurisdiction\'s law — verify current legal status before booking, and see our legal status pages for each destination.',
+    // TODO-ADAM: the Netherlands lines rest on DutchNews reporting plus operator explainers; the Dutch Opium Act text
+    // (wetten.overheid.nl) blocked automated fetches. Check against the Act or a government.nl page before merge if you can.
+    legalNote: {
+      paragraphs: [
+        'Where these retreats operate lawfully: every psilocybin retreat in this directory is in the Netherlands, Jamaica or Oregon (USA), and each rests on a different legal basis.',
+        'Netherlands: adults can legally buy and use psilocybin-containing truffles (sclerotia). The 2008 ban on fresh magic mushrooms, which joined an existing ban on dried ones, did not include truffles, and growing and selling them remains legal. Retreats there use truffles, not mushrooms.',
+        'Jamaica: psilocybin mushrooms were never made illegal, and the government has set interim protocols, through its Plant Quarantine Division, for people who cultivate or process them. When the government set out those protocols in 2021, no regulations for the industry had been made, and we know of no licensing system for retreat centres, so safety depends on the operator.',
+        'Oregon: adults 21 and over can take part only at a service centre licensed by the Oregon Health Authority, with a licensed facilitator. No prescription or Oregon residency is needed, and psilocybin products must be consumed on site. Outside that licensed program it is not legal, and psilocybin remains a Schedule I controlled substance under US federal law.',
+        'Psilocybin is not legal in Australia outside narrow medical and research pathways. Psilocybine in preparations for treatment-resistant depression is in Schedule 8 of the Poisons Standard and can be prescribed only by an authorised psychiatrist, or used in an approved clinical trial; otherwise psilocybin and psilocin are Schedule 9 prohibited substances, and every state and territory controls them. Bringing psilocybin, truffles or mushrooms into Australia is a serious offence, even if they were legal where you took part. Australians travel at their own responsibility; this is not medical advice.',
+      ],
+      sources: [
+        { title: 'DutchNews: Court upholds magic mushroom ban (Nov 2008)', url: 'https://www.dutchnews.nl/2008/11/court_upholds_magic_mushroom_b/' },
+        { title: 'DutchNews: Mass investments hit magic truffle business (Jan 2021)', url: 'https://www.dutchnews.nl/2021/01/high-earnings-potential-mass-investments-hit-magic-truffle-business' },
+        { title: 'Jamaica Information Service: Protocols in place for magic mushrooms (Jul 2021)', url: 'https://jis.gov.jm/protocols-in-place-for-magic-mushrooms/' },
+        { title: 'Oregon Health Authority: Accessing psilocybin services', url: 'https://www.oregon.gov/oha/ph/preventionwellness/pages/psilocybin-access-psilocybin-services.aspx' },
+        { title: '21 CFR 1308.11 (US federal Schedule I), via Cornell LII', url: 'https://www.law.cornell.edu/cfr/text/21/1308.11' },
+        { title: 'Poisons Standard October 2026 (Cth): psilocybine (Schedule 8) and psilocybin/psilocin (Schedule 9)', url: 'https://www.legislation.gov.au/F2026L01327/latest/text' },
+        { title: 'TGA: Prescribing MDMA or psilocybine (psychiatrists)', url: 'https://www.tga.gov.au/resources/explore-topic/mdma-and-psilocybine-hub' },
+        { title: 'Criminal Code Regulations 2019 (Cth): border controlled drugs and plants', url: 'https://www.legislation.gov.au/F2019L00561/latest/text' },
+      ],
+    },
     faq: [
+      { q: 'Is psilocybin legal in Australia?', a: 'Only through narrow medical and research pathways. Psilocybine can be prescribed by an authorised psychiatrist for treatment-resistant depression (Schedule 8) or used in an approved clinical trial; otherwise psilocybin is a Schedule 9 prohibited substance and is controlled in every state and territory. There are no legal psilocybin retreats in Australia. Our state-by-state psilocybin guide has the detail. This is general information, not legal advice.' },
+      { q: 'Where are psilocybin retreats legal?', a: 'The retreats in this directory are in the Netherlands (where psilocybin truffles are legal), Jamaica (where psilocybin mushrooms were never made illegal) and Oregon, USA (state-licensed service centres only, adults 21 and over). Law changes, so verify current status before booking.' },
       { q: 'Is it legal for an Australian to attend a psilocybin retreat overseas?', a: 'Legality depends on the host country\'s law, not Australia\'s — we note each destination\'s legal status on its destination page. This is general information, not legal advice; always verify current law before travelling, including any Australian import/re-entry considerations for your return.' },
       { q: 'Are these retreats medically supervised?', a: 'Screening and supervision practices vary significantly by operator. Check each listing\'s vetting checklist for what the operator publicly states about medical/psychological screening — "stated" does not mean independently verified.' },
     ],
