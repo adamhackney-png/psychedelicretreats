@@ -20,6 +20,8 @@ they have, and what support is in place during and after a retreat.
 
 **[Read the checklist →](https://psychedelicretreats.com.au/guides/retreat-vetting-checklist-12-questions/?utm_source=mailerlite&utm_medium=email&utm_campaign=welcome)**
 
+Prefer it on paper? There's a **[printable version](https://psychedelicretreats.com.au/tools/vetting-checklist/?utm_source=mailerlite&utm_medium=email&utm_campaign=welcome)** with space to write down each operator's answers.
+
 **What you'll get from us:** occasional emails about new listings in the directory, changes to legal status in
 Australia and overseas, and new guides. No spam, and you can unsubscribe at any time.
 

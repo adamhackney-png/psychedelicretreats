@@ -1,0 +1,92 @@
+---
+import { getEntry } from 'astro:content';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../../components/Breadcrumbs.astro';
+
+// Printable version of the Retreat Vetting Checklist guide. The questions are read from the guide's own
+// body at build time (its "## Section" headings and "N. **Question**" lines), so this page can't drift from the guide.
+const GUIDE_PATH = '/guides/retreat-vetting-checklist-12-questions/';
+const guide = await getEntry('guides', 'retreat-vetting-checklist-12-questions');
+if (!guide) throw new Error('Vetting checklist guide not found');
+
+type Section = { heading: string; questions: { n: number; text: string }[] };
+const sections: Section[] = [];
+for (const line of (guide.body ?? '').split('\n')) {
+  const h = line.match(/^##\s+(.+)$/);
+  if (h) {
+    sections.push({ heading: h[1].trim(), questions: [] });
+    continue;
+  }
+  const q = line.match(/^(\d+)\.\s+\*\*(.+?)\*\*/);
+  if (q && sections.length) sections[sections.length - 1].questions.push({ n: Number(q[1]), text: q[2].trim() });
+}
+const withQuestions = sections.filter((s) => s.questions.length > 0);
+const total = withQuestions.reduce((sum, s) => sum + s.questions.length, 0);
+if (total < 12) throw new Error(`Printable checklist found only ${total} questions in the guide body`);
+---
+
+<BaseLayout
+  title="Printable Retreat Vetting Checklist: 12 Questions"
+  description="A printable version of our 12 questions to put to any retreat operator before you book, with space to note each answer."
+>
+  <div class="no-print">
+    <Breadcrumbs items={[{ name: 'Guides', path: '/guides/' }, { name: 'Retreat Vetting Checklist', path: GUIDE_PATH }, { name: 'Printable', path: '/tools/vetting-checklist/' }]} />
+  </div>
+
+  <section class="checklist mx-auto max-w-3xl px-4 pb-20 sm:px-6 lg:px-8">
+    <h1 class="font-serif text-3xl font-medium text-forest-900 sm:text-4xl">Retreat Vetting Checklist</h1>
+    <p class="mt-3 text-charcoal-soft">
+      {total} questions to put to any retreat operator before you book. Write down what they tell you, and compare
+      operators on their answers. The full guide explains what a good answer looks like:
+      <span class="print-url">psychedelicretreats.com.au{GUIDE_PATH}</span>
+    </p>
+    <p class="no-print mt-4 flex flex-wrap gap-4">
+      <button type="button" data-print class="bg-charcoal px-5 py-3 text-[0.95rem] font-bold text-white hover:bg-cobalt">Print or save as PDF</button>
+      <a href={GUIDE_PATH} class="self-center text-forest-600 underline">Read the full guide</a>
+    </p>
+
+    <p class="mt-6 text-sm">Operator: ______________________________ &nbsp; Date asked: ______________</p>
+
+    {withQuestions.map((s) => (
+      <div class="mt-6">
+        <h2 class="font-serif text-xl">{s.heading}</h2>
+        <ol class="mt-2 space-y-3">
+          {s.questions.map((q) => (
+            <li class="question">
+              <p><strong>{q.n}.</strong> {q.text}</p>
+              <p class="answer text-sm text-charcoal-soft">Their answer: ____________________________________________</p>
+            </li>
+          ))}
+        </ol>
+      </div>
+    ))}
+
+    <p class="mt-8 text-sm text-charcoal-soft">
+      General information only, not medical or legal advice. Psychedelic retreats are not legal in Australia; we list
+      only services that are legal where they operate, and Australians travel at their own responsibility. If you're
+      struggling right now, Lifeline is available 24/7 on 13 11 14.
+    </p>
+  </section>
+</BaseLayout>
+
+<style>
+  @media print {
+    :global(header),
+    :global(footer),
+    :global(.no-print) {
+      display: none !important;
+    }
+    .checklist {
+      padding: 0;
+      max-width: none;
+      font-size: 11pt;
+    }
+    .question {
+      break-inside: avoid;
+    }
+  }
+</style>
+
+<script>
+  document.querySelector('[data-print]')?.addEventListener('click', () => window.print());
+</script>
